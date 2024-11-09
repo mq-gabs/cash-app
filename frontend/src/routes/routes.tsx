@@ -22,7 +22,7 @@ export default function Router() {
           Component={Login}
         />
         <Route
-          path="/registrar"
+          path="/register"
           Component={Register}
         />
         <Route

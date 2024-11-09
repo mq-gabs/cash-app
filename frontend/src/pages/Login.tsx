@@ -32,7 +32,7 @@ export default function Login() {
             Não tem cadastro?
             {' '}
             <Link
-              to="/registrar"
+              to="/register"
               className="underline text-blue-500"
             >
               Crie agora!
