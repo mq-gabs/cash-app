@@ -1,5 +1,9 @@
 #/bin/bash
 
+if ! [ -d static ]; then
+  mkdir static
+fi
+
 # build front and move to root
 cd frontend;
 npm run build;
