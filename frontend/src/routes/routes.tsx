@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Services from "../pages/Services";
 import CreateService from "../pages/CreateService";
+import NotFound from "../pages/NotFound";
 
 export default function Router() {
   return (
@@ -33,6 +34,10 @@ export default function Router() {
         <Route
           path="/servicescreate"
           Component={CreateService}
+        />
+        <Route
+          path="/*"
+          Component={NotFound}
         />
       </Routes>
     </BrowserRouter>
