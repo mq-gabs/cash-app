@@ -14,6 +14,9 @@ func checks() {
 	if _, err := os.Stat("logs"); err != nil {
 		os.Mkdir("logs", os.ModePerm)
 	}
+	if _, err := os.Stat("static"); err != nil {
+		panic("Static source not found")
+	}
 
 	if _, err := os.Stat("db/sqlite.db"); err != nil {
 		os.WriteFile("db/sqlite.db", nil, os.ModePerm)
