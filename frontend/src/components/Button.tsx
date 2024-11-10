@@ -10,7 +10,7 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      className="bg-black text-white block w-full p-2 rounded"
+      className="bg-primary text-white block w-full p-2 rounded"
     >
       {children}
     </button>

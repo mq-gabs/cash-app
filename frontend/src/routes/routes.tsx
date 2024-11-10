@@ -4,6 +4,7 @@ import Pagamentos from "../pages/Pagamentos";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Services from "../pages/Services";
+import CreateService from "../pages/CreateService";
 
 export default function Router() {
   return (
@@ -28,6 +29,10 @@ export default function Router() {
         <Route
           path="/services"
           Component={Services}
+        />
+        <Route
+          path="/servicescreate"
+          Component={CreateService}
         />
       </Routes>
     </BrowserRouter>

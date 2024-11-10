@@ -9,13 +9,14 @@ import (
 type CreateServiceDto struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	Price       int    `json:"price"`
 }
 
 func CreateService(c *gin.Context) {
 	b := &CreateServiceDto{}
 
 	if err := c.BindJSON(b); err != nil {
-		utils.Resp(c, 500, "Erro do servidor!")
+		utils.Resp(c, 400, "Erro do servidor!"+err.Error())
 		return
 	}
 
@@ -23,6 +24,7 @@ func CreateService(c *gin.Context) {
 
 	s.Name = b.Name
 	s.Description = b.Description
+	s.Price = b.Price
 
 	Save(s)
 

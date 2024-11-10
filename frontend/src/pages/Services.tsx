@@ -8,6 +8,7 @@ import { format } from "date-fns";
 const columns = [
   'Nome',
   'Description',
+  'Preço',
   'Criado em',
 ];
 
@@ -29,9 +30,11 @@ export default function Services() {
       name,
       description,
       created_at,
+      price
     }: TService) => [
         name,
         description,
+        `R$ ${price.toFixed(2)}`,
         format(new Date(created_at), 'dd/MM/yyyy'),
       ]);
 
@@ -44,7 +47,7 @@ export default function Services() {
 
   return (
     <main className="p-4">
-      <h1 className="text-2xl">Services</h1>
+      <h1 className="text-2xl">Serviços</h1>
       <Table
         columns={columns}
         data={services}
