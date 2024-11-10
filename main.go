@@ -5,6 +5,8 @@ import (
 	"cash/server"
 	staticserver "cash/static-server"
 	"os"
+
+	"github.com/pkg/browser"
 )
 
 func checks() {
@@ -25,6 +27,10 @@ func checks() {
 
 }
 
+func openBrowser() {
+	browser.OpenURL("http://localhost:8889")
+}
+
 func main() {
 	checks()
 
@@ -41,6 +47,8 @@ func main() {
 			return
 		}
 	}
+
+	openBrowser()
 
 	staticserver.StartStatic(server.Start)
 }
