@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import Services from "../pages/Services";
 import CreateService from "../pages/CreateService";
 import NotFound from "../pages/NotFound";
+import Users from "../pages/Users";
 
 export default function Router() {
   return (
@@ -18,6 +19,10 @@ export default function Router() {
         <Route
           path="/pagamentos"
           Component={Pagamentos}
+        />
+        <Route
+          path="/users"
+          Component={Users}
         />
         <Route
           path="/login"

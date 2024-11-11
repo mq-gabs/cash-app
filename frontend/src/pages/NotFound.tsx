@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import PageTitle from "../components/PageTitle";
 
 export default function NotFound() {
   const nav = useNavigate();
@@ -7,7 +8,7 @@ export default function NotFound() {
     <main className="p-4 h-screen">
       <div className="flex justify-center items-center h-full">
         <div>
-          <h1 className="text-3xl font-bold text-center mb-8">404 Not Found</h1>
+          <PageTitle text="404 Not Found" className="text-center mb-8" />
           <h4>A página que você tentou acessar não existe...</h4>
           <div className="flex justify-center">
             <a

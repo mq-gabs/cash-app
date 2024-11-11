@@ -25,6 +25,7 @@ func CreateUser(c *gin.Context) {
 	u.Name = b.Name
 	u.Email = b.Email
 	u.Password = b.Password
+	u.Role = Role("DEFAULT")
 
 	Save(u)
 

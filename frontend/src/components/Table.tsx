@@ -3,24 +3,23 @@ interface ITable {
   data: any[][];
 }
 
-
 export default function Table({
   columns = [],
   data = [],
 }: ITable) {
   return (
     <table className="border">
-      <tr className="">
+      <tr className="bg-primary text-white">
         {columns?.map(col => (
-          <th className="border p-2">
+          <th className="p-2">
             {col}
           </th>
         ))}
       </tr>
       {data?.map(row => (
-        <tr className="border">
+        <tr className="[&:nth-child(odd)]:bg-gray-200 [&:nth-child(even)]:bg-white">
           {row?.map(cel => (
-            <td className="border p-2">
+            <td className="p-2">
               {cel}
             </td>
           ))}
