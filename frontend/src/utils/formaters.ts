@@ -7,3 +7,7 @@ export function formatDate(date: Date | string) {
 
   return format(date, "dd/MM/yyyy");
 }
+
+export function formatCurrency(value: number) {
+  return `R$ ${value.toFixed(2)}`;
+}

@@ -2,18 +2,11 @@ import toast from "react-hot-toast";
 import { callApi } from "../api"
 import { useEffect, useState } from "react";
 import { TService } from "../utils/types";
-import Table from "../components/Table";
-import { format } from "date-fns";
-
-const columns = [
-  'Nome',
-  'Description',
-  'Preço',
-  'Criado em',
-];
+import ServiceCard from "../components/ServiceCard";
+import PageTitle from "../components/PageTitle";
 
 export default function Services() {
-  const [services, setServices] = useState<string[][]>([]);
+  const [services, setServices] = useState<TService[]>([]);
 
   const loadServices = async () => {
     const response = await callApi({
@@ -26,19 +19,7 @@ export default function Services() {
       return;
     }
 
-    const formattedServices = response.data.map(({
-      name,
-      description,
-      created_at,
-      price
-    }: TService) => [
-        name,
-        description,
-        `R$ ${price.toFixed(2)}`,
-        format(new Date(created_at), 'dd/MM/yyyy'),
-      ]);
-
-    setServices(formattedServices);
+    setServices(response.data);
   }
 
   useEffect(() => {
@@ -47,11 +28,16 @@ export default function Services() {
 
   return (
     <main className="p-4">
-      <h1 className="text-2xl">Serviços</h1>
-      <Table
-        columns={columns}
-        data={services}
-      />
+      <PageTitle text="Serviços" />
+      <ul className="gap-2 flex flex-wrap">
+        {services.map((service) => (
+          <li className="max-w-[300px] flex-1">
+            <ServiceCard
+              data={service}
+            />
+          </li>
+        ))}
+      </ul>
     </main>
   )
 }
