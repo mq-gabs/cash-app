@@ -1,8 +1,6 @@
 package users
 
-import (
-	"cash/backend/models/base"
-)
+import "cash/backend/modules/base"
 
 type Role string
 

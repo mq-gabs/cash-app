@@ -1,6 +1,6 @@
 package services
 
-import "cash/backend/models/base"
+import "cash/backend/modules/base"
 
 type Service struct {
 	base.Base

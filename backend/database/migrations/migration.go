@@ -2,8 +2,9 @@ package migrations
 
 import (
 	"cash/backend/database"
-	"cash/backend/models/services"
-	"cash/backend/models/users"
+	"cash/backend/modules/services"
+	servicespayments "cash/backend/modules/services-payments"
+	"cash/backend/modules/users"
 	"fmt"
 )
 
@@ -15,6 +16,7 @@ func Migrate() {
 	if err := db.AutoMigrate(
 		&users.User{},
 		&services.Service{},
+		&servicespayments.ServicesPayment{},
 	); err != nil {
 		panic("Error while running migrations: " + err.Error())
 	}
