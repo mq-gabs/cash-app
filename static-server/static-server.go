@@ -22,5 +22,5 @@ func StartStatic(callback func()) {
 
 	callback()
 
-	select {} // wait forever
+	select {}
 }

@@ -1,4 +1,4 @@
-package servicespayments
+package servpayments
 
 import "github.com/gin-gonic/gin"
 

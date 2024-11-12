@@ -5,14 +5,24 @@ import (
 	"cash/backend/utils"
 )
 
-func Save(u *User) {
-	db := database.Conn()
+func Save(u *User) error {
+	db, err := database.Conn()
+
+	if err != nil {
+		return err
+	}
 
 	db.Save(u)
+
+	return nil
 }
 
-func List() *utils.List {
-	db := database.Conn()
+func List() (*utils.List, error) {
+	db, err := database.Conn()
+
+	if err != nil {
+		return nil, err
+	}
 
 	users := &[]*User{}
 
@@ -21,5 +31,5 @@ func List() *utils.List {
 	return &utils.List{
 		Data:  users,
 		Count: 0,
-	}
+	}, nil
 }

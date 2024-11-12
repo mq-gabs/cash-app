@@ -2,7 +2,7 @@ package routes
 
 import (
 	"cash/backend/modules/services"
-	servicespayments "cash/backend/modules/services-payments"
+	"cash/backend/modules/servpayments"
 	"cash/backend/modules/users"
 
 	"github.com/gin-gonic/gin"
@@ -11,5 +11,5 @@ import (
 func SetRoutes(g *gin.RouterGroup) {
 	users.SetRoutes(g)
 	services.SetRoutes(g)
-	servicespayments.SetRoutes(g)
+	servpayments.SetRoutes(g)
 }

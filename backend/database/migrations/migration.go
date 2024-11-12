@@ -3,20 +3,24 @@ package migrations
 import (
 	"cash/backend/database"
 	"cash/backend/modules/services"
-	servicespayments "cash/backend/modules/services-payments"
+	"cash/backend/modules/servpayments"
 	"cash/backend/modules/users"
 	"fmt"
 )
 
 func Migrate() {
-	fmt.Println("Running migrations")
+	fmt.Println("Running migrations...")
 
-	db := database.Conn()
+	db, err := database.Conn()
+
+	if err != nil {
+		panic("Cannot connect to database: " + err.Error())
+	}
 
 	if err := db.AutoMigrate(
 		&users.User{},
 		&services.Service{},
-		&servicespayments.ServicesPayment{},
+		&servpayments.ServicesPayment{},
 	); err != nil {
 		panic("Error while running migrations: " + err.Error())
 	}

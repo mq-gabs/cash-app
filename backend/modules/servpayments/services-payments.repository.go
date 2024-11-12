@@ -1,35 +1,35 @@
-package services
+package servpayments
 
 import (
 	"cash/backend/database"
 	"cash/backend/utils"
 )
 
-func Save(s *Service) error {
+func Save(sp *ServicesPayment) error {
 	db, err := database.Conn()
 
 	if err != nil {
 		return err
 	}
 
-	db.Save(s)
+	db.Save(sp)
 
 	return nil
 }
 
 func List() (*utils.List, error) {
-	services := &[]*Service{}
-
 	db, err := database.Conn()
 
 	if err != nil {
 		return nil, err
 	}
 
-	db.Find(services)
+	sps := &[]*ServicesPayment{}
+
+	db.Find(sps)
 
 	return &utils.List{
-		Data:  services,
+		Data:  sps,
 		Count: 0,
 	}, nil
 }

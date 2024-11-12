@@ -1,4 +1,4 @@
-package servicespayments
+package servpayments
 
 import (
 	"cash/backend/modules/services"
@@ -20,7 +20,7 @@ func CreateServicesPayment(c *gin.Context) {
 	b := &CreateServicesPaymentDto{}
 
 	if err := c.BindJSON(b); err != nil {
-		utils.Resp(c, 400, "Erro do servidor "+err.Error())
+		utils.Resp(c, 400, "Erro do servidor!", err.Error())
 		return
 	}
 
@@ -31,13 +31,23 @@ func CreateServicesPayment(c *gin.Context) {
 	sp.NumOfInstallments = b.NumOfInstallments
 	sp.PaidAt = b.PaidAt
 
-	Save(sp)
+	err := Save(sp)
+
+	if err != nil {
+		utils.Resp(c, 500, "Erro no banco de dados!", err.Error())
+		return
+	}
 
 	utils.Resp(c, 201, "Pagamento registrado!")
 }
 
 func GetServicesPayment(c *gin.Context) {
-	sp := List()
+	sp, err := List()
+
+	if err != nil {
+		utils.Resp(c, 400, "Erro no banco de dados!", err.Error())
+		return
+	}
 
 	c.JSON(200, sp)
 }

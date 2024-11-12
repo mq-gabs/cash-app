@@ -16,7 +16,7 @@ func CreateUser(c *gin.Context) {
 	b := &CreateUserDto{}
 
 	if err := c.BindJSON(b); err != nil {
-		utils.Resp(c, 500, "Erro do servidor")
+		utils.Resp(c, 500, "Erro do servidor!", err.Error())
 		return
 	}
 
@@ -27,13 +27,23 @@ func CreateUser(c *gin.Context) {
 	u.Password = b.Password
 	u.Role = Role("DEFAULT")
 
-	Save(u)
+	err := Save(u)
+
+	if err != nil {
+		utils.Resp(c, 500, "Erro no banco de dados!", err.Error())
+		return
+	}
 
 	utils.Resp(c, 201, "Usuário cadastrado!")
 }
 
 func FindUsers(c *gin.Context) {
-	users := List()
+	users, err := List()
+
+	if err != nil {
+		utils.Resp(c, 500, "Erro no banco de dados!", err.Error())
+		return
+	}
 
 	c.JSON(200, users)
 }

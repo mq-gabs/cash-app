@@ -16,7 +16,7 @@ func CreateService(c *gin.Context) {
 	b := &CreateServiceDto{}
 
 	if err := c.BindJSON(b); err != nil {
-		utils.Resp(c, 400, "Erro do servidor!"+err.Error())
+		utils.Resp(c, 400, "Erro do servidor!", err.Error())
 		return
 	}
 
@@ -26,13 +26,23 @@ func CreateService(c *gin.Context) {
 	s.Description = b.Description
 	s.Price = b.Price
 
-	Save(s)
+	err := Save(s)
+
+	if err != nil {
+		utils.Resp(c, 500, "Erro no banco de dados!", err.Error())
+		return
+	}
 
 	utils.Resp(c, 201, "Serviço criado!")
 }
 
 func FindServices(c *gin.Context) {
-	services := List()
+	services, err := List()
+
+	if err != nil {
+		utils.Resp(c, 400, "Erro no banco de dados!", err.Error())
+		return
+	}
 
 	c.JSON(200, services)
 }

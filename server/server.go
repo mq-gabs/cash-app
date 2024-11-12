@@ -29,8 +29,6 @@ func Start() {
 		AllowAllOrigins: true,
 	}))
 
-	// r.Static("/", "static")
-
 	g := r.Group("/api")
 	routes.SetRoutes(g)
 

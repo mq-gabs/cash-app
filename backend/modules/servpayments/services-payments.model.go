@@ -1,4 +1,4 @@
-package servicespayments
+package servpayments
 
 import (
 	"cash/backend/modules/base"
