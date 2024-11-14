@@ -32,8 +32,6 @@ func openBrowser() {
 }
 
 func main() {
-	checks()
-
 	params := os.Args[1:]
 
 	if len(params) != 0 {
@@ -47,6 +45,8 @@ func main() {
 			return
 		}
 	}
+
+	checks()
 
 	openBrowser()
 
