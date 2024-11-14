@@ -32,7 +32,7 @@ func (e *Employee) Validate() error {
 	}
 
 	if e.Wage == 0 {
-		return errors.New("salário não pode ser vazio")
+		return errors.New("salário não pode estar vazio")
 	}
 
 	return nil

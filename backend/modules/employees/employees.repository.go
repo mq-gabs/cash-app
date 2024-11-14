@@ -36,7 +36,7 @@ func DBList(q *utils.Query) (*utils.List, error) {
 		return nil, err
 	}
 
-	if err := db.Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("created_at DESC").Find(es).Error; err != nil {
+	if err := db.Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("name ASC").Find(es).Error; err != nil {
 		return nil, err
 	}
 
