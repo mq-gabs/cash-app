@@ -1,4 +1,4 @@
-package servpayments
+package otherpayments
 
 import (
 	"cash/backend/database"
@@ -7,14 +7,14 @@ import (
 	"github.com/google/uuid"
 )
 
-func DBSave(sp *ServicesPayment) error {
+func DBSave(op *OtherPayments) error {
 	db, err := database.Conn()
 
 	if err != nil {
 		return err
 	}
 
-	if err := db.Save(sp).Error; err != nil {
+	if err := db.Save(op).Error; err != nil {
 		return err
 	}
 
@@ -28,40 +28,40 @@ func DBList(q *utils.Query) (*utils.List, error) {
 		return nil, err
 	}
 
-	sps := &[]*ServicesPayment{}
+	op := &[]*OtherPayments{}
 
 	var c int64
 
-	if err := db.Find(sps).Count(&c).Error; err != nil {
+	if err := db.Find(op).Count(&c).Error; err != nil {
 		return nil, err
 	}
 
-	if err := db.Preload("Services").Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("updated_at DESC").Find(sps).Error; err != nil {
+	if err := db.Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("updated_at DESC").Find(op).Error; err != nil {
 		return nil, err
 	}
 
 	return &utils.List{
-		Data:  sps,
+		Data:  op,
 		Count: c,
 	}, nil
 }
 
-func DBFindOne(id uuid.UUID) (*ServicesPayment, error) {
+func DBFindOne(id uuid.UUID) (*OtherPayments, error) {
 	db, err := database.Conn()
 
 	if err != nil {
 		return nil, err
 	}
 
-	sp := New()
+	op := New()
 
-	sp.ID = id
+	op.ID = id
 
-	if err := db.Preload("Services").First(sp).Error; err != nil {
+	if err := db.First(op).Error; err != nil {
 		return nil, err
 	}
 
-	return sp, nil
+	return op, nil
 }
 
 func DBDelete(id uuid.UUID) error {
@@ -71,7 +71,7 @@ func DBDelete(id uuid.UUID) error {
 		return err
 	}
 
-	if err := db.Delete(&ServicesPayment{}, id).Error; err != nil {
+	if err := db.Delete(&OtherPayments{}, id).Error; err != nil {
 		return err
 	}
 

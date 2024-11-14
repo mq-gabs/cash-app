@@ -3,6 +3,7 @@ package migrations
 import (
 	"cash/backend/database"
 	"cash/backend/modules/employees"
+	"cash/backend/modules/otherpayments"
 	"cash/backend/modules/services"
 	"cash/backend/modules/servpayments"
 	"cash/backend/modules/users"
@@ -23,6 +24,7 @@ func Migrate() {
 		&services.Service{},
 		&servpayments.ServicesPayment{},
 		&employees.Employee{},
+		&otherpayments.OtherPayments{},
 	); err != nil {
 		panic("Error while running migrations: " + err.Error())
 	}
