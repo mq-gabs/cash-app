@@ -55,7 +55,7 @@ func GetServicesPayment(c *gin.Context) {
 	sp, err := DBList(q)
 
 	if err != nil {
-		utils.Resp(c, 400, "Erro no banco de dados!", err)
+		utils.RespErrorDB(c, err)
 		return
 	}
 

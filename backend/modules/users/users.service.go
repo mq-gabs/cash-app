@@ -4,16 +4,17 @@ import (
 	"cash/backend/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
-type CreateUserDto struct {
+type UserDto struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 func CreateUser(c *gin.Context) {
-	b := &CreateUserDto{}
+	b := &UserDto{}
 
 	if err := c.BindJSON(b); err != nil {
 		utils.Resp(c, 500, "Erro do servidor!", err)
@@ -22,12 +23,14 @@ func CreateUser(c *gin.Context) {
 
 	u := New()
 
-	u.Name = b.Name
-	u.Email = b.Email
-	u.Password = b.Password
-	u.Role = Role("DEFAULT")
+	u.Update(b)
 
-	err := Save(u)
+	if err := u.Validate(); err != nil {
+		utils.RespNotValid(c, err)
+		return
+	}
+
+	err := DBSave(u)
 
 	if err != nil {
 		utils.Resp(c, 500, "Erro no banco de dados!", err)
@@ -38,12 +41,79 @@ func CreateUser(c *gin.Context) {
 }
 
 func FindUsers(c *gin.Context) {
-	users, err := List()
+	q := utils.NewQuery()
 
-	if err != nil {
-		utils.Resp(c, 500, "Erro no banco de dados!", err)
+	if err := c.BindQuery(q); err != nil {
+		utils.RespErrorBind(c, err)
 		return
 	}
 
-	c.JSON(200, users)
+	us, err := DBList(q)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	c.JSON(200, us)
+}
+
+func GetOneUser(c *gin.Context) {
+	id := uuid.MustParse(c.Param("id"))
+
+	e, err := DBFindOne(id)
+
+	if err != nil {
+		utils.RespNotFound(c, "Usuário não encontrado", err)
+		return
+	}
+
+	c.JSON(200, e)
+}
+
+func UpdateUser(c *gin.Context) {
+	id := uuid.MustParse(c.Param("id"))
+
+	u, err := DBFindOne(id)
+	if err != nil {
+		utils.RespNotFound(c, "Pagamento de serviço não encontrado!", err)
+		return
+	}
+
+	b := &UserDto{}
+
+	if err := c.BindJSON(b); err != nil {
+		utils.RespErrorBind(c, err)
+		return
+	}
+
+	u.Update(b)
+
+	if err := u.Validate(); err != nil {
+		utils.RespNotValid(c, err)
+		return
+	}
+
+	if err := DBSave(u); err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	utils.Resp(c, 200, "Dados atualizados!")
+}
+
+func DeleteUser(c *gin.Context) {
+	id := uuid.MustParse(c.Param("id"))
+
+	if _, err := DBFindOne(id); err != nil {
+		utils.RespNotFound(c, "Usuário não encontrado", err)
+		return
+	}
+
+	if err := DBDelete(id); err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	utils.Resp(c, 200, "Usuário excluído!")
 }

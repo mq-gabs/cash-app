@@ -3,33 +3,77 @@ package users
 import (
 	"cash/backend/database"
 	"cash/backend/utils"
+
+	"github.com/google/uuid"
 )
 
-func Save(u *User) error {
+func DBSave(u *User) error {
 	db, err := database.Conn()
 
 	if err != nil {
 		return err
 	}
 
-	db.Save(u)
+	if err := db.Save(u).Error; err != nil {
+		return err
+	}
 
 	return nil
 }
 
-func List() (*utils.List, error) {
+func DBList(q *utils.Query) (*utils.List, error) {
 	db, err := database.Conn()
 
 	if err != nil {
 		return nil, err
 	}
 
-	users := &[]*User{}
+	us := &[]*User{}
 
-	db.Find(users)
+	var c int64
+
+	if err := db.Find(us).Count(&c).Error; err != nil {
+		return nil, err
+	}
+
+	if err := db.Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("name ASC").Find(us).Error; err != nil {
+		return nil, err
+	}
 
 	return &utils.List{
-		Data:  users,
-		Count: 0,
+		Data:  us,
+		Count: c,
 	}, nil
+}
+
+func DBFindOne(id uuid.UUID) (*User, error) {
+	db, err := database.Conn()
+
+	if err != nil {
+		return nil, err
+	}
+
+	us := New()
+
+	us.ID = id
+
+	if err := db.First(us).Error; err != nil {
+		return nil, err
+	}
+
+	return us, nil
+}
+
+func DBDelete(id uuid.UUID) error {
+	db, err := database.Conn()
+
+	if err != nil {
+		return err
+	}
+
+	if err := db.Delete(&User{}, id).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
