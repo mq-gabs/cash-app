@@ -14,7 +14,9 @@ func DBSave(s *Service) error {
 		return err
 	}
 
-	db.Save(s)
+	if err := db.Save(s).Error; err != nil {
+		return err
+	}
 
 	return nil
 }

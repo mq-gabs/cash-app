@@ -3,38 +3,41 @@ package servpayments
 import (
 	"cash/backend/modules/services"
 	"cash/backend/utils"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
-type CreateServicesPaymentDto struct {
-	Value             int                 `json:"value"`
+type ServicesPaymentDto struct {
 	PaymentType       PaymentType         `json:"payment_type"`
 	NumOfInstallments int                 `json:"num_of_installments"`
-	PaidAt            time.Time           `json:"paid_at"`
+	PaidAt            *time.Time          `json:"paid_at"`
 	Services          []*services.Service `json:"services"`
 }
 
 func CreateServicesPayment(c *gin.Context) {
-	b := &CreateServicesPaymentDto{}
+	b := &ServicesPaymentDto{}
 
 	if err := c.BindJSON(b); err != nil {
-		utils.Resp(c, 400, "Erro do servidor!", err.Error())
+		utils.Resp(c, 400, "Erro do servidor!", err)
 		return
 	}
 
 	sp := New()
 
-	sp.Value = b.Value
-	sp.PaymentType = b.PaymentType
-	sp.NumOfInstallments = b.NumOfInstallments
-	sp.PaidAt = b.PaidAt
+	sp.Update(b)
 
-	err := Save(sp)
+	fmt.Println(b)
 
-	if err != nil {
-		utils.Resp(c, 500, "Erro no banco de dados!", err.Error())
+	if err, err2 := sp.Validate(); err != nil {
+		utils.RespNotValid(c, err, err2)
+		return
+	}
+
+	if err := DBSave(sp); err != nil {
+		utils.Resp(c, 500, "Erro no banco de dados!", err)
 		return
 	}
 
@@ -42,12 +45,80 @@ func CreateServicesPayment(c *gin.Context) {
 }
 
 func GetServicesPayment(c *gin.Context) {
-	sp, err := List()
+	q := utils.NewQuery()
+
+	if err := c.BindQuery(q); err != nil {
+		utils.RespErrorBind(c, err)
+		return
+	}
+
+	sp, err := DBList(q)
 
 	if err != nil {
-		utils.Resp(c, 400, "Erro no banco de dados!", err.Error())
+		utils.Resp(c, 400, "Erro no banco de dados!", err)
 		return
 	}
 
 	c.JSON(200, sp)
+}
+
+func GetOneServicePayment(c *gin.Context) {
+	id := uuid.MustParse(c.Param("id"))
+
+	e, err := DBFindOne(id)
+
+	if err != nil {
+		utils.RespNotFound(c, "Pagamento de serviço não encontrado", err)
+		return
+	}
+
+	c.JSON(200, e)
+}
+
+func UpdateServicePayment(c *gin.Context) {
+	id := uuid.MustParse(c.Param("id"))
+
+	s, err := DBFindOne(id)
+
+	if err != nil {
+		utils.RespNotFound(c, "Pagamento de serviço não encontrado!", err)
+		return
+	}
+
+	b := &ServicesPaymentDto{}
+
+	if err := c.BindJSON(b); err != nil {
+		utils.RespErrorBind(c, err)
+		return
+	}
+
+	s.Update(b)
+
+	if err, err2 := s.Validate(); err != nil {
+		utils.RespNotValid(c, err, err2)
+		return
+	}
+
+	if err := DBSave(s); err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	utils.Resp(c, 200, "Dados atualizados!")
+}
+
+func DeleteServicePayment(c *gin.Context) {
+	id := uuid.MustParse(c.Param("id"))
+
+	if _, err := DBFindOne(id); err != nil {
+		utils.RespNotFound(c, "Pagamento de serviço não encontrado", err)
+		return
+	}
+
+	if err := DBDelete(id); err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	utils.Resp(c, 200, "Pagamento de serviço excluído!")
 }
