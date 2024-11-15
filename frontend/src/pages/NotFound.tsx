@@ -8,7 +8,7 @@ export default function NotFound() {
     <main className="p-4 h-screen">
       <div className="flex justify-center items-center h-full">
         <div>
-          <PageTitle text="404 Not Found" className="text-center mb-8" />
+          <PageTitle text="404 Not Found" className="text-center mb-8 w-full" />
           <h4>A página que você tentou acessar não existe...</h4>
           <div className="flex justify-center">
             <a

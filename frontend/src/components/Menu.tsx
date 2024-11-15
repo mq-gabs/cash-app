@@ -47,7 +47,7 @@ export default function Menu() {
             <li key={id}>
               <Link to={href}>
               <p className={clsx({
-                "p-2 ml-2 rounded-tl rounded-bl text-sm hover:underline": true,
+                "p-2 text-sm hover:underline": true,
                 "text-white": pathname !== href,
                 "bg-white text-secondary": pathname === href,
               })}>

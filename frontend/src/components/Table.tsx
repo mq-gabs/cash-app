@@ -1,5 +1,6 @@
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import Button from "./Button";
+import { PiEmptyBold } from "react-icons/pi";
 
 interface ITable {
   columns: string[];
@@ -57,8 +58,9 @@ export default function Table({
             <td colSpan={columns.length}>
 
               <div className="h-[300px] w-full flex justify-center items-center">
-                <p className="text-gray-500 text-xl">
-                  Nenhum dado a ser exibido.
+                <p className="text-gray-500 text-xl flex gap-2 items-center">
+                <PiEmptyBold />
+                  Nenhum registro encontrado...
                 </p>
               </div>
             </td>
