@@ -25,7 +25,14 @@ func Start() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowHeaders:    []string{"*"},
+		AllowHeaders: []string{"*"},
+		AllowMethods: []string{
+			"GET",
+			"POST",
+			"PATCH",
+			"DELETE",
+			"OPTIONS",
+		},
 		AllowAllOrigins: true,
 	}))
 

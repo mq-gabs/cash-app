@@ -9,5 +9,5 @@ export function formatDate(date: Date | string) {
 }
 
 export function formatCurrency(value: number) {
-  return `R$ ${value.toFixed(2)}`;
+  return `R$ ${(value / 100).toFixed(2)}`;
 }

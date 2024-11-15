@@ -27,3 +27,9 @@ export type TUser = TBase & {
   password: string;
   role: ERoles;
 };
+
+export type TEmployee = TBase & {
+  name: string;
+  wage: number;
+  role: string;
+};
