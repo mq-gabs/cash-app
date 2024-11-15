@@ -4,6 +4,7 @@ import { callApi } from "../api";
 import Button from "../components/Button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import PageTitle from "../components/PageTitle";
 
 export default function CreateService() {
   const nav = useNavigate();
@@ -34,7 +35,7 @@ export default function CreateService() {
 
   return (
     <main className="p-4">
-      <h1 className="text-3xl font-bold">Criar serviço</h1>
+      <PageTitle text="Criar serviço" backRoute="/services" />
       <div className="p-4 mx-auto max-w-[800px]">
         <form className="flex flex-col gap-4">
           <Input

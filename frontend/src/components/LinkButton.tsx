@@ -13,7 +13,7 @@ export default function LinkButton({
     <Link
       to={to}
     >
-      <div className="bg-primary p-3 text-white rounded">
+      <div className="bg-primary p-2 text-white rounded hover:brightness-110">
         {children}
       </div>
     </Link>

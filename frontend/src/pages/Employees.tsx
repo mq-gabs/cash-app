@@ -8,6 +8,8 @@ import Table from "../components/Table";
 import { IoMdAddCircle } from "react-icons/io";
 import LinkButton from "../components/LinkButton";
 import Button from "../components/Button";
+import { MdEdit } from "react-icons/md";
+import { FaTrash } from "react-icons/fa";
 
 const columns = [
   'Nome',
@@ -29,13 +31,19 @@ function EmployeeActions({
       <LinkButton
         to={`/employee?id=${id}`}
       >
-        Editar
+        <div className="flex items-center gap-2">
+          <MdEdit />
+          Editar
+        </div>
       </LinkButton>
       <Button
         onClick={handleDelete}
         className="bg-red-500"
       >
-        Excluir
+        <div className="flex items-center gap-2 justify-center">
+          <FaTrash />
+          Excluir
+        </div>
       </Button>
     </div>
   )
@@ -43,11 +51,16 @@ function EmployeeActions({
 
 export default function Employees() {
   const [employeesList, setEmployeesList] = useState<string[][]>([]);
+  const [page, setPage] = useState(0);
+  const [totalEmployees, setTotalEmployees] = useState(1);
 
   const loadEmployees = async () => {
     const response = await callApi({
       method: 'get',
       path: '/employees',
+      params: {
+        page,
+      },
     });
 
     if (!response) return;
@@ -67,15 +80,16 @@ export default function Employees() {
       ]);
 
     setEmployeesList(formattedData);
+    setTotalEmployees(response.count);
   };
 
   useEffect(() => {
     loadEmployees();
-  }, [])
+  }, [page])
 
   return (
     <Main>
-      <div className="flex justify-between items-center font-bold">
+      <div className="flex justify-between items-center font-bold mb-4">
         <PageTitle text="Funcionários" />
         <div>
           <LinkButton
@@ -88,10 +102,15 @@ export default function Employees() {
           </LinkButton>
         </div>
       </div>
-      <Table
-        columns={columns}
-        data={employeesList}
-      />
+      <div className="max-w-[800px] mx-auto">
+        <Table
+          columns={columns}
+          data={employeesList}
+          currentPage={page}
+          setPage={setPage}
+          totalItems={totalEmployees}
+        />
+      </div>
     </Main>
   )
 }

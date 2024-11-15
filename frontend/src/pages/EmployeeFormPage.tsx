@@ -100,7 +100,7 @@ export default function EmployeeFormPage() {
 
   return (
     <Main>
-      <PageTitle text={id ? "Editar funcionário" : "Novo funcionário"} />
+      <PageTitle backRoute="/employees" text={id ? "Editar funcionário" : "Novo funcionário"} />
       <div className="max-w-[800px] mx-auto">
         <form className="flex flex-col gap-4">
           <Input

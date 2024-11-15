@@ -22,7 +22,7 @@ export default function PrivateRoutes() {
             <Route path="/service-payments" Component={Pagamentos} />
             <Route path="/users" Component={Users} />
             <Route path="/services" Component={Services} />
-            <Route path="/servicescreate" Component={CreateService} />
+            <Route path="/service" Component={CreateService} />
             <Route path="/employees" Component={Employees} />
             <Route path="/employee" Component={EmployeeFormPage} />
             <Route path="/*" Component={NotFound} />

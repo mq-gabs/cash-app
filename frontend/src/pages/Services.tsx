@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { TService } from "../utils/types";
 import ServiceCard from "../components/ServiceCard";
 import PageTitle from "../components/PageTitle";
+import LinkButton from "../components/LinkButton";
+import { IoMdAddCircle } from "react-icons/io";
 
 export default function Services() {
   const [services, setServices] = useState<TService[]>([]);
@@ -28,7 +30,18 @@ export default function Services() {
 
   return (
     <main className="p-4">
-      <PageTitle text="Serviços" />
+      <div className="flex justify-between">
+        <PageTitle text="Serviços" />
+        <LinkButton
+          to="/service"
+        >
+          <div className="flex items-center gap-2">
+
+            <IoMdAddCircle />
+            Novo serviço
+          </div>
+        </LinkButton>
+      </div>
       <ul className="gap-2 flex flex-wrap">
         {services.map((service) => (
           <li className="max-w-[300px] flex-1">
