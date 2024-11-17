@@ -27,9 +27,9 @@ func (s *Service) Validate() error {
 		return errors.New("nome não pode estar vazio")
 	}
 
-	if s.Description == "" {
-		return errors.New("descrição não pode estar vazia")
-	}
+	// if s.Description == "" {
+	// 	return errors.New("descrição não pode estar vazia")
+	// }
 
 	if s.Price == 0 {
 		return errors.New("preço não pode estar vazio")

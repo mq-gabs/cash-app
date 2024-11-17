@@ -86,6 +86,7 @@ export default function ServiceFormPage() {
             placeholder="Nome"
             onChange={(value) => setName(value)}
             defaultValue={name}
+            required
           />
           <Input
             label="Descrição"
@@ -99,6 +100,7 @@ export default function ServiceFormPage() {
             onChange={(value) => setPrice(value)}
             type="number"
             defaultValue={price}
+            required
           />
           <Button onClick={id ? handleEditService : handleCreateService}>
             {id ? 'Salvar edição' : 'Salvar'}

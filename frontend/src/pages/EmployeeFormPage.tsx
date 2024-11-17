@@ -108,12 +108,14 @@ export default function EmployeeFormPage() {
             placeholder="Nome"
             onChange={(v) => setName(v)}
             defaultValue={name}
+            required
           />
           <Input
             label="Cargo"
             placeholder="Cargo"
             onChange={(v) => setRole(v)}
             defaultValue={role}
+            required
           />
           <Input
             label="Salário"
@@ -121,6 +123,7 @@ export default function EmployeeFormPage() {
             onChange={(v) => setWage(v)}
             type="number"
             defaultValue={wage}
+            required
           />
           <Button onClick={id ? handleEditEmployee : handleCreateEmployee}>
             {id ? "Salvar edição" : "Salvar"}

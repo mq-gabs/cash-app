@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 const handleError = (err: any) => {
-  const message = err?.message || "Ocorreu um erro";
+  const message = err?.response?.data?.message || "Ocorreu um erro";
   toast.error(message);
 };
 
@@ -32,6 +32,7 @@ export async function callApi({ data, method, params, path }: TCallApi) {
 
     return response?.data;
   } catch (error) {
+    console.log({ error });
     handleError(error);
   }
 }
