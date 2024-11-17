@@ -8,7 +8,7 @@ import { callApi } from "../api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-export default function EmployeeFormPage() {
+export default function EmployeesFormPage() {
   const { id } = useQuery();
 
   const nav = useNavigate();

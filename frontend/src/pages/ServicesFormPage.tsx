@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import { useQuery } from "../hooks/use-query";
 
-export default function ServiceFormPage() {
+export default function ServicesFormPage() {
   const nav = useNavigate();
   const { id } = useQuery();
 

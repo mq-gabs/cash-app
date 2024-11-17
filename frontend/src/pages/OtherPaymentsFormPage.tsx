@@ -80,8 +80,6 @@ export default function OtherPaymentsFormPage() {
     }
   }, []);
 
-  console.log({ paidAt });
-
   return (
     <Main>
       <PageTitle
@@ -110,14 +108,7 @@ export default function OtherPaymentsFormPage() {
             placeholder="Valor"
             defaultValue={value}
             required
-          />
-          <Input
-            label="Data do pagamento"
-            onChange={(v) => setPaidAt(v)}
-            placeholder="Data do pagamento"
-            defaultValue={paidAt}
-            required
-            type="date"
+            type="number"
           />
           <InputDate
             label="Data do pagamento"

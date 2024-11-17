@@ -1,15 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
-import Pagamentos from "../pages/Pagamentos";
 import Users from "../pages/Users";
 import Services from "../pages/Services";
-import ServiceFormPage from "../pages/ServiceFormPage";
+import ServicesFormPage from "../pages/ServicesFormPage";
 import NotFound from "../pages/NotFound";
 import Menu from "../components/Menu";
 import Employees from "../pages/Employees";
-import EmployeeFormPage from "../pages/EmployeeFormPage";
+import EmployeesFormPage from "../pages/EmployeesFormPage";
 import OtherPayments from "../pages/OtherPayments";
 import OtherPaymentsFormPage from "../pages/OtherPaymentsFormPage";
+import ServicePayments from "../pages/ServicePayments";
+import ServicePaymentsFormPage from "../pages/ServicePaymentsFormPage";
 
 export default function PrivateRoutes() {
   return (
@@ -21,14 +22,15 @@ export default function PrivateRoutes() {
         <div className="w-full h-full overflow-y-auto">
           <Routes>
             <Route path="/" Component={Home} />
-            <Route path="/service-payments" Component={Pagamentos} />
-            <Route path="/users" Component={Users} />
+            <Route path="/service-payments" Component={ServicePayments} />
+            <Route path="/service-payment" Component={ServicePaymentsFormPage} />
             <Route path="/services" Component={Services} />
-            <Route path="/service" Component={ServiceFormPage} />
+            <Route path="/service" Component={ServicesFormPage} />
             <Route path="/employees" Component={Employees} />
-            <Route path="/employee" Component={EmployeeFormPage} />
+            <Route path="/employee" Component={EmployeesFormPage} />
             <Route path="/other-payments" Component={OtherPayments} />
             <Route path="/other-payment" Component={OtherPaymentsFormPage} />
+            <Route path="/users" Component={Users} />
             <Route path="/*" Component={NotFound} />
           </Routes>
         </div>

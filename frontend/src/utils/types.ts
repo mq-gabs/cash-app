@@ -40,3 +40,24 @@ export type TOtherPayment = TBase & {
   title: string;
   description: string;
 };
+
+export enum EPaymentType {
+  CASH = "CASH",
+  DEBIT = "DEBIT",
+  CREDIT = "CREDIT",
+  INSTALLMENTS = "INSTALLMENTS",
+}
+
+export enum EPaymentTypeLabels {
+  CASH = "Espécie",
+  DEBIT = "Débito",
+  CREDIT = "Crédito",
+  INSTALLMENTS = "Parcelado",
+}
+
+export type TServicePayments = TBase & {
+  value: number;
+  paid_at: string;
+  payment_type: EPaymentType;
+  services: TService[];
+};

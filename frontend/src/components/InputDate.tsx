@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatDate } from "../utils/formaters";
 
 interface IInputDate {
@@ -55,18 +55,19 @@ export default function InputDate({
   const handleChangeDate = (e: any) => {
     let { value: val } = e.target;
 
-    console.log({ val });
-
     val = val.replaceAll(/[^0-9/]/g, '');
     val = val.slice(0, 10);
-
 
     setValue(val);
   }
 
+  useEffect(() => {
+    handleChangeSelected('1');
+  }, []);
+
   return (
     <div>
-      <label htmlFor={label}>{label}</label>
+      <label htmlFor={label}>{label} <span className="text-red-500">*</span></label>
       <div className="bg-gray-200 rounded-3xl w-fit mb-2">
         <ul className="flex justify-between gap-2 text-sm px-1 py-1">
           {options.map(({
