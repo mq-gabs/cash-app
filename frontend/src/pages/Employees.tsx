@@ -30,6 +30,7 @@ function EmployeeActions({
     <div className="flex gap-2">
       <LinkButton
         to={`/employee?id=${id}`}
+        className="bg-gray-400"
       >
         <div className="flex items-center gap-2">
           <MdEdit />

@@ -59,7 +59,7 @@ export default function Table({
 
               <div className="h-[300px] w-full flex justify-center items-center">
                 <p className="text-gray-500 text-xl flex gap-2 items-center">
-                <PiEmptyBold />
+                  <PiEmptyBold />
                   Nenhum registro encontrado...
                 </p>
               </div>
@@ -70,7 +70,7 @@ export default function Table({
       {
         data.length !== 0 && (
           <div className="flex justify-between mt-2">
-            <Button onClick={handlePrevious} className="gap-1 bg-blue-400 hover:bg-blue-500">
+            <Button onClick={handlePrevious} className="gap-1">
               <div className="flex gap-2 items-center">
                 <IoIosArrowRoundBack />
                 Anterior
@@ -79,7 +79,7 @@ export default function Table({
             <div className="flex items-center">
               Pág. {currentPage + 1} / {totalPages} - Total {totalItems}
             </div>
-            <Button onClick={handleNext} className="gap-1 bg-blue-400 hover:bg-blue-500">
+            <Button onClick={handleNext} className="gap-1">
               <div className="flex gap-2 items-center">
                 Proximo
                 <IoIosArrowRoundForward />

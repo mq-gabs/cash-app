@@ -1,6 +1,9 @@
+import { MdEdit } from "react-icons/md";
 import { formatCurrency } from "../utils/formaters";
 import { TService } from "../utils/types"
 import Button from "./Button";
+import { FaTrash } from "react-icons/fa";
+import LinkButton from "./LinkButton";
 
 interface IServiceCard {
   data: TService;
@@ -8,12 +11,15 @@ interface IServiceCard {
 
 export default function ServiceCard({
   data: {
+    id,
     name,
     price,
     description,
   },
 }: IServiceCard) {
-  const handleClickEditService = () => { };
+  const handleClickToDelete = () => {
+
+  }
 
   return (
     <div className="border rounded p-4">
@@ -21,16 +27,25 @@ export default function ServiceCard({
       <p>{description}</p>
       <p className=" text-primary font-bold">{formatCurrency(price)}</p>
       <div className="flex gap-2">
-        <Button
-          onClick={handleClickEditService}
+        <LinkButton
+          to={`/service?id=${id}`}
+          className="bg-gray-400"
         >
-          Editar
-        </Button>
+          <div className="flex gap-2 items-center">
+
+            <MdEdit />
+            Editar
+          </div>
+        </LinkButton>
         <Button
-          onClick={handleClickEditService}
+          onClick={handleClickToDelete}
           className="bg-red-500"
         >
-          Excluir
+          <div className="flex gap-2 items-center">
+
+            <FaTrash />
+            Excluir
+          </div>
         </Button>
       </div>
     </div>

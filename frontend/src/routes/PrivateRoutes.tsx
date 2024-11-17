@@ -3,7 +3,7 @@ import Home from "../pages/Home";
 import Pagamentos from "../pages/Pagamentos";
 import Users from "../pages/Users";
 import Services from "../pages/Services";
-import CreateService from "../pages/CreateService";
+import ServiceFormPage from "../pages/ServiceFormPage";
 import NotFound from "../pages/NotFound";
 import Menu from "../components/Menu";
 import Employees from "../pages/Employees";
@@ -22,7 +22,7 @@ export default function PrivateRoutes() {
             <Route path="/service-payments" Component={Pagamentos} />
             <Route path="/users" Component={Users} />
             <Route path="/services" Component={Services} />
-            <Route path="/service" Component={CreateService} />
+            <Route path="/service" Component={ServiceFormPage} />
             <Route path="/employees" Component={Employees} />
             <Route path="/employee" Component={EmployeeFormPage} />
             <Route path="/*" Component={NotFound} />

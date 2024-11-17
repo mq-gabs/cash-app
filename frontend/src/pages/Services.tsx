@@ -31,7 +31,7 @@ export default function Services() {
   return (
     <main className="p-4">
       <div className="flex justify-between">
-        <PageTitle text="Serviços" />
+        <PageTitle className="mb-4" text="Serviços" />
         <LinkButton
           to="/service"
         >
@@ -42,15 +42,23 @@ export default function Services() {
           </div>
         </LinkButton>
       </div>
-      <ul className="gap-2 flex flex-wrap">
-        {services.map((service) => (
-          <li className="max-w-[300px] flex-1">
-            <ServiceCard
-              data={service}
-            />
-          </li>
-        ))}
-      </ul>
+      {services.length !== 0 && (
+
+        <ul className="gap-2 flex flex-wrap">
+          {services.map((service) => (
+            <li className="max-w-[300px] flex-1">
+              <ServiceCard
+                data={service}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+      {services.length === 0 && (
+        <div className="h-[300px] flex justify-center items-center">
+          <p className="text-xl text-gray-500">Nenhum serviço encontrado...</p>
+        </div>
+      )}
     </main>
   )
 }

@@ -5,7 +5,7 @@ export default function App() {
   return (
     <>
       <Toaster
-        position="bottom-right"
+        position="top-center"
         toastOptions={{
           duration: 8000,
         }}

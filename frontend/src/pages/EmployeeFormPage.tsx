@@ -123,7 +123,7 @@ export default function EmployeeFormPage() {
             defaultValue={wage}
           />
           <Button onClick={id ? handleEditEmployee : handleCreateEmployee}>
-            {id ? "Editar" : "Criar"}
+            {id ? "Salvar edição" : "Salvar"}
           </Button>
         </form>
       </div>
