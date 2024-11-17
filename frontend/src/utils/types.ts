@@ -33,3 +33,10 @@ export type TEmployee = TBase & {
   wage: number;
   role: string;
 };
+
+export type TOtherPayment = TBase & {
+  value: number;
+  paid_at: string;
+  title: string;
+  description: string;
+};

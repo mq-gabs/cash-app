@@ -83,8 +83,6 @@ export default function EmployeeFormPage() {
       path: `/employees/${id}`,
     });
 
-    console.log({ response });
-
     if (!response) return;
 
     setName(response.name);
@@ -100,7 +98,7 @@ export default function EmployeeFormPage() {
 
   return (
     <Main>
-      <PageTitle backRoute="/employees" text={id ? "Editar funcionário" : "Novo funcionário"} />
+      <PageTitle backRoute="/employees" text={id ? "Editar dados do funcionário" : "Cadastrar novo funcionário"} />
       <div className="max-w-[800px] mx-auto">
         <form className="flex flex-col gap-4">
           <Input

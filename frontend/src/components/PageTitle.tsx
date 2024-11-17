@@ -17,7 +17,7 @@ export default function PageTitle({
           <IoIosArrowBack className="w-[40px] h-[40px] cursor-pointer hover:bg-gray-200 p-2 rounded-full" />
         </Link>
       )}
-      <h1 className="text-3xl font-bold">{text}</h1>
+      <h1 className="text-2xl font-bold">{text}</h1>
     </div>
   );
 }

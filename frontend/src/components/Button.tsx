@@ -12,7 +12,7 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      className={`bg-primary text-white block p-2 rounded hover:brightness-110 ${className}`}
+      className={`bg-primary text-white font-bold block p-2 rounded hover:brightness-110 ${className}`}
     >
       {children}
     </button>

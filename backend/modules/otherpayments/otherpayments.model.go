@@ -29,10 +29,6 @@ func (op *OtherPayments) Validate() error {
 		return errors.New("título não pode estar vazio")
 	}
 
-	if op.Description == "" {
-		return errors.New("descrição não pode estar vazia")
-	}
-
 	if op.Value == 0 {
 		return errors.New("valor não pode estar vazio")
 	}

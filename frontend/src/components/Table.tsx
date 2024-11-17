@@ -6,7 +6,7 @@ interface ITable {
   columns: string[];
   data: any[][];
   setPage: (arg: number) => void
-  totalItems: number;
+  totalItems?: number;
   currentPage: number;
 }
 

@@ -4,22 +4,22 @@ import clsx from "clsx"
 
 const menuRoutes = [
   {
-    id: '1',
-    label: 'Serviços',
-    Icon: () => <></>,
-    href: '/services'
-  },
-  {
     id: '2',
-    label: 'Pagamento de serviço',
+    label: 'Atendimentos',
     Icon: () => <></>,
     href: '/service-payments'
   },
   {
     id: '3',
-    label: 'Outros pagamentos',
+    label: 'Outros gastos',
     Icon: () => <></>,
     href: '/other-payments'
+  },
+  {
+    id: '1',
+    label: 'Serviços',
+    Icon: () => <></>,
+    href: '/services'
   },
   {
     id: '4',
@@ -31,28 +31,29 @@ const menuRoutes = [
 
 export default function Menu() {
   const { pathname } = useLocation()
-  
+
   return (
     <div className="bg-secondary h-full flex flex-col justify-between">
       <div className="p-2 cursor-pointer">
         <Logo />
-      </div>
-      <div>
-        <ul className="flex flex-col gap-4">
+        <div className="border-b border-white mt-4 mb-4" />
+        <ul className="flex flex-col gap-2">
           {menuRoutes.map(({
             id,
             href,
             label,
+            Icon,
           }) => (
             <li key={id}>
               <Link to={href}>
-              <p className={clsx({
-                "p-2 text-sm hover:underline": true,
-                "text-white": pathname !== href,
-                "bg-white text-secondary": pathname === href,
-              })}>
-              {label}
-              </p>
+                <p className={clsx({
+                  "p-2 text-xs rounded flex gap-2 items-center uppercase font-semibold": true,
+                  "text-white hover:bg-gray-500": pathname !== href,
+                  "bg-white text-secondary": pathname === href,
+                })}>
+                  <Icon />
+                  {label}
+                </p>
               </Link>
             </li>
           ))}

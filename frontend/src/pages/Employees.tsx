@@ -98,7 +98,7 @@ export default function Employees() {
           >
             <div className="flex gap-2 items-center">
               <IoMdAddCircle />
-              Novo funcionário
+              Novo
             </div>
           </LinkButton>
         </div>

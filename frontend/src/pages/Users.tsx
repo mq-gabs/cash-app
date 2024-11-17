@@ -14,11 +14,16 @@ const columns = [
 
 export default function Users() {
   const [users, setUsers] = useState<string[][]>([])
+  const [totalUsers, setTotalUsers] = useState<number>();
+  const [page, setPage] = useState(0);
 
   const getUsers = async () => {
     const response = await callApi({
       method: 'GET',
       path: '/users',
+      params: {
+        page,
+      },
     });
 
     if (!response) return;
@@ -36,6 +41,7 @@ export default function Users() {
       ]);
 
     setUsers(formattedUsers);
+    setTotalUsers(response.count);
   }
 
   useEffect(() => {
@@ -48,6 +54,9 @@ export default function Users() {
       <Table
         columns={columns}
         data={users}
+        currentPage={page}
+        setPage={setPage}
+        totalItems={totalUsers}
       />
     </main>
   )
