@@ -21,7 +21,7 @@ func CreateServicesPayment(c *gin.Context) {
 	b := &ServicesPaymentDto{}
 
 	if err := c.BindJSON(b); err != nil {
-		utils.Resp(c, 400, "Erro do servidor!", err)
+		utils.RespErrorBind(c, err)
 		return
 	}
 
@@ -37,7 +37,7 @@ func CreateServicesPayment(c *gin.Context) {
 	}
 
 	if err := DBSave(sp); err != nil {
-		utils.Resp(c, 500, "Erro no banco de dados!", err)
+		utils.RespErrorDB(c, err)
 		return
 	}
 
