@@ -61,3 +61,9 @@ export type TServicePayments = TBase & {
   payment_type: EPaymentType;
   services: TService[];
 };
+
+export type TEmployeePayment = TBase & {
+  value: number;
+  paid_at: string;
+  employee: TEmployee;
+}

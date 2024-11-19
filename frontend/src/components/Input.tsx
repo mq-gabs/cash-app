@@ -5,6 +5,7 @@ interface IInput {
   placeholder: string;
   defaultValue?: any;
   required?: boolean;
+  disabled?: boolean;
 }
 
 export default function Input({
@@ -14,6 +15,7 @@ export default function Input({
   placeholder,
   defaultValue,
   required = false,
+  disabled = false,
 }: IInput) {
   const handleChange = (e: any) => {
     onChange(e.target.value);
@@ -26,7 +28,7 @@ export default function Input({
         {' '}
         {required ? <span className="text-red-500">*</span> : <span className="text-gray-400 text-sm">(opcional)</span>}
       </label>
-      <input defaultValue={defaultValue} className="inline border p-2 rounded w-full" type={type} onChange={handleChange} placeholder={placeholder} />
+      <input disabled={disabled} defaultValue={defaultValue} className="inline border p-2 rounded w-full" type={type} onChange={handleChange} placeholder={placeholder} />
     </div>
   )
 }

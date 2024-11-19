@@ -10,6 +10,7 @@ import LinkButton from "../components/LinkButton";
 import Button from "../components/Button";
 import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
+import { BsCash } from "react-icons/bs";
 
 const columns = [
   'Nome',
@@ -28,6 +29,15 @@ function EmployeeActions({
 
   return (
     <div className="flex gap-2">
+      <LinkButton
+        to={`/employee-payment?employeeId=${id}`}
+        className="bg-green-600"
+      >
+        <div className="flex items-center gap-2">
+          <BsCash />
+          Pagar
+        </div>
+      </LinkButton>
       <LinkButton
         to={`/employee?id=${id}`}
         className="bg-gray-400"

@@ -12,7 +12,7 @@ import { FaTrash } from "react-icons/fa";
 import Table from "../components/Table";
 
 const columns = [
-  'Pago em',
+  'Data',
   'Serviços',
   'Tipo de pagamento',
   'Valor',
@@ -69,11 +69,11 @@ export default function ServicePayments() {
     const formattedPayments = response.data.map(({
       id,
       value,
-      paid_at,
+      created_at,
       payment_type,
       services,
     }: TServicePayments) => [
-        formatDate(paid_at),
+        formatDate(created_at),
         services.map(({ name }) => name).join(', '),
         EPaymentTypeLabels[payment_type],
         formatCurrency(value),

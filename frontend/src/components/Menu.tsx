@@ -27,6 +27,12 @@ const menuRoutes = [
     Icon: () => <></>,
     href: '/employees'
   },
+  {
+    id: '5',
+    label: 'Pagamento de funcionários',
+    Icon: () => <></>,
+    href: '/employees-payments'
+  },
 ]
 
 export default function Menu() {

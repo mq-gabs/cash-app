@@ -30,8 +30,8 @@ export default function Services() {
 
   return (
     <main className="p-4">
-      <div className="flex justify-between">
-        <PageTitle className="mb-4" text="Serviços" />
+      <div className="flex justify-between mb-4">
+        <PageTitle text="Serviços" />
         <LinkButton
           to="/service"
         >

@@ -36,7 +36,7 @@ func DBList(q *utils.Query) (*utils.List, error) {
 		return nil, err
 	}
 
-	if err := db.Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("updated_at DESC").Find(op).Error; err != nil {
+	if err := db.Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("paid_at DESC").Find(op).Error; err != nil {
 		return nil, err
 	}
 
