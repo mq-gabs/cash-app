@@ -82,7 +82,7 @@ export default function EmployeesPayments() {
 
   useEffect(() => {
     loadEmployeesPayments();
-  }, []);
+  }, [page]);
 
   return (
     <Main>

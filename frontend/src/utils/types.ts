@@ -67,3 +67,26 @@ export type TEmployeePayment = TBase & {
   paid_at: string;
   employee: TEmployee;
 }
+
+export type TMonthReport = {
+  services_analysis: {
+    id: string;
+    name: string;
+    revenue: number;
+    count: number;
+  }[];
+  employees_analysis: {
+    count: number;
+    cost: number;
+    employees_payments: {
+      id: string;
+      name: string;
+      value: number;
+    }[]
+  };
+  other_payments_analysis: {
+    count: number;
+    cost: number;
+    other_payments: TOtherPayment[];
+  };
+}

@@ -86,7 +86,7 @@ export default function ServicePayments() {
 
   useEffect(() => {
     loadServicePayments();
-  }, []);
+  }, [page]);
 
   return (
     <Main>

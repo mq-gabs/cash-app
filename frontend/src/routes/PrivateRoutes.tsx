@@ -13,6 +13,7 @@ import ServicePayments from "../pages/ServicePayments";
 import ServicePaymentsFormPage from "../pages/ServicePaymentsFormPage";
 import EmployeesPayments from "../pages/EmployeesPayments";
 import EmployeesPaymentsFormPage from "../pages/EmployeesPaymentsFormPage";
+import Dashboard from "../pages/Dashbaord";
 
 export default function PrivateRoutes() {
   return (
@@ -35,6 +36,7 @@ export default function PrivateRoutes() {
             <Route path="/other-payments" Component={OtherPayments} />
             <Route path="/other-payment" Component={OtherPaymentsFormPage} />
             <Route path="/users" Component={Users} />
+            <Route path="/dashboard" Component={Dashboard} />
             <Route path="/*" Component={NotFound} />
           </Routes>
         </div>

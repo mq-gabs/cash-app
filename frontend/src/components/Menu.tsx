@@ -4,6 +4,12 @@ import clsx from "clsx"
 
 const menuRoutes = [
   {
+    id: '10',
+    label: 'Dashboard',
+    Icon: () => <></>,
+    href: '/dashboard'
+  },
+  {
     id: '2',
     label: 'Atendimentos',
     Icon: () => <></>,

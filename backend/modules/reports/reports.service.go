@@ -19,7 +19,7 @@ type ServiceAnalysis struct {
 type EmployeesPaymentsSum struct {
 	ID    string `json:"id"`
 	Name  string `json:"name"`
-	Value string `json:"value"`
+	Value int    `json:"value"`
 }
 
 type EmployeesAnalysis struct {
