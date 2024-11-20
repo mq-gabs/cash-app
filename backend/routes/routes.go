@@ -4,6 +4,7 @@ import (
 	"cash/backend/modules/employees"
 	"cash/backend/modules/employeespayments"
 	"cash/backend/modules/otherpayments"
+	"cash/backend/modules/reports"
 	"cash/backend/modules/services"
 	"cash/backend/modules/servpayments"
 	"cash/backend/modules/users"
@@ -18,4 +19,5 @@ func SetRoutes(g *gin.RouterGroup) {
 	employees.SetRoutes(g)
 	otherpayments.SetRoutes(g)
 	employeespayments.SetRoutes(g)
+	reports.SetRoutes(g)
 }
