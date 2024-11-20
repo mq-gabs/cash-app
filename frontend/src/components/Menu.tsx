@@ -1,81 +1,90 @@
-import { Link, useLocation } from "react-router-dom"
-import Logo from "./Logo"
-import clsx from "clsx"
+import { Link, useLocation } from "react-router-dom";
+import Logo from "./Logo";
+import clsx from "clsx";
+import MenuSeparator from "./MenuSeparator";
 
 const menuRoutes = [
   {
-    id: '10',
-    label: 'Dashboard',
+    id: "0",
+    label: "Dashboard",
     Icon: () => <></>,
-    href: '/dashboard'
+    href: "/dashboard",
   },
   {
-    id: '2',
-    label: 'Atendimentos',
+    id: "1",
+    label: "Atendimentos",
     Icon: () => <></>,
-    href: '/service-payments'
+    href: "/service-payments",
   },
   {
-    id: '3',
-    label: 'Outros gastos',
+    id: "2",
+    label: "Pagamentos",
     Icon: () => <></>,
-    href: '/other-payments'
+    href: "/employees-payments",
   },
   {
-    id: '1',
-    label: 'Serviços',
+    id: "3",
+    label: "Outros gastos",
     Icon: () => <></>,
-    href: '/services'
+    href: "/other-payments",
   },
   {
-    id: '4',
-    label: 'Funcionários',
+    id: "4",
+    label: "Serviços",
     Icon: () => <></>,
-    href: '/employees'
+    href: "/services",
   },
   {
-    id: '5',
-    label: 'Pagamento de funcionários',
+    id: "5",
+    label: "Funcionários",
     Icon: () => <></>,
-    href: '/employees-payments'
+    href: "/employees",
   },
-]
+];
 
 export default function Menu() {
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   return (
     <div className="bg-secondary h-full flex flex-col justify-between">
       <div className="p-2 cursor-pointer">
         <Logo />
-        <div className="border-b border-white mt-4 mb-4" />
+        <MenuSeparator />
         <ul className="flex flex-col gap-2">
-          {menuRoutes.map(({
-            id,
-            href,
-            label,
-            Icon,
-          }) => (
-            <li key={id}>
-              <Link to={href}>
-                <p className={clsx({
-                  "p-2 text-xs rounded flex gap-2 items-center uppercase font-semibold": true,
-                  "text-white hover:bg-gray-500": pathname !== href,
-                  "bg-white text-secondary": pathname === href,
-                })}>
-                  <Icon />
-                  {label}
-                </p>
-              </Link>
-            </li>
+          {menuRoutes.map(({ id, href, label, Icon }) => (
+            <>
+              <li key={id}>
+                <Link to={href}>
+                  <p
+                    className={clsx({
+                      "p-2 text-xs rounded flex gap-2 items-center uppercase font-semibold":
+                        true,
+                      "text-white hover:bg-gray-500": pathname !== href,
+                      "bg-white text-secondary": pathname === href,
+                    })}
+                  >
+                    <Icon />
+                    {label}
+                  </p>
+                </Link>
+              </li>
+              {['0','1','3'].includes(id) && (
+                <MenuSeparator />
+              )}
+            </>
           ))}
         </ul>
       </div>
-      <div className="flex justify-center" >
+      <div className="flex justify-center">
         <div className="p-2">
-          <Link to="/profile" className="text-white p-2 hover:bg-white hover:text-secondary w-full rounded" >Perfil</Link>
+          <Link
+            to="/profile"
+            className="text-white p-2 hover:bg-white hover:text-secondary w-full rounded"
+          >
+            Perfil
+          </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
