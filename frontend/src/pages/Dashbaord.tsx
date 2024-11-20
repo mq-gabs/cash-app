@@ -36,24 +36,33 @@ export default function Dashboard() {
 
     if (!response) return;
 
-    const [series, labels, revenue] = response.services_analysis.reduce(
+    const [revenueLabels, revenueSeries] = response.services_analysis.revenue.reduce(
       (acc, curr) => {
-        acc[0].push(curr.count);
-        acc[1].push(curr.name);
-        acc[2].push(curr.revenue / 100);
+        acc[0].push(curr.name);
+        acc[1].push(curr.revenue / 100);
 
         return acc;
       },
-      [[], [], []] as [number[], string[], number[]]
+      [[], []] as [string[], number[]]
     );
 
+    const [countLabels, countSeries] = response.services_analysis.count.reduce(
+      (acc, curr) => {
+        acc[0].push(curr.name);
+        acc[1].push(curr.count);
+
+        return acc;
+      },
+      [[], []] as [string[], number[]]
+    )
+
     setServicesCount({
-      series,
-      labels,
+      series: countSeries,
+      labels: countLabels,
     });
     setServicesRevenue({
-      series: revenue,
-      labels,
+      series: revenueSeries,
+      labels: revenueLabels,
     });
   };
 
@@ -63,7 +72,9 @@ export default function Dashboard() {
 
   return (
     <Main>
-      <PageTitle text="Dashboard" />
+      <div className="mb-4">
+        <PageTitle text="Dashboard" />
+      </div>
       <div className="flex flex-col gap-2 xl:flex-row">
         <div className="flex-1">
           <HorizontalBarChart

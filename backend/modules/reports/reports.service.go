@@ -10,10 +10,18 @@ import (
 )
 
 type ServiceAnalysis struct {
+	Revenue *[]*ServiceRevenueAnalysis `json:"revenue"`
+	Count   *[]*ServiceCountAnalysis   `json:"count"`
+}
+type ServiceRevenueAnalysis struct {
 	ID      string `json:"id"`
 	Name    string `json:"name"`
 	Revenue int    `json:"revenue"`
-	Count   int    `json:"count"`
+}
+type ServiceCountAnalysis struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Count int    `json:"count"`
 }
 
 type EmployeesPaymentsSum struct {
@@ -35,7 +43,7 @@ type OtherPaymentsAnalysis struct {
 }
 
 type ReportData struct {
-	ServicesAnalysis      *[]*ServiceAnalysis    `json:"services_analysis"`
+	ServicesAnalysis      *ServiceAnalysis       `json:"services_analysis"`
 	EmployeesAnalysis     *EmployeesAnalysis     `json:"employees_analysis"`
 	OtherPaymentsAnalysis *OtherPaymentsAnalysis `json:"other_payments_analysis"`
 }

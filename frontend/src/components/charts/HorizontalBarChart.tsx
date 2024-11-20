@@ -21,7 +21,8 @@ export default function HorizontalBarChart({
     },
     series: [{
       data: series,
-      name: 'Faturamento (R$)'
+      name: 'Faturamento (R$)',
+      color: '#333'
     }],
     xaxis: {
       categories: labels,
@@ -31,6 +32,11 @@ export default function HorizontalBarChart({
         horizontal: true,
         borderRadiusApplication: 'end',
         borderRadius: 2,
+        colors: {
+          ranges: [{
+            color: '#333'
+          }]
+        }
       },
     },
     title: {

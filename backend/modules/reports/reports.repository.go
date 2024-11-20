@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func DBAnalyseServices(dateStart, dateEnd *time.Time) (*[]*ServiceAnalysis, error) {
+func DBAnalyseServices(dateStart, dateEnd *time.Time) (*ServiceAnalysis, error) {
 	db, err := database.Conn()
 
 	if err != nil {
@@ -17,8 +17,7 @@ func DBAnalyseServices(dateStart, dateEnd *time.Time) (*[]*ServiceAnalysis, erro
 		SELECT
 			s.id,
 			s.name,
-			SUM(s.price) as "revenue",
-			COUNT(s.id) as "count"
+			SUM(s.price) as "revenue"
 		FROM services_payments_services sps
 		LEFT JOIN services_payments sp
 			ON sps.services_payment_id = sp.id
@@ -38,17 +37,55 @@ func DBAnalyseServices(dateStart, dateEnd *time.Time) (*[]*ServiceAnalysis, erro
 
 	defer rows.Close()
 
-	sas := []*ServiceAnalysis{}
+	sras := []*ServiceRevenueAnalysis{}
 
 	for rows.Next() {
-		sa := &ServiceAnalysis{}
+		sra := &ServiceRevenueAnalysis{}
 
-		rows.Scan(&sa.ID, &sa.Name, &sa.Revenue, &sa.Count)
+		rows.Scan(&sra.ID, &sra.Name, &sra.Revenue)
 
-		sas = append(sas, sa)
+		sras = append(sras, sra)
 	}
 
-	return &sas, nil
+	query2 := `
+		SELECT
+			s.id,
+			s.name,
+			COUNT(s.id) as "count"
+		FROM services_payments_services sps
+		LEFT JOIN services_payments sp
+			ON sps.services_payment_id = sp.id
+		LEFT JOIN services s
+			ON s.id = sps.service_id
+		WHERE sp.paid_at > '` + dateStart.String() + `'
+		AND sp.paid_at < '` + dateEnd.String() + `'
+		GROUP BY s.id
+		ORDER BY "count" DESC
+	`
+	rows2, err := db.Raw(query2).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows2.Close()
+
+	scas := []*ServiceCountAnalysis{}
+
+	for rows2.Next() {
+		sca := &ServiceCountAnalysis{}
+
+		rows2.Scan(&sca.ID, &sca.Name, &sca.Count)
+
+		scas = append(scas, sca)
+	}
+
+	sa := &ServiceAnalysis{
+		Revenue: &sras,
+		Count:   &scas,
+	}
+
+	return sa, nil
 }
 
 func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, error) {
