@@ -113,6 +113,8 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 		return nil, err
 	}
 
+	defer rows.Close()
+
 	if rows.Next() {
 		rows.Scan(&ea.Count, &ea.Cost)
 	}
@@ -136,6 +138,8 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 	if err != nil {
 		return nil, err
 	}
+
+	defer rows2.Close()
 
 	eps := []*EmployeesPaymentsSum{}
 
@@ -174,6 +178,8 @@ func DBAnalyseOtherPayments(dateStart, dateEnd *time.Time) (*OtherPaymentsAnalys
 	if err != nil {
 		return nil, err
 	}
+
+	defer rows.Close()
 
 	if rows.Next() {
 		rows.Scan(&opa.Count, &opa.Cost)
