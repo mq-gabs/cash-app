@@ -87,7 +87,7 @@ export default function EmployeesPayments() {
   return (
     <Main>
       <div className="mb-4">
-      <PageTitle text="Pagamento dos funcionários" />
+      <PageTitle text="Pagamento" />
       </div>
       <div className="max-w-[800px] mx-auto">
         <Table

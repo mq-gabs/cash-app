@@ -50,7 +50,7 @@ export default function Menu() {
       <div className="p-2 cursor-pointer">
         <Logo />
         <MenuSeparator />
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-2 pt-2">
           {menuRoutes.map(({ id, href, label, Icon }) => (
             <>
               <li key={id}>
