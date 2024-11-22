@@ -21,8 +21,10 @@ func DBAnalyseServices(dateStart, dateEnd *time.Time) (*ServiceAnalysis, error) 
 		FROM services_payments_services sps
 		LEFT JOIN services_payments sp
 			ON sps.services_payment_id = sp.id
+			AND sp.deleted_at IS NULL
 		LEFT JOIN services s
 			ON s.id = sps.service_id
+			AND s.deleted_at IS NULL
 		WHERE sp.paid_at > '` + dateStart.String() + `'
 		AND sp.paid_at < '` + dateEnd.String() + `'
 		GROUP BY s.price
@@ -55,8 +57,10 @@ func DBAnalyseServices(dateStart, dateEnd *time.Time) (*ServiceAnalysis, error) 
 		FROM services_payments_services sps
 		LEFT JOIN services_payments sp
 			ON sps.services_payment_id = sp.id
+			AND sp.deleted_at IS NULL
 		LEFT JOIN services s
 			ON s.id = sps.service_id
+			AND s.deleted_at IS NULL
 		WHERE sp.paid_at > '` + dateStart.String() + `'
 		AND sp.paid_at < '` + dateEnd.String() + `'
 		GROUP BY s.id
@@ -99,13 +103,16 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 
 	query := `
 		SELECT
-			COUNT(ep.id) as "count",
+			COUNT(DISTINCT e.id) as "count",
 			SUM(ep.value) as "cost"
 		FROM employees_payments ep
 		LEFT JOIN employees e
 			ON e.id = ep.employee_id
+			AND e.deleted_at IS NULL
 		WHERE ep.paid_at > '` + dateStart.String() + `'
-		AND ep.paid_at < '` + dateEnd.String() + `'`
+		AND ep.paid_at < '` + dateEnd.String() + `'
+		AND ep.deleted_at IS NULL
+		`
 
 	rows, err := db.Raw(query).Rows()
 
@@ -127,8 +134,10 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 		FROM employees_payments ep
 		LEFT JOIN employees e
 			ON e.id = ep.employee_id
-			WHERE ep.paid_at > '` + dateStart.String() + `'
+			AND e.deleted_at IS NULL
+		WHERE ep.paid_at > '` + dateStart.String() + `'
 		AND ep.paid_at < '` + dateEnd.String() + `'
+		AND ep.deleted_at IS NULL
 		GROUP BY e.name
 		ORDER BY SUM(ep.value) DESC
 	`
@@ -171,7 +180,9 @@ func DBAnalyseOtherPayments(dateStart, dateEnd *time.Time) (*OtherPaymentsAnalys
 			SUM(op.value) as "cost"
 		FROM other_payments op
 		WHERE op.paid_at > '` + dateStart.String() + `'
-		AND op.paid_at < '` + dateEnd.String() + `'`
+		AND op.paid_at < '` + dateEnd.String() + `'
+		AND op.deleted_at IS NULL
+		`
 
 	rows, err := db.Raw(query).Rows()
 
@@ -187,7 +198,7 @@ func DBAnalyseOtherPayments(dateStart, dateEnd *time.Time) (*OtherPaymentsAnalys
 
 	otherPayments := &[]*otherpayments.OtherPayments{}
 
-	if err := db.Where("paid_at > ? AND paid_at < ?", dateStart, dateEnd).Order("paid_at DESC").Find(otherPayments).Error; err != nil {
+	if err := db.Where("paid_at > ? AND paid_at < ?", dateStart, dateEnd).Order("value DESC").Find(otherPayments).Error; err != nil {
 		return nil, err
 	}
 
