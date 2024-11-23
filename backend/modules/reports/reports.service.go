@@ -1,56 +1,21 @@
 package reports
 
 import (
-	"cash/backend/modules/otherpayments"
 	"cash/backend/utils"
 	"errors"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
-type ServiceAnalysis struct {
-	Revenue *[]*ServiceRevenueAnalysis `json:"revenue"`
-	Count   *[]*ServiceCountAnalysis   `json:"count"`
-}
-type ServiceRevenueAnalysis struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	Revenue int    `json:"revenue"`
-}
-type ServiceCountAnalysis struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Count int    `json:"count"`
-}
-
-type EmployeesPaymentsSum struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Value int    `json:"value"`
-}
-
-type EmployeesAnalysis struct {
-	Count             int                      `json:"count"`
-	Cost              int                      `json:"cost"`
-	EmployeesPayments *[]*EmployeesPaymentsSum `json:"employees_payments"`
-}
-
-type OtherPaymentsAnalysis struct {
-	Count         int                             `json:"count"`
-	Cost          int                             `json:"cost"`
-	OtherPayments *[]*otherpayments.OtherPayments `json:"other_payments"`
-}
-
-type ReportData struct {
-	ServicesAnalysis      *ServiceAnalysis       `json:"services_analysis"`
-	EmployeesAnalysis     *EmployeesAnalysis     `json:"employees_analysis"`
-	OtherPaymentsAnalysis *OtherPaymentsAnalysis `json:"other_payments_analysis"`
-}
-
 type GenMonthReportDto struct {
 	Month int `form:"month"`
 	Year  int `form:"year"`
+}
+
+func (gmr *GenMonthReportDto) String() (string, string) {
+	return strconv.Itoa(gmr.Month), strconv.Itoa(gmr.Year)
 }
 
 func (b *GenMonthReportDto) Validate() error {
@@ -101,6 +66,15 @@ func GenMonthReport(c *gin.Context) {
 		utils.RespErrorDB(c, err)
 		return
 	}
+
+	ma, err := DBServicesMonthAnalysis(b.String())
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	sas.MonthView = ma
 
 	r := &ReportData{
 		ServicesAnalysis:      sas,

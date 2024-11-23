@@ -206,3 +206,115 @@ func DBAnalyseOtherPayments(dateStart, dateEnd *time.Time) (*OtherPaymentsAnalys
 
 	return opa, nil
 }
+
+func DBServicesMonthAnalysis(month, year string) (*ServicesMonthAnalysis, error) {
+	db, err := database.Conn()
+
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+	SELECT
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '1' THEN 1 ELSE 0 END) as "day1",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '2' THEN 1 ELSE 0 END) as "day2",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '3' THEN 1 ELSE 0 END) as "day3",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '4' THEN 1 ELSE 0 END) as "day4",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '5' THEN 1 ELSE 0 END) as "day5",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '6' THEN 1 ELSE 0 END) as "day6",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '7' THEN 1 ELSE 0 END) as "day7",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '8' THEN 1 ELSE 0 END) as "day8",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '9' THEN 1 ELSE 0 END) as "day9",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '10' THEN 1 ELSE 0 END) as "day10",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '11' THEN 1 ELSE 0 END) as "day11",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '12' THEN 1 ELSE 0 END) as "day12",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '13' THEN 1 ELSE 0 END) as "day13",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '14' THEN 1 ELSE 0 END) as "day14",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '15' THEN 1 ELSE 0 END) as "day15",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '16' THEN 1 ELSE 0 END) as "day16",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '17' THEN 1 ELSE 0 END) as "day17",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '18' THEN 1 ELSE 0 END) as "day18",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '19' THEN 1 ELSE 0 END) as "day19",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '20' THEN 1 ELSE 0 END) as "day20",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '21' THEN 1 ELSE 0 END) as "day21",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '22' THEN 1 ELSE 0 END) as "day22",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '23' THEN 1 ELSE 0 END) as "day23",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '24' THEN 1 ELSE 0 END) as "day24",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '25' THEN 1 ELSE 0 END) as "day25",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '26' THEN 1 ELSE 0 END) as "day26",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '27' THEN 1 ELSE 0 END) as "day27",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '28' THEN 1 ELSE 0 END) as "day28",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '29' THEN 1 ELSE 0 END) as "day29",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '30' THEN 1 ELSE 0 END) as "day30",
+		SUM(CASE WHEN strftime('%d', sp.paid_at) = '31' THEN 1 ELSE 0 END) as "day31"
+	FROM services_payments sp
+	WHERE strftime('%m-%Y', sp.paid_at) = '` + month + `-` + year + `'
+	`
+
+	rows, err := db.Raw(query).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	ma := &ServicesMonthAnalysis{}
+
+	if rows.Next() {
+		rows.Scan(
+			&ma.Day1,
+			&ma.Day2,
+			&ma.Day3,
+			&ma.Day4,
+			&ma.Day5,
+			&ma.Day6,
+			&ma.Day7,
+			&ma.Day8,
+			&ma.Day9,
+			&ma.Day10,
+			&ma.Day11,
+			&ma.Day12,
+			&ma.Day13,
+			&ma.Day14,
+			&ma.Day15,
+			&ma.Day16,
+			&ma.Day17,
+			&ma.Day18,
+			&ma.Day19,
+			&ma.Day20,
+			&ma.Day21,
+			&ma.Day22,
+			&ma.Day23,
+			&ma.Day24,
+			&ma.Day25,
+			&ma.Day26,
+			&ma.Day27,
+			&ma.Day28,
+			&ma.Day29,
+			&ma.Day30,
+			&ma.Day31,
+		)
+	}
+
+	return ma, nil
+}
+
+func DBServicesAnualAnalysis() {
+	//		SELECT
+	//		SUM(CASE WHEN strftime('%m', sp.paid_at) = '1' THEN 1 ELSE 0 END) as "january",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '2' THEN 1 ELSE 0 END) as "february",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '3' THEN 1 ELSE 0 END) as "march",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '4' THEN 1 ELSE 0 END) as "april",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '5' THEN 1 ELSE 0 END) as "may",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '6' THEN 1 ELSE 0 END) as "june",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '7' THEN 1 ELSE 0 END) as "july",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '8' THEN 1 ELSE 0 END) as "august",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '9' THEN 1 ELSE 0 END) as "september",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '10' THEN 1 ELSE 0 END) as "october",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '11' THEN 1 ELSE 0 END) as "november",
+	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '12' THEN 1 ELSE 0 END) as "december"
+	//
+	// FROM services_payments sp
+	// WHERE strftime('%Y', sp.paid_at) = '2024'
+}

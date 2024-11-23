@@ -1,3 +1,5 @@
+import { TMonthView } from "../pages/dashboard/types";
+
 export type TBase = {
   id: string;
   created_at: string;
@@ -80,6 +82,7 @@ export type TMonthReport = {
       name: string;
       count: number;
     }[];
+    month_view: TMonthView;
   };
   employees_analysis: {
     count: number;

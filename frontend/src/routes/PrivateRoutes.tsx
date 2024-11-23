@@ -13,7 +13,7 @@ import ServicePayments from "../pages/ServicePayments";
 import ServicePaymentsFormPage from "../pages/ServicePaymentsFormPage";
 import EmployeesPayments from "../pages/EmployeesPayments";
 import EmployeesPaymentsFormPage from "../pages/EmployeesPaymentsFormPage";
-import Dashboard from "../pages/Dashbaord";
+import Dashboard from "../pages/dashboard/Dashbaord";
 
 export default function PrivateRoutes() {
   return (

@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import { callApi } from "../api";
-import Main from "../components/Main";
-import PageTitle from "../components/PageTitle";
-import { TMonthReport } from "../utils/types";
-import PieChart from "../components/charts/PieChart";
-import HorizontalBarChart from "../components/charts/HorizontalBarChart";
-import SummaryList from "../components/dashboard/SummaryList";
+import { callApi } from "../../api";
+import Main from "../../components/Main";
+import PageTitle from "../../components/PageTitle";
+import { TMonthReport } from "../../utils/types";
+import PieChart from "../../components/charts/PieChart";
+import HorizontalBarChart from "../../components/charts/HorizontalBarChart";
+import SummaryList from "../../components/dashboard/SummaryList";
+import Select from "../../components/Select";
+import { monthsOptions, yearsOptions } from "./helpers";
+import toast from "react-hot-toast";
+import LineChart from "../../components/charts/LineChart";
+import { formatMonthView } from "../../utils/formaters";
 
 export default function Dashboard() {
   const [servicesCount, setServicesCount] = useState<{
@@ -48,14 +53,31 @@ export default function Dashboard() {
     count: 0,
     data: [],
   });
+  const [monthDayView, setMonthDayView] = useState<{
+    labels: string[];
+    series: number[];
+  }>({
+    labels: [],
+    series: [],
+  });
+
+  const currentDate = new Date();
+
+  const [month, setMonth] = useState(String(currentDate.getMonth() + 1));
+  const [year, setYear] = useState(String(currentDate.getFullYear()));
 
   const loadReport = async () => {
+    if (!month || !year) {
+      toast.error('Selecione um período!');
+      return;
+    }
+
     const response: TMonthReport = await callApi({
       method: "GET",
       path: `/reports/month`,
       params: {
-        month: 11,
-        year: 2024,
+        month: Number(month),
+        year: Number(year),
       },
     });
 
@@ -106,16 +128,53 @@ export default function Dashboard() {
         })
       ),
     });
+
+    const monthView = formatMonthView(response.services_analysis.month_view, Number(month), Number(year));
+
+    const [monthViewLabels, monthViewSeries] = monthView.reduce((acc, curr) => {
+      acc[0].push(curr.label);
+      acc[1].push(curr.count);
+
+      return acc;
+    }, [[], []] as [string[], number[]]);
+
+    setMonthDayView({
+      labels: monthViewLabels,
+      series: monthViewSeries,
+    });
   };
 
   useEffect(() => {
     loadReport();
-  }, []);
+  }, [month, year]);
 
   return (
     <Main>
       <div className="mb-4">
         <PageTitle text="Dashboard" />
+      </div>
+      <div className="mb-4 flex gap-2">
+        <Select
+          options={monthsOptions}
+          label="Mês"
+          onChange={v => setMonth(v)}
+          value={month}
+          hideAsterisk
+        />
+        <Select
+          options={yearsOptions}
+          label="Ano"
+          onChange={v => setYear(v)}
+          value={year}
+          hideAsterisk
+        />
+      </div>
+      <div>
+        <LineChart
+          labels={monthDayView.labels}
+          series={monthDayView.series}
+          title="Quantidade de serviços durante o mês"
+        />
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-2 xl:flex-row">
