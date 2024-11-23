@@ -28,7 +28,7 @@ export default function SummaryList({
       <div>
         <ul>
           {data.map(({ id, name, value }) => (
-            <li key={id} className="p-2">
+            <li key={id} className="p-2 [&:nth-child(odd)]:bg-gray-200 [&:nth-child(even)]:bg-white">
               <div className="flex justify-between">
                 <p>{name}</p>
                 <p>{formatCurrency(value)}</p>

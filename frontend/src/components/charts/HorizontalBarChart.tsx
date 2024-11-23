@@ -1,5 +1,6 @@
 import { ApexOptions } from "apexcharts";
 import BaseChart from "./BaseChart";
+import EmptyChart from "./EmptyChart";
 
 interface IHorizontalBarChart {
   labels: string[];
@@ -12,7 +13,7 @@ export default function HorizontalBarChart({
   series,
   title,
 }: IHorizontalBarChart) {
-  if (labels.length === 0 || series.length === 0) return <></>;
+  const isEmpty = labels.length === 0 || series.length === 0;
 
   const options: ApexOptions = {
     chart: {
@@ -46,7 +47,11 @@ export default function HorizontalBarChart({
 
   return (
     <div className="border p-2 rounded">
-      <BaseChart options={options} />
+      {isEmpty ? (
+        <EmptyChart title={title} />
+      ) : (
+        <BaseChart options={options} />
+      )}
     </div>
   )
 }
