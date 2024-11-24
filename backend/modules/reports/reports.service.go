@@ -15,7 +15,13 @@ type GenMonthReportDto struct {
 }
 
 func (gmr *GenMonthReportDto) String() (string, string) {
-	return strconv.Itoa(gmr.Month), strconv.Itoa(gmr.Year)
+	m := strconv.Itoa(gmr.Month)
+
+	if gmr.Month < 10 {
+		m = "0" + m
+	}
+
+	return m, strconv.Itoa(gmr.Year)
 }
 
 func (b *GenMonthReportDto) Validate() error {

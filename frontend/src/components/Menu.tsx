@@ -69,7 +69,7 @@ export default function Menu() {
                 </Link>
               </li>
               {['0','1','3'].includes(id) && (
-                <MenuSeparator />
+                <MenuSeparator key={id + '_'} />
               )}
             </>
           ))}

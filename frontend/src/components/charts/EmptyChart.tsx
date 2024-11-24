@@ -7,7 +7,7 @@ export default function EmptyChart({
 }: IEmptyChart) {
   return (
     <div className="h-[300px] w-full flex flex-col">
-      <text className="font-bold text-sm text-gray-600">{title}</text>
+      <p className="font-bold p-sm text-gray-600">{title}</p>
     <div className="flex justify-center items-center  h-full">
       <p className="text-gray-400 text-xl">Nenhum dado encontrado...</p>
     </div>

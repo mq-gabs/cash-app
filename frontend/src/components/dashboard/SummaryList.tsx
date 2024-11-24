@@ -19,7 +19,7 @@ export default function SummaryList({
 }: ISummaryList) {
   return (
     <div className="border rounded">
-      <div className="rounded-tl rounded-tr bg-primary text-white p-2 flex justify-between font-bold">
+      <div className="rounded-tl rounded-tr bg-primary text-white p-2 flex gap-2 justify-between font-bold">
         <p>
           {title} ({count})
         </p>

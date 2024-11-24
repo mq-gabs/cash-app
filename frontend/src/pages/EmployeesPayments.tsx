@@ -11,7 +11,7 @@ import { formatCurrency, formatDate } from "../utils/formaters";
 import Table from "../components/Table";
 
 const columns = [
-  'Data do pagamento',
+  'Pago em',
   'Funcionário',
   'Valor',
   'Ações',

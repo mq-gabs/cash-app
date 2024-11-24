@@ -66,11 +66,15 @@ export default function Dashboard() {
   const [month, setMonth] = useState(String(currentDate.getMonth() + 1));
   const [year, setYear] = useState(String(currentDate.getFullYear()));
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const loadReport = async () => {
     if (!month || !year) {
-      toast.error('Selecione um período!');
+      toast.error("Selecione um período!");
       return;
     }
+
+    setIsLoading(true);
 
     const response: TMonthReport = await callApi({
       method: "GET",
@@ -80,6 +84,8 @@ export default function Dashboard() {
         year: Number(year),
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -129,14 +135,21 @@ export default function Dashboard() {
       ),
     });
 
-    const monthView = formatMonthView(response.services_analysis.month_view, Number(month), Number(year));
+    const monthView = formatMonthView(
+      response.services_analysis.month_view,
+      Number(month),
+      Number(year)
+    );
 
-    const [monthViewLabels, monthViewSeries] = monthView.reduce((acc, curr) => {
-      acc[0].push(curr.label);
-      acc[1].push(curr.count);
+    const [monthViewLabels, monthViewSeries] = monthView.reduce(
+      (acc, curr) => {
+        acc[0].push(curr.label);
+        acc[1].push(curr.count);
 
-      return acc;
-    }, [[], []] as [string[], number[]]);
+        return acc;
+      },
+      [[], []] as [string[], number[]]
+    );
 
     setMonthDayView({
       labels: monthViewLabels,
@@ -153,61 +166,65 @@ export default function Dashboard() {
       <div className="mb-4">
         <PageTitle text="Dashboard" />
       </div>
-      <div className="mb-4 flex gap-2">
-        <Select
-          options={monthsOptions}
-          label="Mês"
-          onChange={v => setMonth(v)}
-          value={month}
-          hideAsterisk
-        />
-        <Select
-          options={yearsOptions}
-          label="Ano"
-          onChange={v => setYear(v)}
-          value={year}
-          hideAsterisk
-        />
-      </div>
-      <div>
-        <LineChart
-          labels={monthDayView.labels}
-          series={monthDayView.series}
-          title="Quantidade de serviços durante o mês"
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-2 xl:flex-row">
-          <div className="flex-1">
-            <HorizontalBarChart
-              labels={servicesRevenue.labels}
-              series={servicesRevenue.series}
-              title="Faturamento por serviço (R$)"
+      {!isLoading && (
+        <div>
+          <div className="mb-4 flex gap-2">
+            <Select
+              options={monthsOptions}
+              label="Mês"
+              onChange={(v) => setMonth(v)}
+              value={month}
+              hideAsterisk
+            />
+            <Select
+              options={yearsOptions}
+              label="Ano"
+              onChange={(v) => setYear(v)}
+              value={year}
+              hideAsterisk
             />
           </div>
-          <div className="flex-1">
-            <PieChart
-              labels={servicesCount.labels}
-              series={servicesCount.series}
-              title="Quantidade de serviços"
+          <div>
+            <LineChart
+              labels={monthDayView.labels}
+              series={monthDayView.series}
+              title="Atendimentos ao longo do mês"
             />
           </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 xl:flex-row">
+              <div className="flex-1">
+                <HorizontalBarChart
+                  labels={servicesRevenue.labels}
+                  series={servicesRevenue.series}
+                  title="Faturamento por serviço (R$)"
+                />
+              </div>
+              <div className="flex-1">
+                <PieChart
+                  labels={servicesCount.labels}
+                  series={servicesCount.series}
+                  title="Comparação de serviços"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <SummaryList
+                title="Pagamentos"
+                cost={employeesPaymentsSummary?.cost}
+                count={employeesPaymentsSummary?.count}
+                data={employeesPaymentsSummary?.data}
+              />
+              <SummaryList
+                title="Outros gastos"
+                cost={otherPaymentsSummary?.cost}
+                count={otherPaymentsSummary?.count}
+                data={otherPaymentsSummary?.data}
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <SummaryList
-            title="Pagamentos"
-            cost={employeesPaymentsSummary?.cost}
-            count={employeesPaymentsSummary?.count}
-            data={employeesPaymentsSummary?.data}
-          />
-          <SummaryList
-            title="Outros gastos"
-            cost={otherPaymentsSummary?.cost}
-            count={otherPaymentsSummary?.count}
-            data={otherPaymentsSummary?.data}
-          />
-        </div>
-      </div>
+      )}
     </Main>
   );
 }

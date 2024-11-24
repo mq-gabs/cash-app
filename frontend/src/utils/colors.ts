@@ -1,7 +1,7 @@
 export default function genHSLColorsCSS(size: number) {
   const start = 0;
   const end = 320;
-  const step = (end - start) / (size - 1);
+  const step = (end - start) / ((size - 1) || 1);
 
   const colors = [];
 
