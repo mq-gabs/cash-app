@@ -2,43 +2,54 @@ import { Link, useLocation } from "react-router-dom";
 import Logo from "./Logo";
 import clsx from "clsx";
 import MenuSeparator from "./MenuSeparator";
+import { MdDashboard, MdMiscellaneousServices } from "react-icons/md";
+import { PiHairDryerBold } from "react-icons/pi";
+import { GiMoneyStack, GiPayMoney } from "react-icons/gi";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { CgProfile } from "react-icons/cg";
 
 const menuRoutes = [
   {
     id: "0",
     label: "Dashboard",
-    Icon: () => <></>,
+    Icon: MdDashboard,
     href: "/dashboard",
   },
   {
     id: "1",
     label: "Atendimentos",
-    Icon: () => <></>,
+    Icon: PiHairDryerBold,
     href: "/service-payments",
   },
   {
     id: "2",
     label: "Pagamentos",
-    Icon: () => <></>,
+    Icon: GiPayMoney,
     href: "/employees-payments",
   },
   {
     id: "3",
     label: "Outros gastos",
-    Icon: () => <></>,
+    Icon: GiMoneyStack,
     href: "/other-payments",
   },
   {
     id: "4",
     label: "Serviços",
-    Icon: () => <></>,
+    Icon: MdMiscellaneousServices,
     href: "/services",
   },
   {
     id: "5",
     label: "Funcionários",
-    Icon: () => <></>,
+    Icon: FaPeopleGroup,
     href: "/employees",
+  },
+  {
+    id: "6",
+    label: "Perfil",
+    Icon: CgProfile,
+    href: "/profile",
   },
 ];
 
@@ -63,27 +74,17 @@ export default function Menu() {
                       "bg-white text-secondary": pathname === href,
                     })}
                   >
-                    <Icon />
+                    <Icon size={18} />
                     {label}
                   </p>
                 </Link>
               </li>
-              {['0','1','3'].includes(id) && (
-                <MenuSeparator key={id + '_'} />
+              {["0", "1", "3", "5"].includes(id) && (
+                <MenuSeparator key={id + "_"} />
               )}
             </>
           ))}
         </ul>
-      </div>
-      <div className="flex justify-center">
-        <div className="p-2">
-          <Link
-            to="/profile"
-            className="text-white p-2 hover:bg-white hover:text-secondary w-full rounded"
-          >
-            Perfil
-          </Link>
-        </div>
       </div>
     </div>
   );
