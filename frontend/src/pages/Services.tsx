@@ -14,6 +14,9 @@ export default function Services() {
     const response = await callApi({
       method: 'GET',
       path: '/services',
+      params: {
+        pageSize: 999,
+      },
     });
 
     if (!response) {
@@ -44,11 +47,12 @@ export default function Services() {
       </div>
       {services.length !== 0 && (
 
-        <ul className="gap-2 flex flex-wrap">
+        <ul className="gap-2 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {services.map((service) => (
-            <li className="max-w-[300px] flex-1">
+            <li className="">
               <ServiceCard
                 data={service}
+                refresh={loadServices}
               />
             </li>
           ))}

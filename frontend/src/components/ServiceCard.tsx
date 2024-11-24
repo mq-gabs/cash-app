@@ -4,9 +4,14 @@ import { TService } from "../utils/types"
 import Button from "./Button";
 import { FaTrash } from "react-icons/fa";
 import LinkButton from "./LinkButton";
+import ConfirmModal from "./ConfirmModal";
+import { useState } from "react";
+import { callApi } from "../api";
+import toast from "react-hot-toast";
 
 interface IServiceCard {
   data: TService;
+  refresh: () => void;
 }
 
 export default function ServiceCard({
@@ -16,17 +21,37 @@ export default function ServiceCard({
     price,
     description,
   },
+  refresh,
 }: IServiceCard) {
-  const handleClickToDelete = () => {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
+  const handleDelete = async () => {
+    const response = await callApi({
+      method: 'delete',
+      path: `/services/${id}`,
+    });
+
+    if (!response) return;
+
+    toast.success(response?.message || 'Sucesso!');
+
+    setOpenDeleteModal(false);
+    refresh();
+  }
+
+  const handleClickToDelete = () => {
+    setOpenDeleteModal(true);
   }
 
   return (
-    <div className="border rounded p-4">
+    <div className="border rounded p-4 shadow-lg h-full flex flex-col justify-between">
+      <div className="flex flex-col gap-2">
+
       <p className="font-semibold text-lg">{name}</p>
       <p>{description}</p>
       <p className=" text-primary font-bold">{formatCurrency(price)}</p>
-      <div className="flex gap-2">
+      </div>
+      <div className="flex gap-2 mt-4">
         <LinkButton
           to={`/service?id=${id}`}
           className="bg-gray-400"
@@ -48,6 +73,14 @@ export default function ServiceCard({
           </div>
         </Button>
       </div>
+      <ConfirmModal
+        onClose={() => setOpenDeleteModal(false)}
+        onConfirm={handleDelete}
+        open={openDeleteModal}
+        title="Excluir?"
+        text="Deseja realmente excluir o serviço?"
+        type="warning"
+      />
     </div>
   )
 }

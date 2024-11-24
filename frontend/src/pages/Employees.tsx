@@ -11,6 +11,8 @@ import Button from "../components/Button";
 import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import { BsCash } from "react-icons/bs";
+import toast from "react-hot-toast";
+import ConfirmModal from "../components/ConfirmModal";
 
 const columns = [
   'Nome',
@@ -22,10 +24,30 @@ const columns = [
 
 function EmployeeActions({
   id,
+  refresh,
 }: {
   id: string
+  refresh: () => void;
 }) {
-  const handleDelete = () => { }
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const handleClickToDelete = () => {
+    setOpenDeleteModal(true);
+  }
+
+  const handleDelete = async () => {
+    const response = await callApi({
+      method: 'delete',
+      path: `/employees/${id}`,
+    });
+
+    if (!response) return;
+
+    toast.success(response?.message || 'Sucesso!');
+
+    setOpenDeleteModal(false);
+    refresh();
+  };
 
   return (
     <div className="flex gap-2">
@@ -48,7 +70,7 @@ function EmployeeActions({
         </div>
       </LinkButton>
       <Button
-        onClick={handleDelete}
+        onClick={handleClickToDelete}
         className="bg-red-500"
       >
         <div className="flex items-center gap-2 justify-center">
@@ -56,6 +78,14 @@ function EmployeeActions({
           Excluir
         </div>
       </Button>
+      <ConfirmModal
+         open={openDeleteModal}
+         onClose={() => setOpenDeleteModal(false)}
+         onConfirm={handleDelete}
+         title="Excluir?"
+         text="Deseja realmente excluir o funcionário?"
+         type="warning"
+      />
     </div>
   )
 }
@@ -87,7 +117,10 @@ export default function Employees() {
         role,
         formatCurrency(wage),
         formatDate(created_at),
-        <EmployeeActions id={id} />
+        <EmployeeActions id={id} refresh={() => {
+          setPage(0);
+          loadEmployees();
+        }} />
       ]);
 
     setEmployeesList(formattedData);
