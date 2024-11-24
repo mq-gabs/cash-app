@@ -10,6 +10,8 @@ import Button from "../components/Button";
 import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import Table from "../components/Table";
+import ConfirmModal from "../components/ConfirmModal";
+import toast from "react-hot-toast";
 
 const columns = [
   'Pago em',
@@ -20,11 +22,30 @@ const columns = [
 ];
 
 function ServicePaymentsActions({
-  id
+  id,
+  refresh,
 }: {
-  id: string
+  id: string,
+  refresh: () => void;
 }) {
-  const handleDelete = () => { };
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const handleDelete = async () => {
+    const response = await callApi({
+      path: `/service-payments/${id}`,
+      method: 'delete',
+    });
+
+    if (!response) return;
+
+    toast.success(response?.message || 'Sucesso!');
+
+    setOpenDeleteModal(false);
+    refresh();
+  };
+
+  const handleClickToDelete = () => {
+    setOpenDeleteModal(true);
+  }
 
   return (
     <div className="flex gap-2">
@@ -38,7 +59,7 @@ function ServicePaymentsActions({
         </div>
       </LinkButton>
       <Button
-        onClick={handleDelete}
+        onClick={handleClickToDelete}
         className="bg-red-500"
       >
         <div className="flex items-center gap-2 justify-center">
@@ -46,6 +67,14 @@ function ServicePaymentsActions({
           Excluir
         </div>
       </Button>
+      <ConfirmModal
+        open={openDeleteModal}
+        onClose={() => setOpenDeleteModal(false)}
+        onConfirm={handleDelete}
+        text="Deseja realmente excluir o atendimento?"
+        title="Excluir?"
+        type="warning"
+      />
     </div>
   )
 }
@@ -77,7 +106,10 @@ export default function ServicePayments() {
         services.map(({ name }) => name).join(', '),
         EPaymentTypeLabels[payment_type],
         formatCurrency(value),
-        <ServicePaymentsActions id={id} />,
+        <ServicePaymentsActions id={id} refresh={() => {
+          setPage(0);
+          loadServicePayments();
+        }} />,
       ]);
 
     setServicePayments(formattedPayments);

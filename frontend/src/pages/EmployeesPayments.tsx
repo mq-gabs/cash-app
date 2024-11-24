@@ -9,6 +9,8 @@ import { FaTrash } from "react-icons/fa";
 import Button from "../components/Button";
 import { formatCurrency, formatDate } from "../utils/formaters";
 import Table from "../components/Table";
+import ConfirmModal from "../components/ConfirmModal";
+import toast from "react-hot-toast";
 
 const columns = [
   'Pago em',
@@ -19,10 +21,30 @@ const columns = [
 
 function EmployeesPaymentsActions({
   id,
+  refresh,
 }: {
   id: string;
+  refresh: () => void;
 }) {
-  const handleDelete = () => {};
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const handleClickToDelete = () => {
+    setOpenDeleteModal(true);
+  }
+
+  const handleDelete = async () => {
+    const response = await callApi({
+      method: 'delete',
+      path: `/employees-payments/${id}`,
+    });
+
+    if (!response) return;
+
+    toast.success(response?.message || 'Sucesso!');
+
+    setOpenDeleteModal(false);
+    refresh();
+  };
 
   return (
     <div className="flex gap-2">
@@ -36,7 +58,7 @@ function EmployeesPaymentsActions({
       </div>
     </LinkButton>
     <Button
-      onClick={handleDelete}
+      onClick={handleClickToDelete}
       className="bg-red-500"
     >
       <div className="flex items-center gap-2 justify-center">
@@ -44,6 +66,14 @@ function EmployeesPaymentsActions({
         Excluir
       </div>
     </Button>
+    <ConfirmModal
+      open={openDeleteModal}
+      onClose={() => setOpenDeleteModal(false)}
+      onConfirm={handleDelete}
+      title="Excluir?"
+      text="Deseja realmente excluir o pagamento?"
+      type="warning"
+    />
   </div>
   )
 }
@@ -73,7 +103,10 @@ export default function EmployeesPayments() {
       formatDate(paid_at),
       employee.name,
       formatCurrency(value),
-      <EmployeesPaymentsActions id={id} />,
+      <EmployeesPaymentsActions id={id} refresh={() => {
+        loadEmployeesPayments();
+        setPage(0);
+      }} />,
     ]);
 
     setTotalPayments(response.count)

@@ -10,6 +10,8 @@ import Table from "../components/Table";
 import Button from "../components/Button";
 import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";
+import ConfirmModal from "../components/ConfirmModal";
 
 const columns = [
   'Título',
@@ -20,11 +22,31 @@ const columns = [
 ];
 
 function OtherPaymentsActions({
-  id
+  id,
+  refresh,
 }: {
   id: string
+  refresh: () => void;
 }) {
-  const handleClickToDeletePayment = () => { };
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const handleClickToDeletePayment = () => {
+    setOpenDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    const response = await callApi({
+      method: 'delete',
+      path: `/other-payments/${id}`,
+    });
+
+    if (!response) return;
+
+    toast.success(response?.message || 'Sucesso!');
+
+    setOpenDeleteModal(false);
+    refresh();
+  };
 
   return (
     <div className="flex gap-2">
@@ -46,6 +68,14 @@ function OtherPaymentsActions({
           Excluir
         </div>
       </Button>
+      <ConfirmModal
+        onClose={() => setOpenDeleteModal(false)}
+        onConfirm={handleDelete}
+        open={openDeleteModal}
+        title="Excluir?"
+        text="Deseja realmente excluir o gasto?"
+        type="warning"
+      />
     </div>
   )
 }
@@ -77,7 +107,10 @@ export default function OtherPayments() {
         description,
         formatDate(paid_at),
         formatCurrency(value),
-        <OtherPaymentsActions id={id} />,
+        <OtherPaymentsActions id={id} refresh={() => {
+          setPage(0);
+          loadPayments();
+        }} />,
       ]);
 
     setPayments(formattedPayments);
