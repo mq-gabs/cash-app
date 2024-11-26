@@ -8,7 +8,6 @@ import { callApi } from "../api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import InputDate from "../components/InputDate";
-import { unformatDate } from "../utils/formaters";
 
 export default function OtherPaymentsFormPage() {
   const { id } = useQuery();
@@ -17,7 +16,7 @@ export default function OtherPaymentsFormPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [value, setValue] = useState<number>();
-  const [paidAt, setPaidAt] = useState("");
+  const [paidAt, setPaidAt] = useState<string>('');
 
   const handleCreatePayment = async (e: any) => {
     e.preventDefault();
@@ -29,7 +28,7 @@ export default function OtherPaymentsFormPage() {
         title,
         description,
         value: (value || 0) * 100,
-        paid_at: unformatDate(paidAt),
+        paid_at: paidAt,
       },
     });
 
@@ -50,7 +49,7 @@ export default function OtherPaymentsFormPage() {
         title,
         description,
         value: (value || 0) * 100,
-        paid_at: unformatDate(paidAt),
+        paid_at: paidAt,
       },
     });
 

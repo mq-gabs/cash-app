@@ -10,7 +10,6 @@ import Button from "../components/Button";
 import { callApi } from "../api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { unformatDate } from "../utils/formaters";
 
 const paymentTypeOptions = Object.entries(EPaymentTypeLabels).map(([key, val]) => ({
   id: key,
@@ -35,7 +34,7 @@ export default function ServicePaymentsFormPage() {
       data: {
         payment_type: paymentType,
         num_of_installments: 0,
-        paid_at: unformatDate(paidAt),
+        paid_at: paidAt,
         services,
       },
     });
@@ -56,7 +55,7 @@ export default function ServicePaymentsFormPage() {
       data: {
         payment_type: paymentType,
         num_of_installments: 0,
-        paid_at: unformatDate(paidAt),
+        paid_at: paidAt,
         services,
       },
     });

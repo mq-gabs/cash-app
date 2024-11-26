@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import InputDate from "../components/InputDate";
 import Button from "../components/Button";
-import { formatDate, unformatDate } from "../utils/formaters";
 
 export default function EmployeesPaymentsFormPage() {
   const { id, employeeId } = useQuery();
@@ -30,7 +29,7 @@ export default function EmployeesPaymentsFormPage() {
       path: '/employees-payments',
       data: {
         value: (wage || 0) * 100,
-        paid_at: unformatDate(paidAt),
+        paid_at: paidAt,
         employee: {
           id: employeeId,
         },
@@ -52,7 +51,7 @@ export default function EmployeesPaymentsFormPage() {
       path: `/employees-payments/${id}`,
       data: {
         value: (wage || 0) * 100,
-        paid_at: unformatDate(paidAt),
+        paid_at: paidAt,
       }
     });
 
@@ -93,7 +92,7 @@ export default function EmployeesPaymentsFormPage() {
 
     setName(response?.employee?.name);
     setWage(response.value / 100);
-    setPaidAt(formatDate(response.paid_at));
+    setPaidAt(response.paid_at);
   };
 
   useEffect(() => {

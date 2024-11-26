@@ -5,9 +5,10 @@ import { TFilterField } from "../utils/types";
 interface IFilter {
   fields: TFilterField[];
   setFilters: Dispatch<SetStateAction<Object>>;
+  onClear: () => void;
 }
 
-export default function Filter({ fields, setFilters }: IFilter) {
+export default function Filter({ fields, setFilters, onClear }: IFilter) {
   const handleChangeFieldsValues = (
     name: IFilter["fields"][0]["name"],
     value: any
@@ -29,6 +30,7 @@ export default function Filter({ fields, setFilters }: IFilter) {
             onChange={(v) => handleChangeFieldsValues(props.name, v)}
           />
         ))}
+        <p className="underline text-blue-500 mt-auto cursor-pointer" onClick={onClear}>Limpar</p>
       </div>
     </div>
   );

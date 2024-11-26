@@ -39,7 +39,7 @@ export default function ConfirmModal({
           <Button
             onClick={onConfirm}
             className={clsx({
-              "bg-red-400": type === 'warning',
+              "bg-red-500": type === 'warning',
             })}
           >
             Confirmar

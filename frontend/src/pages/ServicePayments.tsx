@@ -4,7 +4,7 @@ import Main from "../components/Main";
 import PageTitle from "../components/PageTitle";
 import { IoMdAddCircle } from "react-icons/io";
 import { callApi } from "../api";
-import { EPaymentTypeLabels, TFilterField, TServicePayments } from "../utils/types";
+import { EPaymentTypeLabels, TServicePayments } from "../utils/types";
 import { formatCurrency, formatDate } from "../utils/formaters";
 import Button from "../components/Button";
 import { MdEdit } from "react-icons/md";
@@ -12,7 +12,6 @@ import { FaTrash } from "react-icons/fa";
 import Table from "../components/Table";
 import ConfirmModal from "../components/ConfirmModal";
 import toast from "react-hot-toast";
-import { useFilters } from "../hooks/use-filters";
 
 const columns = [
   'Pago em',
@@ -20,14 +19,6 @@ const columns = [
   'Tipo de pagamento',
   'Valor',
   'Ações',
-];
-
-const filterFields: TFilterField[] = [
-  {
-    name: 'service_name',
-    label: 'Nome do serviço',
-    placeholder: 'Nome do serviço',
-  },
 ];
 
 function ServicePaymentsActions({
@@ -99,7 +90,6 @@ export default function ServicePayments() {
       path: `/service-payments`,
       params: {
         page,
-        ...filters
       },
     });
 
@@ -130,8 +120,6 @@ export default function ServicePayments() {
     loadServicePayments();
   }, [page]);
 
-  const { FilterEl, filters } = useFilters(filterFields, loadServicePayments);
-
   return (
     <Main>
       <div className="flex justify-between items-center mb-4">
@@ -145,9 +133,6 @@ export default function ServicePayments() {
             Novo atendimento
           </div>
         </LinkButton>
-      </div>
-      <div className="mb-4">
-        {FilterEl}
       </div>
       <div>
         <Table

@@ -5,17 +5,23 @@ import { useDebouncedCallback } from "use-debounce";
 
 export function useFilters(fields: TFilterField[], callback: () => void) {
   const [filters, setFilters] = useState<any>({});
-  const [FilterEl, setFilterEl] = useState<React.ReactNode>(() => <></>)
+  const [FilterEl, setFilterEl] = useState<React.ReactNode>(() => <></>);
 
-  console.log({ filters });
+  const handleRenderFields = () => {
+    setFilterEl(() => (
+      <Filter fields={fields} setFilters={setFilters} onClear={handleClear} />
+    ));
+  };
+
+  const handleClear = () => {
+    setFilters({});
+    setFilterEl(() => <></>);
+    setTimeout(handleRenderFields, 0);
+    callback();
+  };
 
   useEffect(() => {
-    setFilterEl(() => 
-      <Filter
-        fields={fields}
-        setFilters={setFilters}
-      />
-    )
+    handleRenderFields();
   }, []);
 
   const debouncedCallback = useDebouncedCallback(callback, 800);
@@ -23,7 +29,7 @@ export function useFilters(fields: TFilterField[], callback: () => void) {
   useEffect(() => {
     if (Object.keys(filters).length === 0) return;
     debouncedCallback();
-  }, [filters])
+  }, [filters]);
 
   return {
     FilterEl,
