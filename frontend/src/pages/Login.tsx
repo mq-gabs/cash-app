@@ -1,15 +1,37 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { callApi } from "../api";
+import toast from "react-hot-toast";
+import { userUser } from "../hooks/use-user";
 
 export default function Login() {
+  const { signIn } = userUser();
+  const nav = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-    console.log({ email, password });
+
+    const response = await callApi({
+      method: "POST",
+      path: '/auth',
+      data: {
+        email,
+        password,
+      },
+    });
+
+    if (!response) return;
+
+    toast.success(response?.message || "Sucesso!");
+
+    signIn(response.data);
+
+    nav("/");
   }
 
   return (

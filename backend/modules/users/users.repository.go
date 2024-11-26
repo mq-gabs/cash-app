@@ -77,3 +77,21 @@ func DBDelete(id uuid.UUID) error {
 
 	return nil
 }
+
+func DBGetUserByEmail(email string) (*User, error) {
+	db, err := database.Conn()
+
+	if err != nil {
+		return nil, err
+	}
+
+	u := &User{}
+
+	u.Email = email
+
+	if err := db.Find(u).Error; err != nil {
+		return nil, err
+	}
+
+	return u, nil
+}

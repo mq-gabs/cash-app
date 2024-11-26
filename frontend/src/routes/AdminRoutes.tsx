@@ -14,8 +14,9 @@ import EmployeesPayments from "../pages/EmployeesPayments";
 import EmployeesPaymentsFormPage from "../pages/EmployeesPaymentsFormPage";
 import Dashboard from "../pages/dashboard/Dashbaord";
 import Profile from "../pages/Profile";
+import UsersFormPage from "../pages/UsersFormPage";
 
-export default function PrivateRoutes() {
+export default function AdminRoutes() {
   return (
     <BrowserRouter>
       <div className="flex h-screen">
@@ -36,6 +37,7 @@ export default function PrivateRoutes() {
             <Route path="/other-payments" Component={OtherPayments} />
             <Route path="/other-payment" Component={OtherPaymentsFormPage} />
             <Route path="/users" Component={Users} />
+            <Route path="/user" Component={UsersFormPage} />
             <Route path="/dashboard" Component={Dashboard} />
             <Route path="/profile" Component={Profile} />
             <Route path="/*" Component={NotFound} />

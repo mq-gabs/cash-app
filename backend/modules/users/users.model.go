@@ -2,6 +2,7 @@ package users
 
 import (
 	"cash/backend/modules/base"
+	"cash/backend/utils"
 	"errors"
 
 	"github.com/google/uuid"
@@ -60,7 +61,7 @@ func (u *User) Update(b *UserDto) {
 	}
 
 	if b.Password != "" {
-		u.Password = b.Password
+		u.Password, _ = utils.HashPassword(b.Password)
 	}
 
 	if u.Role == "" {

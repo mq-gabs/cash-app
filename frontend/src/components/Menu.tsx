@@ -8,8 +8,11 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { FaPlus } from "react-icons/fa";
 import { rand } from "../utils";
+import { CiLogout } from "react-icons/ci";
+import { userUser } from "../hooks/use-user";
+import { HiUsers } from "react-icons/hi";
 
-const menuRoutes = [
+const menuRoutesAdmin = [
   {
     id: "0",
     label: "Dashboard",
@@ -48,14 +51,61 @@ const menuRoutes = [
   },
   {
     id: "6",
+    label: "Usuários",
+    Icon: HiUsers,
+    href: "/users",
+  },
+  {
+    id: "7",
     label: "Perfil",
     Icon: CgProfile,
     href: "/profile",
   },
 ];
 
+const menuSeparatorIndexesAdmin = ["0", "1", "3", "5"];
+
+const menuRoutesDefault = [
+  {
+    id: "0",
+    label: "Dashboard",
+    Icon: MdDashboard,
+    href: "/dashboard",
+  },
+  {
+    id: "1",
+    label: "Atendimentos",
+    Icon: FaPlus,
+    href: "/service-payments",
+  },
+  {
+    id: "2",
+    label: "Outros gastos",
+    Icon: GiMoneyStack,
+    href: "/other-payments",
+  },
+  {
+    id: "3",
+    label: "Serviços",
+    Icon: MdMiscellaneousServices,
+    href: "/services",
+  },
+  {
+    id: "4",
+    label: "Perfil",
+    Icon: CgProfile,
+    href: "/profile",
+  },
+];
+
+const menuSeparatorIndexesDefault = ["0", "1", "2", "3"];
+
 export default function Menu() {
   const { pathname } = useLocation();
+  const { signOut, data: { is_admin } } = userUser();
+
+  const menuRoutes = is_admin ? menuRoutesAdmin : menuRoutesDefault
+  const menuSeparatorIndexes = is_admin ? menuSeparatorIndexesAdmin : menuSeparatorIndexesDefault;
 
   return (
     <div className="bg-secondary h-full flex flex-col justify-between">
@@ -80,11 +130,24 @@ export default function Menu() {
                   </p>
                 </Link>
               </li>
-              {["0", "1", "3", "5"].includes(id) && (
+              {menuSeparatorIndexes.includes(id) && (
                 <MenuSeparator key={rand()} />
               )}
+              
             </>
           ))}
+          <li onClick={signOut}>
+                  <p
+                    className={clsx({
+                      "p-2 text-xs rounded flex gap-2 items-center uppercase font-semibold":
+                        true,
+                      "text-white hover:bg-gray-500": true,
+                    })}
+                  >
+                    <CiLogout size={18} />
+                    Sair
+                  </p>
+              </li>
         </ul>
       </div>
     </div>
