@@ -52,7 +52,7 @@ function OtherPaymentsActions({
     <div className="flex gap-2">
       <LinkButton
         to={`/other-payment?id=${id}`}
-        className="bg-gray-400"
+        className="!bg-gray-500"
       >
         <div className="flex gap-2 items-center">
           <MdEdit />

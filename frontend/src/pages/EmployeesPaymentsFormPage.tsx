@@ -124,8 +124,8 @@ export default function EmployeesPaymentsFormPage() {
             disabled
           />
           <Input
-            label="Salário"
-            placeholder="Salário"
+            label="Valor"
+            placeholder="Valor"
             defaultValue={wage}
             required
             onChange={(v) => setWage(v)}
