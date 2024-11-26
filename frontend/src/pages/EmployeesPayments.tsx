@@ -122,7 +122,7 @@ export default function EmployeesPayments() {
       <div className="mb-4">
       <PageTitle text="Pagamento" />
       </div>
-      <div className="max-w-[800px] mx-auto">
+      <div>
         <Table
           columns={columns}
           data={employeesPayments}

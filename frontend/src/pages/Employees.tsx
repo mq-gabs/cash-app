@@ -146,7 +146,7 @@ export default function Employees() {
           </LinkButton>
         </div>
       </div>
-      <div className="max-w-[800px] mx-auto">
+      <div>
         <Table
           columns={columns}
           data={employeesList}

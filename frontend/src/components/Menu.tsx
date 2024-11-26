@@ -3,10 +3,11 @@ import Logo from "./Logo";
 import clsx from "clsx";
 import MenuSeparator from "./MenuSeparator";
 import { MdDashboard, MdMiscellaneousServices } from "react-icons/md";
-import { PiHairDryerBold } from "react-icons/pi";
 import { GiMoneyStack, GiPayMoney } from "react-icons/gi";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
+import { FaPlus } from "react-icons/fa";
+import { rand } from "../utils";
 
 const menuRoutes = [
   {
@@ -18,7 +19,7 @@ const menuRoutes = [
   {
     id: "1",
     label: "Atendimentos",
-    Icon: PiHairDryerBold,
+    Icon: FaPlus,
     href: "/service-payments",
   },
   {
@@ -80,7 +81,7 @@ export default function Menu() {
                 </Link>
               </li>
               {["0", "1", "3", "5"].includes(id) && (
-                <MenuSeparator key={id + "_"} />
+                <MenuSeparator key={rand()} />
               )}
             </>
           ))}

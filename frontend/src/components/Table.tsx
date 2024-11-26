@@ -1,6 +1,7 @@
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import Button from "./Button";
 import { PiEmptyBold } from "react-icons/pi";
+import { rand } from "../utils";
 
 interface ITable {
   columns: string[];
@@ -39,15 +40,15 @@ export default function Table({
       <table className="border w-full">
         <tr className="bg-primary text-white">
           {columns?.map(col => (
-            <th className="p-2 text-left">
+            <th key={rand()} className="p-2 text-left">
               {col}
             </th>
           ))}
         </tr>
         {data.length !== 0 && data?.map(row => (
-          <tr className="[&:nth-child(odd)]:bg-gray-200 [&:nth-child(even)]:bg-white">
+          <tr key={rand()} className="[&:nth-child(odd)]:bg-gray-200 [&:nth-child(even)]:bg-white">
             {row?.map(cel => (
-              <td className="p-2">
+              <td key={rand()} className="p-2">
                 {cel}
               </td>
             ))}
@@ -56,7 +57,6 @@ export default function Table({
         {data.length === 0 && (
           <tr>
             <td colSpan={columns.length}>
-
               <div className="h-[300px] w-full flex justify-center items-center">
                 <p className="text-gray-500 text-xl flex gap-2 items-center">
                   <PiEmptyBold />

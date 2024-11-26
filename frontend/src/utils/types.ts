@@ -99,3 +99,10 @@ export type TMonthReport = {
     other_payments: TOtherPayment[];
   };
 }
+
+export type TFilterField = {
+  name: string;
+  label: string;
+  placeholder: string;
+  type?: string;
+};

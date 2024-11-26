@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
 import Users from "../pages/Users";
 import Services from "../pages/Services";
 import ServicesFormPage from "../pages/ServicesFormPage";
@@ -24,7 +23,7 @@ export default function PrivateRoutes() {
         </div>
         <div className="w-full h-full overflow-y-auto">
           <Routes>
-            <Route path="/" Component={Home} />
+            <Route path="/" Component={Dashboard} />
             <Route path="/service-payments" Component={ServicePayments} />
             <Route path="/service-payment" Component={ServicePaymentsFormPage} />
             <Route path="/services" Component={Services} />

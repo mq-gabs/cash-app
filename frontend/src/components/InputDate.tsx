@@ -38,7 +38,7 @@ export default function InputDate({
     setSelected(id);
 
     if (id === '1') {
-      setValue(formatDate(new Date()));
+      setValue(new Date().toJSON());
     }
 
     if (id === '2') {

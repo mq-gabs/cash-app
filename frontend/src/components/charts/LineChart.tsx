@@ -17,7 +17,7 @@ export default function LineChart({
 
   const options: ApexOptions = {
     series: [{
-      name: 'Serviços',
+      name: 'Atendimentos',
       data: series,
     }],
     chart: {

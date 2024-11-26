@@ -20,7 +20,7 @@ export default function Modal({
     <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center z-10">
       <div className="absolute w-full h-full bg-gray-500 opacity-50"/>
       <div className="bg-white z-20 rounded">
-        <div className="bg-primary w-full p-2 flex justify-between gap-2 rounded-tl rounded-tr">
+        <div className="bg-primary w-full p-3 flex justify-between gap-2 rounded-tl rounded-tr">
           <p className="text-white font-bold text-lg">
             {title}
           </p>
@@ -30,7 +30,7 @@ export default function Modal({
             <RxCrossCircled size={20} />
           </Button>
         </div>
-        <div className="p-2">
+        <div className="p-3">
           {children}
         </div>
       </div>

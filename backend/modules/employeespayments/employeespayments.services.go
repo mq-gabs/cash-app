@@ -3,7 +3,6 @@ package employeespayments
 import (
 	"cash/backend/modules/employees"
 	"cash/backend/utils"
-	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -28,15 +27,13 @@ func CreateEmployeePayment(c *gin.Context) {
 
 	sp.Update(b)
 
-	fmt.Println(b)
-
 	if err := sp.Validate(); err != nil {
 		utils.RespNotValid(c, err)
 		return
 	}
 
 	if err := DBSave(sp); err != nil {
-		utils.Resp(c, 500, "Erro no banco de dados!", err)
+		utils.RespErrorDB(c, err)
 		return
 	}
 

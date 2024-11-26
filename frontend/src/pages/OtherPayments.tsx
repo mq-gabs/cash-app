@@ -134,7 +134,7 @@ export default function OtherPayments() {
           </div>
         </LinkButton>
       </div>
-      <div className="max-w-[800px] mx-auto">
+      <div>
         <Table
           columns={columns}
           data={payments}

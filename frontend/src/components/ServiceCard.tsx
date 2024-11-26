@@ -1,5 +1,5 @@
 import { MdEdit } from "react-icons/md";
-import { formatCurrency } from "../utils/formaters";
+import { formatCurrency, formatDate } from "../utils/formaters";
 import { TService } from "../utils/types"
 import Button from "./Button";
 import { FaTrash } from "react-icons/fa";
@@ -20,6 +20,7 @@ export default function ServiceCard({
     name,
     price,
     description,
+    updated_at,
   },
   refresh,
 }: IServiceCard) {
@@ -45,11 +46,17 @@ export default function ServiceCard({
 
   return (
     <div className="border rounded p-4 shadow-lg h-full flex flex-col justify-between">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 justify-between h-full">
+      <div>
 
       <p className="font-semibold text-lg">{name}</p>
       <p>{description}</p>
-      <p className=" text-primary font-bold">{formatCurrency(price)}</p>
+      </div>
+      <div>
+
+      <p className="text-primary font-bold">{formatCurrency(price)}</p>
+      <p className="text-xs text-gray-500 text-right">Útima atualização {formatDate(updated_at)}</p>
+      </div>
       </div>
       <div className="flex gap-2 mt-4">
         <LinkButton
