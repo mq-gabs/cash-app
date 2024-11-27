@@ -10,8 +10,16 @@ import Select from "../../components/Select";
 import { monthsOptions, yearsOptions } from "./helpers";
 import toast from "react-hot-toast";
 import LineChart from "../../components/charts/LineChart";
-import { formatCurrency, formatMonthView, formatPercentage } from "../../utils/formaters";
+import {
+  formatCurrency,
+  formatMonthView,
+  formatPercentage,
+} from "../../utils/formaters";
 import Card from "./Card";
+import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
+import { FaCashRegister } from "react-icons/fa";
+import { RiDiscountPercentFill } from "react-icons/ri";
+import { GiTwoCoins } from "react-icons/gi";
 
 export default function Dashboard() {
   const [servicesCount, setServicesCount] = useState<{
@@ -61,7 +69,9 @@ export default function Dashboard() {
     labels: [],
     series: [],
   });
-  const [generalAnalysis, setGeneralAnalysis] = useState<TMonthReport['general_analysis']>({
+  const [generalAnalysis, setGeneralAnalysis] = useState<
+    TMonthReport["general_analysis"]
+  >({
     cost: 0,
     profit: 0,
     profit_margin: 0,
@@ -194,10 +204,34 @@ export default function Dashboard() {
             />
           </div>
           <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-4">
-            <Card className="bg-amber-700 text-white" label="Faturamento" value={formatCurrency(generalAnalysis.revenue)} />
-            <Card className="bg-orange-700 text-white" label="Custos totais" value={formatCurrency(generalAnalysis.cost)} />
-            <Card className="bg-green-600 text-white" label="Lucro" value={formatCurrency(generalAnalysis.profit)} />
-            <Card className="bg-teal-800 text-white" label="Margem de lucro" value={formatPercentage(generalAnalysis.profit_margin)} />
+            <Card
+              className="bg-amber-700 text-white"
+              Icon={FaCashRegister}
+              label="Faturamento"
+              value={formatCurrency(generalAnalysis.revenue)}
+            />
+            <Card
+              className="bg-orange-700 text-white"
+              label="Custos"
+              value={formatCurrency(generalAnalysis.cost)}
+              Icon={GiTwoCoins}
+            />
+            <Card
+              className="bg-green-600 text-white"
+              Icon={
+                generalAnalysis.profit < 0
+                  ? PiChartLineDownBold
+                  : PiChartLineUpBold
+              }
+              label={generalAnalysis.profit < 0 ? "Prejuízo" : "Lucro"}
+              value={formatCurrency(generalAnalysis.profit)}
+            />
+            <Card
+              className="bg-teal-800 text-white"
+              label="Margem de lucro"
+              value={formatPercentage(generalAnalysis.profit_margin)}
+              Icon={RiDiscountPercentFill}
+            />
           </div>
           <div className="mb-2">
             <LineChart

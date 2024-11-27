@@ -248,6 +248,7 @@ func DBServicesMonthAnalysis(month, year string) (*ServicesMonthAnalysis, error)
 		SUM(CASE WHEN strftime('%d', sp.paid_at) = '31' THEN 1 ELSE 0 END) as "day31"
 	FROM services_payments sp
 	WHERE strftime('%m-%Y', sp.paid_at) = '` + month + `-` + year + `'
+	AND sp.deleted_at IS NULL
 	`
 
 	rows, err := db.Raw(query).Rows()
@@ -329,9 +330,9 @@ func DBGeneralAnalysis(month, year string) (*GeneralAnalysis, error) {
 
 	query := `
 		SELECT
-			SUM(sp.value) as "revenue"
+			COALESCE(SUM(sp.value), 0) as "revenue"
 		FROM services_payments sp
-		WHERE sp.deleted_at IS NULL 
+		WHERE sp.deleted_at IS NULL
 		AND strftime('%m-%Y', sp.paid_at) = '` + month + `-` + year + `'`
 
 	rows, err := db.Raw(query).Rows()
@@ -343,22 +344,24 @@ func DBGeneralAnalysis(month, year string) (*GeneralAnalysis, error) {
 	defer rows.Close()
 
 	if rows.Next() {
-		rows.Scan(&ga.Revenue)
+		if err := rows.Scan(&ga.Revenue); err != nil {
+			return nil, err
+		}
 	}
 
 	query2 := `
 		SELECT (
-			(SELECT COALESCE((SELECT
-				SUM(ep.value) as "cost"
+			(SELECT
+				COALESCE(SUM(ep.value), 0) as "cost"
 			FROM employees_payments ep
 			WHERE ep.deleted_at IS NULL
-			AND strftime('%m-%Y', ep.paid_at) = '` + month + `-` + year + `'), 0) as "cost")
+			AND strftime('%m-%Y', ep.paid_at) = '` + month + `-` + year + `')
 			+
-			(SELECT COALESCE((SELECT
-				SUM(op.value) as "cost"
+			(SELECT
+				COALESCE(SUM(op.value), 0) as "cost"
 			FROM other_payments op
 			WHERE op.deleted_at IS NULL
-			AND strftime('%m-%Y', op.paid_at) = '` + month + `-` + year + `'), 0) as "cost")
+			AND strftime('%m-%Y', op.paid_at) = '` + month + `-` + year + `')
 		) as "cost"
 
 	`
@@ -372,12 +375,16 @@ func DBGeneralAnalysis(month, year string) (*GeneralAnalysis, error) {
 	defer rows2.Close()
 
 	if rows2.Next() {
-		rows2.Scan(&ga.Cost)
+		if err := rows2.Scan(&ga.Cost); err != nil {
+			return nil, err
+		}
 	}
 
 	ga.Profit = ga.Revenue - ga.Cost
 
-	ga.ProfitMargin = float64(ga.Profit) / float64(ga.Revenue)
+	if ga.Revenue != 0 && ga.Profit > 0 {
+		ga.ProfitMargin = float64(ga.Profit) / float64(ga.Revenue)
+	}
 
 	return ga, nil
 }
