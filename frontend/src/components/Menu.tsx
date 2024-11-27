@@ -115,7 +115,7 @@ export default function Menu() {
                     className={clsx({
                       "p-2 text-xs rounded flex gap-2 items-center uppercase font-semibold":
                         true,
-                      "text-white hover:bg-gray-500": pathname !== href,
+                      "text-white hover:bg-primary": pathname !== href,
                       "bg-white text-secondary": pathname === href,
                     })}
                   >
