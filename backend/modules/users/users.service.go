@@ -22,6 +22,11 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	if _, err := DBGetUserByEmail(b.Email); err != nil {
+		utils.Resp(c, 400, "O email já está sendo usado", err)
+		return
+	}
+
 	u := New()
 
 	u.Update(b)
