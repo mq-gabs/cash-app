@@ -25,7 +25,7 @@ export default function InputCurrency({
   const handleChange = (e: any) => {
     let val: string = e?.target?.value;
 
-    onChange(val.replace(/\D/g, ''));
+    onChange(Number(val.replace(/\D/g, '')));
   } 
 
   return (
