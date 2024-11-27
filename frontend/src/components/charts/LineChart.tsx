@@ -42,7 +42,7 @@ export default function LineChart({
   };
 
   return (
-    <div>
+    <div className="border rounded p-2">
       {isEmpty ? (
         <EmptyChart title={title} />
       ) : (

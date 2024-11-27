@@ -71,8 +71,16 @@ type OtherPaymentsAnalysis struct {
 	OtherPayments *[]*otherpayments.OtherPayments `json:"other_payments"`
 }
 
+type GeneralAnalysis struct {
+	Revenue      int     `json:"revenue"`
+	Cost         int     `json:"cost"`
+	Profit       int     `json:"profit"`
+	ProfitMargin float64 `json:"profit_margin"`
+}
+
 type ReportData struct {
 	ServicesAnalysis      *ServiceAnalysis       `json:"services_analysis"`
 	EmployeesAnalysis     *EmployeesAnalysis     `json:"employees_analysis"`
 	OtherPaymentsAnalysis *OtherPaymentsAnalysis `json:"other_payments_analysis"`
+	GeneralAnalysis       *GeneralAnalysis       `json:"general_analysis"`
 }

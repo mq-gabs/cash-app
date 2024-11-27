@@ -16,6 +16,10 @@ export function formatCurrency(value: number) {
   return `R$ ${(value / 100).toFixed(2)}`;
 }
 
+export function formatPercentage(value: number) {
+  return `${(value * 100).toFixed(1)} %`
+}
+
 export const months = [
   'Janeiro',
   'Fevereiro',

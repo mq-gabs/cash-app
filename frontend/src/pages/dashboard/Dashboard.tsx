@@ -10,7 +10,8 @@ import Select from "../../components/Select";
 import { monthsOptions, yearsOptions } from "./helpers";
 import toast from "react-hot-toast";
 import LineChart from "../../components/charts/LineChart";
-import { formatMonthView } from "../../utils/formaters";
+import { formatCurrency, formatMonthView, formatPercentage } from "../../utils/formaters";
+import Card from "./Card";
 
 export default function Dashboard() {
   const [servicesCount, setServicesCount] = useState<{
@@ -59,6 +60,12 @@ export default function Dashboard() {
   }>({
     labels: [],
     series: [],
+  });
+  const [generalAnalysis, setGeneralAnalysis] = useState<TMonthReport['general_analysis']>({
+    cost: 0,
+    profit: 0,
+    profit_margin: 0,
+    revenue: 0,
   });
 
   const currentDate = new Date();
@@ -155,6 +162,8 @@ export default function Dashboard() {
       labels: monthViewLabels,
       series: monthViewSeries,
     });
+
+    setGeneralAnalysis(response.general_analysis);
   };
 
   useEffect(() => {
@@ -184,7 +193,13 @@ export default function Dashboard() {
               hideAsterisk
             />
           </div>
-          <div>
+          <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-4">
+            <Card className="bg-amber-700 text-white" label="Faturamento" value={formatCurrency(generalAnalysis.revenue)} />
+            <Card className="bg-orange-700 text-white" label="Custos totais" value={formatCurrency(generalAnalysis.cost)} />
+            <Card className="bg-green-600 text-white" label="Lucro" value={formatCurrency(generalAnalysis.profit)} />
+            <Card className="bg-teal-800 text-white" label="Margem de lucro" value={formatPercentage(generalAnalysis.profit_margin)} />
+          </div>
+          <div className="mb-2">
             <LineChart
               labels={monthDayView.labels}
               series={monthDayView.series}
@@ -214,12 +229,14 @@ export default function Dashboard() {
                 cost={employeesPaymentsSummary?.cost}
                 count={employeesPaymentsSummary?.count}
                 data={employeesPaymentsSummary?.data}
+                redirectPath="pagamento"
               />
               <SummaryList
                 title="Outros gastos"
                 cost={otherPaymentsSummary?.cost}
                 count={otherPaymentsSummary?.count}
                 data={otherPaymentsSummary?.data}
+                redirectPath="outro"
               />
             </div>
           </div>

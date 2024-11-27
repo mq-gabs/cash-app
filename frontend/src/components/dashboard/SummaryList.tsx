@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { formatCurrency } from "../../utils/formaters";
 
 interface ISummaryList {
@@ -9,6 +10,7 @@ interface ISummaryList {
     name: string;
     value: number;
   }[];
+  redirectPath: string;
 }
 
 export default function SummaryList({
@@ -16,6 +18,7 @@ export default function SummaryList({
   count,
   data,
   cost,
+  redirectPath = '',
 }: ISummaryList) {
   return (
     <div className="border rounded">
@@ -30,7 +33,7 @@ export default function SummaryList({
           {data.map(({ id, name, value }) => (
             <li key={id} className="p-2 [&:nth-child(odd)]:bg-gray-200 [&:nth-child(even)]:bg-white">
               <div className="flex justify-between">
-                <p>{name}</p>
+                <Link to={`/${redirectPath}?id=${id}`} className="underline">{name}</Link>
                 <p>{formatCurrency(value)}</p>
               </div>
             </li>

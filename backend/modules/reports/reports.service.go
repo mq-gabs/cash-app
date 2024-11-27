@@ -82,10 +82,18 @@ func GenMonthReport(c *gin.Context) {
 
 	sas.MonthView = ma
 
+	ga, err := DBGeneralAnalysis(b.String())
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
 	r := &ReportData{
 		ServicesAnalysis:      sas,
 		EmployeesAnalysis:     ea,
 		OtherPaymentsAnalysis: opa,
+		GeneralAnalysis:       ga,
 	}
 
 	c.JSON(200, r)

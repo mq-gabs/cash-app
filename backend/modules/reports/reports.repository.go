@@ -128,9 +128,9 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 
 	query2 := `
 		SELECT
-			e.id,
+			ep.id,
 			e.name,
-			SUM(ep.value) as "value"
+			ep.value
 		FROM employees_payments ep
 		LEFT JOIN employees e
 			ON e.id = ep.employee_id
@@ -138,8 +138,7 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 		WHERE ep.paid_at > '` + dateStart.String() + `'
 		AND ep.paid_at < '` + dateEnd.String() + `'
 		AND ep.deleted_at IS NULL
-		GROUP BY e.name
-		ORDER BY SUM(ep.value) DESC
+		ORDER BY ep.value DESC
 	`
 
 	rows2, err := db.Raw(query2).Rows()
@@ -317,4 +316,68 @@ func DBServicesAnualAnalysis() {
 	//
 	// FROM services_payments sp
 	// WHERE strftime('%Y', sp.paid_at) = '2024'
+}
+
+func DBGeneralAnalysis(month, year string) (*GeneralAnalysis, error) {
+	db, err := database.Conn()
+
+	if err != nil {
+		return nil, err
+	}
+
+	ga := &GeneralAnalysis{}
+
+	query := `
+		SELECT
+			SUM(sp.value) as "revenue"
+		FROM services_payments sp
+		WHERE sp.deleted_at IS NULL 
+		AND strftime('%m-%Y', sp.paid_at) = '` + month + `-` + year + `'`
+
+	rows, err := db.Raw(query).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	if rows.Next() {
+		rows.Scan(&ga.Revenue)
+	}
+
+	query2 := `
+		SELECT (
+			(SELECT COALESCE((SELECT
+				SUM(ep.value) as "cost"
+			FROM employees_payments ep
+			WHERE ep.deleted_at IS NULL
+			AND strftime('%m-%Y', ep.paid_at) = '` + month + `-` + year + `'), 0) as "cost")
+			+
+			(SELECT COALESCE((SELECT
+				SUM(op.value) as "cost"
+			FROM other_payments op
+			WHERE op.deleted_at IS NULL
+			AND strftime('%m-%Y', op.paid_at) = '` + month + `-` + year + `'), 0) as "cost")
+		) as "cost"
+
+	`
+
+	rows2, err := db.Raw(query2).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows2.Close()
+
+	if rows2.Next() {
+		rows2.Scan(&ga.Cost)
+	}
+
+	ga.Profit = ga.Revenue - ga.Cost
+
+	ga.ProfitMargin = float64(ga.Profit) / float64(ga.Revenue)
+
+	return ga, nil
 }

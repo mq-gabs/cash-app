@@ -12,7 +12,7 @@ import ServicePayments from "../pages/ServicePayments";
 import ServicePaymentsFormPage from "../pages/ServicePaymentsFormPage";
 import EmployeesPayments from "../pages/EmployeesPayments";
 import EmployeesPaymentsFormPage from "../pages/EmployeesPaymentsFormPage";
-import Dashboard from "../pages/dashboard/Dashbaord";
+import Dashboard from "../pages/dashboard/Dashboard";
 import Profile from "../pages/Profile";
 import UsersFormPage from "../pages/UsersFormPage";
 

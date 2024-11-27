@@ -98,6 +98,12 @@ export type TMonthReport = {
     cost: number;
     other_payments: TOtherPayment[];
   };
+  general_analysis: {
+    revenue: number;
+    cost: number;
+    profit: number;
+    profit_margin: number;
+  }
 }
 
 export type TFilterField = {
