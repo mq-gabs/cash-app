@@ -18,7 +18,7 @@ export default function EmployeesPaymentsFormPage() {
   const [paidAt, setPaidAt] = useState('');
 
   const redirect = () => {
-    nav('/employees-payments');
+    nav('/pagamentos');
   }
 
   const handleSavePayment = async (e: any) => {
@@ -112,7 +112,7 @@ export default function EmployeesPaymentsFormPage() {
 
   return (
     <Main>
-      <PageTitle text={id ? 'Editar pagamento' : 'Registrar pagamento'} backRoute="/employees-payments" />
+      <PageTitle text={id ? 'Editar pagamento' : 'Registrar pagamento'} backRoute="/pagamentos" />
       <div className="max-w-[800px] mx-auto">
         <form className="flex flex-col gap-2">
           <Input

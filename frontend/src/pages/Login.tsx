@@ -12,9 +12,12 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     const response = await callApi({
       method: "POST",
@@ -24,6 +27,8 @@ export default function Login() {
         password,
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -64,6 +69,7 @@ export default function Login() {
           </p>
           <Button
             onClick={handleLogin}
+            isLoading={isLoading}
           >
             Entrar
           </Button>

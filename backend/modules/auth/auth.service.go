@@ -23,7 +23,7 @@ func SignIn(c *gin.Context) {
 	u, err := users.DBGetUserByEmail(b.Email)
 
 	if err != nil {
-		utils.RespErrorDB(c, err)
+		utils.RespNotFound(c, "Usuário não encontrado", err)
 		return
 	}
 

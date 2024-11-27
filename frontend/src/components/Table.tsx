@@ -70,7 +70,7 @@ export default function Table({
       {
         data.length !== 0 && (
           <div className="flex justify-between mt-2">
-            <Button onClick={handlePrevious} className="gap-1">
+            <Button onClick={handlePrevious} className="gap-1 bg-secondary">
               <div className="flex gap-2 items-center">
                 <IoIosArrowRoundBack />
                 Anterior
@@ -79,7 +79,7 @@ export default function Table({
             <div className="flex items-center">
               Pág. {currentPage + 1} / {totalPages} - Total {totalItems}
             </div>
-            <Button onClick={handleNext} className="gap-1">
+            <Button onClick={handleNext} className="gap-1 bg-secondary">
               <div className="flex gap-2 items-center">
                 Proximo
                 <IoIosArrowRoundForward />

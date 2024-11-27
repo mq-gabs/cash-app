@@ -33,12 +33,13 @@ export default function UsersFormPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const redirect = () => {
-    nav('/users');
+    nav('/usuarios');
   }
 
   const checkPassword = () => {
-
     if (password && !confirmPassword) {
       toast.error("Digite a senha novamente.");
       return false;
@@ -57,6 +58,8 @@ export default function UsersFormPage() {
 
     if (!checkPassword()) return;
 
+    setIsLoading(true);
+
     const response = await callApi({
       method: 'POST',
       path: '/users',
@@ -67,6 +70,8 @@ export default function UsersFormPage() {
         role,
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -80,6 +85,8 @@ export default function UsersFormPage() {
 
     if (!checkPassword()) return;
 
+    setIsLoading(true);
+
     const response = await callApi({
       method: 'PATCH',
       path: `/users/${id}`,
@@ -90,6 +97,8 @@ export default function UsersFormPage() {
         role,
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -119,7 +128,7 @@ export default function UsersFormPage() {
 
   return (
     <Main>
-    <PageTitle text="Perfil" backRoute="/users" />
+    <PageTitle text={id ? 'Editar usuário' : 'Novo usuário'} backRoute="/usuarios" />
     <div className="max-w-[800px] mx-auto">
       <form className="flex flex-col gap-2">
         <Input
@@ -160,6 +169,7 @@ export default function UsersFormPage() {
         />
         <Button
           onClick={id  ? handleUpdate : handleCreate}  
+          isLoading={isLoading}
         >
           {id ? 'Salvar edição' : 'Salvar'}
         </Button>

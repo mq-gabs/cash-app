@@ -49,7 +49,7 @@ function EmployeesPaymentsActions({
   return (
     <div className="flex gap-2">
     <LinkButton
-      to={`/employee-payment?id=${id}`}
+      to={`/pagamento?id=${id}`}
       className="!bg-gray-500"
     >
       <div className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export default function EmployeesPayments() {
   return (
     <Main>
       <div className="mb-4">
-      <PageTitle text="Pagamento" />
+      <PageTitle text="Pagamentos" />
       </div>
       <div>
         <Table
