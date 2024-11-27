@@ -20,6 +20,8 @@ export default function EmployeesFormPage() {
   const [wage, setWage] = useState<number>();
   const [role, setRole] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onFinish = () => {
     nav("/funcionarios");
   };
@@ -40,15 +42,19 @@ export default function EmployeesFormPage() {
       return;
     }
 
+    setIsLoading(true);
+
     const response = await callApi(signOut, {
       method: "post",
       path: "/employees",
       data: {
         name,
-        wage: (wage || 0) * 100,
+        wage: (wage || 0),
         role,
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -63,15 +69,19 @@ export default function EmployeesFormPage() {
       return;
     }
 
+    setIsLoading(true);
+
     const response = await callApi(signOut, {
       method: "PATCH",
       path: `/employees/${id}`,
       data: {
         name,
         role,
-        wage: (wage || 0) * 100,
+        wage: (wage || 0),
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -89,7 +99,7 @@ export default function EmployeesFormPage() {
     if (!response) return;
 
     setName(response.name);
-    setWage(response.wage / 100);
+    setWage(response.wage);
     setRole(response.role);
   };
 
@@ -126,7 +136,7 @@ export default function EmployeesFormPage() {
             defaultValue={wage}
             required
           />
-          <Button onClick={id ? handleEditEmployee : handleCreateEmployee}>
+          <Button isLoading={isLoading} onClick={id ? handleEditEmployee : handleCreateEmployee}>
             {id ? "Salvar edição" : "Salvar"}
           </Button>
         </form>

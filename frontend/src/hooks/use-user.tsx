@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type TUserData = {
   id: string;
@@ -42,6 +43,7 @@ function UserProvider({
   const signOut = () => {
     setData({} as TUserData);
     saveOnStorage({});
+    window.history.replaceState(null, '', '/');
   }
 
   return (

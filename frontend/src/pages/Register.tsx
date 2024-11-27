@@ -13,11 +13,15 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { signOut } = useUser();
 
 
   const handleRegister = async (e: any) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     const response = await callApi(signOut, {
       method: 'post',
@@ -28,6 +32,8 @@ export default function Register() {
         email,
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -72,8 +78,9 @@ export default function Register() {
           </p>
           <Button
             onClick={handleRegister}
+            isLoading={isLoading}
           >
-            Entrar
+            Cadastrar
           </Button>
         </form>
       </div>

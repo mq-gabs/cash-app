@@ -20,11 +20,15 @@ export default function OtherPaymentsFormPage() {
   const [value, setValue] = useState<number>();
   const [paidAt, setPaidAt] = useState<string>('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { signOut } = useUser();
 
 
   const handleCreatePayment = async (e: any) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     const response = await callApi(signOut, {
       method: "POST",
@@ -37,6 +41,8 @@ export default function OtherPaymentsFormPage() {
       },
     });
 
+    setIsLoading(false);
+
     if (!response) return;
 
     toast.success(response?.message || "Successo!");
@@ -46,6 +52,8 @@ export default function OtherPaymentsFormPage() {
 
   const handleUpdatePayment = async (e: any) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     const response = await callApi(signOut, {
       method: "PATCH",
@@ -57,6 +65,8 @@ export default function OtherPaymentsFormPage() {
         paid_at: paidAt,
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -119,7 +129,7 @@ export default function OtherPaymentsFormPage() {
             setValue={v => setPaidAt(v)}
             value={paidAt}
           />
-          <Button onClick={id ? handleUpdatePayment : handleCreatePayment}>
+          <Button isLoading={isLoading} onClick={id ? handleUpdatePayment : handleCreatePayment}>
             {id ? "Salvar edição" : "Salvar"}
           </Button>
         </form>

@@ -17,11 +17,14 @@ export default function ServicesFormPage() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number>();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { signOut } = useUser();
 
   const handleCreateService = async (e: any) => {
     e.preventDefault();
 
+    setIsLoading(true);
     const response = await callApi(signOut, {
       method: "post",
       path: "/services",
@@ -32,6 +35,7 @@ export default function ServicesFormPage() {
       },
     });
 
+    setIsLoading(false);
     if (!response) return;
 
     toast.success(response?.message || "Sucesso!");
@@ -40,7 +44,7 @@ export default function ServicesFormPage() {
   };
   const handleEditService = async (e: any) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const response = await callApi(signOut, {
       method: "PATCH",
       path: `/services/${id}`,
@@ -50,6 +54,7 @@ export default function ServicesFormPage() {
         price: Number(price || 0),
       },
     });
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -105,7 +110,7 @@ export default function ServicesFormPage() {
             value={price || 0}
             required
           />
-          <Button onClick={id ? handleEditService : handleCreateService}>
+          <Button isLoading={isLoading} onClick={id ? handleEditService : handleCreateService}>
             {id ? 'Salvar edição' : 'Salvar'}
           </Button>
         </form>

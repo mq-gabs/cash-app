@@ -27,9 +27,12 @@ export default function ServicePaymentsFormPage() {
   const [services, setServices] = useState<TService[]>([]);
   const { signOut } = useUser();
 
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateServicePayment = async (e: any) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     const response = await callApi(signOut, {
       method: "POST",
@@ -42,6 +45,8 @@ export default function ServicePaymentsFormPage() {
       },
     });
 
+    setIsLoading(false);
+
     if (!response) return;
 
     toast.success(response?.message || "Sucesso!");
@@ -51,6 +56,8 @@ export default function ServicePaymentsFormPage() {
 
   const handleUpdateServicePayment = async (e: any) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     const response = await callApi(signOut, {
       method: "PATCH",
@@ -62,6 +69,8 @@ export default function ServicePaymentsFormPage() {
         services,
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -117,6 +126,7 @@ export default function ServicePaymentsFormPage() {
             onClick={
               id ? handleUpdateServicePayment : handleCreateServicePayment
             }
+            isLoading={isLoading}
           >
             {id ? "Salvar edição" : "Salvar"}
           </Button>

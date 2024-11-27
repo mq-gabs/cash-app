@@ -23,13 +23,15 @@ export default function EmployeesPaymentsFormPage() {
   const [wage, setWage] = useState<number>();
   const [paidAt, setPaidAt] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const redirect = () => {
     nav('/pagamentos');
   }
 
   const handleSavePayment = async (e: any) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const response = await callApi(signOut, {
       method: 'POST',
       path: '/employees-payments',
@@ -41,6 +43,7 @@ export default function EmployeesPaymentsFormPage() {
         },
       }
     });
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -51,7 +54,7 @@ export default function EmployeesPaymentsFormPage() {
 
   const handleUpdatePayment = async (e: any) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const response = await callApi(signOut, {
       method: 'PATCH',
       path: `/employees-payments/${id}`,
@@ -60,6 +63,7 @@ export default function EmployeesPaymentsFormPage() {
         paid_at: paidAt,
       }
     });
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -142,6 +146,7 @@ export default function EmployeesPaymentsFormPage() {
             value={paidAt}
           />
           <Button
+            isLoading={isLoading}
             onClick={id ? handleUpdatePayment : handleSavePayment}
           >
             {id ? 'Salvar edição' : 'Salvar'}

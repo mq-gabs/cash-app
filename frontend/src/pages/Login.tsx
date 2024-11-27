@@ -44,7 +44,7 @@ export default function Login() {
   return (
     <main className="flex justify-center items-center h-screen">
       <div className="p-4 w-[300px] rounded shadow-slate-700 shadow-2xl">
-        <h1 className="text-2xl text-center font-bold">Fazer login</h1>
+        <h1 className="text-2xl text-center font-bold">Login</h1>
         <form className="flex flex-col gap-2">
           <Input
             label="Email"
