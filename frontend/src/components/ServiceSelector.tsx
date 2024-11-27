@@ -50,7 +50,7 @@ export default function ServiceSelector({
 
   return (
     <div>
-      {services.length === 0 && (
+      {services.length !== 0 && (
         <fieldset className="border p-2 rounded border-dashed">
           <legend>
             Selecione os serviços: <span className="text-red-500">*</span>

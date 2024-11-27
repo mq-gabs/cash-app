@@ -26,13 +26,27 @@ type TCallApi = {
   params?: any;
 };
 
+function formatData(data: Object) {
+  if (!data) return;
+
+  return Object.entries(data).reduce((acc, [key, val]) => {
+    if (typeof val === 'string') {
+      val = val.trim();
+    }
+
+    acc[key] = val;
+
+    return acc;
+  }, {} as { [x: string]: any });
+}
+
 export async function callApi(callbackLogout: () => void, { data, method, params, path }: TCallApi) {
   const token = getFromStorage()?.token || '';
 
   try {
     const response = await api({
       method,
-      data,
+      data: formatData(data),
       params,
       url: path,
       headers: {

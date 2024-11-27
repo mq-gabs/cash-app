@@ -8,6 +8,7 @@ import { callApi } from "../api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/use-user";
+import InputCurrency from "../components/InputCurrency";
 
 export default function EmployeesFormPage() {
   const { id } = useQuery();
@@ -128,12 +129,11 @@ export default function EmployeesFormPage() {
             defaultValue={role}
             required
           />
-          <Input
+          <InputCurrency
             label="Salário"
             placeholder="Salário"
             onChange={(v) => setWage(v)}
-            type="number"
-            defaultValue={wage}
+            value={wage || 0}
             required
           />
           <Button isLoading={isLoading} onClick={id ? handleEditEmployee : handleCreateEmployee}>

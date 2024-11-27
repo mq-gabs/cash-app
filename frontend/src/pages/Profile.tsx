@@ -15,6 +15,8 @@ export default function Profile() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { signOut } = useUser();
 
 
@@ -33,6 +35,8 @@ export default function Profile() {
   const handleSave = async (e: any) => {
     e.preventDefault()
 
+    setIsLoading(true);
+
     const response = await callApi(signOut, {
       method: 'patch',
       path: `/users/${id}`,
@@ -42,6 +46,8 @@ export default function Profile() {
         password,
       },
     });
+
+    setIsLoading(false);
 
     if (!response) return;
 
@@ -89,6 +95,7 @@ export default function Profile() {
           />
           <Button
             onClick={handleSave}  
+            isLoading={isLoading}
           >
             Salvar
           </Button>

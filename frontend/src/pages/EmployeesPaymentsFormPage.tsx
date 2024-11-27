@@ -36,7 +36,7 @@ export default function EmployeesPaymentsFormPage() {
       method: 'POST',
       path: '/employees-payments',
       data: {
-        value: (wage || 0) * 100,
+        value: (wage || 0),
         paid_at: paidAt,
         employee: {
           id: employeeId,

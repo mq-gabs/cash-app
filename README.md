@@ -1,4 +1,4 @@
-# CASH APP
+# CASH FLOW
 
 ## What is it?
 This is an web app designed to run localy. It is beeing made for someone who can't afford a web deployment. This person requested this system to help with his small business. So I decided to develop this version to be used as an desktop app but executed in browser.
