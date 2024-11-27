@@ -32,6 +32,7 @@ export default function LineChart({
     },
     stroke: {
       curve: 'straight',
+      colors: ['#333']
     },
     title: {
       text: title,
