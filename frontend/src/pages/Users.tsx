@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { useUser } from "../hooks/use-user";
 import { IoMdAddCircle } from "react-icons/io";
 
-const columns = ["Name", "Email", "Permissão", "Criado em", "Ações"];
+const columns = ["Nome", "Email", "Permissão", "Criado em", "Ações"];
 
 const UserActions = ({ id, refresh }: { id: string; refresh: () => void }) => {
   const { signOut } = useUser();

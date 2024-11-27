@@ -2,6 +2,7 @@ package main
 
 import (
 	"cash/backend/database/migrations"
+	"cash/backend/database/scripts"
 	"cash/server"
 	staticserver "cash/static-server"
 	"os"
@@ -42,6 +43,11 @@ func main() {
 
 		if params[0] == "api" {
 			server.Start()
+			return
+		}
+
+		if params[0] == "set-admin" {
+			scripts.SetAdminUser()
 			return
 		}
 	}
