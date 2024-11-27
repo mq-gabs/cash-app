@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import { useQuery } from "../hooks/use-query";
+import InputCurrency from "../components/InputCurrency";
 
 export default function ServicesFormPage() {
   const nav = useNavigate();
@@ -24,7 +25,7 @@ export default function ServicesFormPage() {
       data: {
         name,
         description,
-        price: Number(price || 0) * 100,
+        price: Number(price || 0),
       },
     });
 
@@ -43,7 +44,7 @@ export default function ServicesFormPage() {
       data: {
         name,
         description,
-        price: Number(price || 0) * 100,
+        price: Number(price || 0),
       },
     });
 
@@ -67,7 +68,7 @@ export default function ServicesFormPage() {
 
     setName(response.name);
     setDescription(response.description);
-    setPrice(response.price / 100);
+    setPrice(response.price);
   };
 
   useEffect(() => {
@@ -94,12 +95,11 @@ export default function ServicesFormPage() {
             onChange={(value) => setDescription(value)}
             defaultValue={description}
           />
-          <Input
+          <InputCurrency
             label="Preço"
             placeholder="Preço"
             onChange={(value) => setPrice(value)}
-            type="number"
-            defaultValue={price}
+            value={price || 0}
             required
           />
           <Button onClick={id ? handleEditService : handleCreateService}>

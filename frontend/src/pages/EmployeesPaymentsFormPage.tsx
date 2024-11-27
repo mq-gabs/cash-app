@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import InputDate from "../components/InputDate";
 import Button from "../components/Button";
+import InputCurrency from "../components/InputCurrency";
 
 export default function EmployeesPaymentsFormPage() {
   const { id, employeeId } = useQuery();
@@ -50,7 +51,7 @@ export default function EmployeesPaymentsFormPage() {
       method: 'PATCH',
       path: `/employees-payments/${id}`,
       data: {
-        value: (wage || 0) * 100,
+        value: (wage || 0),
         paid_at: paidAt,
       }
     });
@@ -75,7 +76,7 @@ export default function EmployeesPaymentsFormPage() {
     };
 
     setName(response.name);
-    setWage(response.wage / 100);
+    setWage(response.wage);
   };
 
   const loadEmployeePaymentInfo = async () => {
@@ -91,7 +92,7 @@ export default function EmployeesPaymentsFormPage() {
     }
 
     setName(response?.employee?.name);
-    setWage(response.value / 100);
+    setWage(response.value);
     setPaidAt(response.paid_at);
   };
 
@@ -123,10 +124,10 @@ export default function EmployeesPaymentsFormPage() {
             onChange={() => {}}
             disabled
           />
-          <Input
+          <InputCurrency
             label="Valor"
             placeholder="Valor"
-            defaultValue={wage}
+            value={wage || 0}
             required
             onChange={(v) => setWage(v)}
           />

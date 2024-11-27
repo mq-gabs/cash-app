@@ -8,6 +8,7 @@ import { callApi } from "../api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import InputDate from "../components/InputDate";
+import InputCurrency from "../components/InputCurrency";
 
 export default function OtherPaymentsFormPage() {
   const { id } = useQuery();
@@ -27,7 +28,7 @@ export default function OtherPaymentsFormPage() {
       data: {
         title,
         description,
-        value: (value || 0) * 100,
+        value: (value || 0),
         paid_at: paidAt,
       },
     });
@@ -48,7 +49,7 @@ export default function OtherPaymentsFormPage() {
       data: {
         title,
         description,
-        value: (value || 0) * 100,
+        value: (value || 0),
         paid_at: paidAt,
       },
     });
@@ -70,7 +71,7 @@ export default function OtherPaymentsFormPage() {
 
     setTitle(response.title);
     setDescription(response.description);
-    setValue(response.value / 100);
+    setValue(response.value);
     setPaidAt(response.paid_at);
   };
 
@@ -102,13 +103,12 @@ export default function OtherPaymentsFormPage() {
             placeholder="Descrição"
             defaultValue={description}
           />
-          <Input
+          <InputCurrency
             label="Valor"
-            onChange={(v) => setValue(v)}
+            value={value || 0}
+            onChange={v => setValue(v)}
             placeholder="Valor"
-            defaultValue={value}
             required
-            type="number"
           />
           <InputDate
             label="Data do pagamento"
