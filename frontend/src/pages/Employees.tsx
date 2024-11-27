@@ -13,6 +13,7 @@ import { FaTrash } from "react-icons/fa";
 import { BsCash } from "react-icons/bs";
 import toast from "react-hot-toast";
 import ConfirmModal from "../components/ConfirmModal";
+import { useUser } from "../hooks/use-user";
 
 const columns = [
   'Nome',
@@ -29,6 +30,8 @@ function EmployeeActions({
   id: string
   refresh: () => void;
 }) {
+  const { signOut } = useUser();
+
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const handleClickToDelete = () => {
@@ -36,7 +39,7 @@ function EmployeeActions({
   }
 
   const handleDelete = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'delete',
       path: `/employees/${id}`,
     });
@@ -94,9 +97,11 @@ export default function Employees() {
   const [employeesList, setEmployeesList] = useState<string[][]>([]);
   const [page, setPage] = useState(0);
   const [totalEmployees, setTotalEmployees] = useState(1);
+  const { signOut } = useUser();
+
 
   const loadEmployees = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'get',
       path: '/employees',
       params: {

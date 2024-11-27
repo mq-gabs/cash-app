@@ -4,19 +4,22 @@ import Main from "../components/Main";
 import PageTitle from "../components/PageTitle";
 import Button from "../components/Button";
 import { callApi } from "../api";
-import { userUser } from "../hooks/use-user";
+import { useUser } from "../hooks/use-user";
 import toast from "react-hot-toast";
 
 export default function Profile() {
-  const { data: { id } } = userUser();
+  const { data: { id } } = useUser();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const { signOut } = useUser();
+
+
   const loadUserData = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'get',
       path: `/users/${id}`,
     });
@@ -30,7 +33,7 @@ export default function Profile() {
   const handleSave = async (e: any) => {
     e.preventDefault()
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'patch',
       path: `/users/${id}`,
       data: {

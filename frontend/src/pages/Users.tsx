@@ -10,15 +10,17 @@ import Button from "../components/Button";
 import { FaTrash } from "react-icons/fa";
 import ConfirmModal from "../components/ConfirmModal";
 import toast from "react-hot-toast";
-import { userUser } from "../hooks/use-user";
+import { useUser } from "../hooks/use-user";
 import { IoMdAddCircle } from "react-icons/io";
 
 const columns = ["Name", "Email", "Permissão", "Criado em", "Ações"];
 
 const UserActions = ({ id, refresh }: { id: string; refresh: () => void }) => {
+  const { signOut } = useUser();
+
   const {
     data: { id: userId },
-  } = userUser();
+  } = useUser();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const handleClickToDelete = () => {
@@ -26,7 +28,7 @@ const UserActions = ({ id, refresh }: { id: string; refresh: () => void }) => {
   };
 
   const handleDelete = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "delete",
       path: `/users/${id}`,
     });
@@ -70,9 +72,11 @@ export default function Users() {
   const [users, setUsers] = useState<string[][]>([]);
   const [totalUsers, setTotalUsers] = useState<number>();
   const [page, setPage] = useState(0);
+  const { signOut } = useUser();
+
 
   const getUsers = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "GET",
       path: "/users",
       params: {

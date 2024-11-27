@@ -9,10 +9,15 @@ import Input from "../components/Input";
 import InputDate from "../components/InputDate";
 import Button from "../components/Button";
 import InputCurrency from "../components/InputCurrency";
+import { useUser } from "../hooks/use-user";
 
 export default function EmployeesPaymentsFormPage() {
   const { id, employeeId } = useQuery();
   const nav = useNavigate();
+
+  const { signOut } = useUser();
+
+  
 
   const [name, setName] = useState('');
   const [wage, setWage] = useState<number>();
@@ -25,7 +30,7 @@ export default function EmployeesPaymentsFormPage() {
   const handleSavePayment = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'POST',
       path: '/employees-payments',
       data: {
@@ -47,7 +52,7 @@ export default function EmployeesPaymentsFormPage() {
   const handleUpdatePayment = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'PATCH',
       path: `/employees-payments/${id}`,
       data: {
@@ -64,7 +69,7 @@ export default function EmployeesPaymentsFormPage() {
   }
 
   const loadEmployeeInfo = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'GET',
       path: `/employees/${employeeId}`,
     });
@@ -80,7 +85,7 @@ export default function EmployeesPaymentsFormPage() {
   };
 
   const loadEmployeePaymentInfo = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'GET',
       path: `/employees-payments/${id}`,
     });

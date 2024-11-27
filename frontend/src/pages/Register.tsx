@@ -4,6 +4,7 @@ import { useState } from "react";
 import Input from "../components/Input";
 import { callApi } from "../api";
 import toast from "react-hot-toast";
+import { useUser } from "../hooks/use-user";
 
 export default function Register() {
   const nav = useNavigate();
@@ -12,10 +13,13 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const { signOut } = useUser();
+
+
   const handleRegister = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'post',
       path: '/users',
       data: {

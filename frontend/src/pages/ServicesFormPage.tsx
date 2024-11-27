@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import { useQuery } from "../hooks/use-query";
 import InputCurrency from "../components/InputCurrency";
+import { useUser } from "../hooks/use-user";
 
 export default function ServicesFormPage() {
   const nav = useNavigate();
@@ -16,10 +17,12 @@ export default function ServicesFormPage() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number>();
 
+  const { signOut } = useUser();
+
   const handleCreateService = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "post",
       path: "/services",
       data: {
@@ -38,7 +41,7 @@ export default function ServicesFormPage() {
   const handleEditService = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "PATCH",
       path: `/services/${id}`,
       data: {
@@ -56,7 +59,7 @@ export default function ServicesFormPage() {
   };
 
   const loadServiceData = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "GET",
       path: `/services/${id}`,
     });

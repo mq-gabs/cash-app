@@ -8,6 +8,7 @@ import ConfirmModal from "./ConfirmModal";
 import { useState } from "react";
 import { callApi } from "../api";
 import toast from "react-hot-toast";
+import { useUser } from "../hooks/use-user";
 
 interface IServiceCard {
   data: TService;
@@ -25,9 +26,10 @@ export default function ServiceCard({
   refresh,
 }: IServiceCard) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const { signOut } = useUser();
 
   const handleDelete = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'delete',
       path: `/services/${id}`,
     });

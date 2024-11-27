@@ -1,11 +1,20 @@
 import axios, { Method } from "axios";
 import toast from "react-hot-toast";
+import { getFromStorage } from "../hooks/use-user";
 
 const api = axios.create({
   baseURL: "http://localhost:8888/api",
 });
 
-const handleError = (err: any) => {
+const handleError = (err: any, callbackLogout: () => void) => {
+  const statusCode = err?.response?.status;
+
+  if (statusCode === 401) {
+    callbackLogout();
+    toast.error(err?.response?.data?.message);
+    return;
+  }
+
   const message = err?.response?.data?.message || "Ocorreu um erro";
   toast.error(message);
 };
@@ -17,13 +26,18 @@ type TCallApi = {
   params?: any;
 };
 
-export async function callApi({ data, method, params, path }: TCallApi) {
+export async function callApi(callbackLogout: () => void, { data, method, params, path }: TCallApi) {
+  const token = getFromStorage()?.token || '';
+
   try {
     const response = await api({
       method,
       data,
       params,
       url: path,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     });
 
     if (!response.data) {
@@ -33,6 +47,6 @@ export async function callApi({ data, method, params, path }: TCallApi) {
     return response?.data;
   } catch (error) {
     console.log({ error });
-    handleError(error);
+    handleError(error, callbackLogout);
   }
 }

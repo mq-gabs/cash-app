@@ -39,3 +39,7 @@ func RespNotFound(c *gin.Context, message string, args ...error) {
 func RespNotValid(c *gin.Context, mainError error, args ...error) {
 	Resp(c, 400, "Erro de validação: "+mainError.Error(), args...)
 }
+
+func RespUnauthorized(c *gin.Context) {
+	Resp(c, 401, "Autorização expirou.")
+}

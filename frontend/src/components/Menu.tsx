@@ -9,7 +9,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaPlus } from "react-icons/fa";
 import { rand } from "../utils";
 import { CiLogout } from "react-icons/ci";
-import { userUser } from "../hooks/use-user";
+import { useUser } from "../hooks/use-user";
 import { HiUsers } from "react-icons/hi";
 
 const menuRoutesAdmin = [
@@ -96,7 +96,7 @@ const menuSeparatorIndexesDefault = ["0", "1", "2", "3"];
 
 export default function Menu() {
   const { pathname } = useLocation();
-  const { signOut, data: { is_admin } } = userUser();
+  const { signOut, data: { is_admin } } = useUser();
 
   const menuRoutes = is_admin ? menuRoutesAdmin : menuRoutesDefault
   const menuSeparatorIndexes = is_admin ? menuSeparatorIndexesAdmin : menuSeparatorIndexesDefault;

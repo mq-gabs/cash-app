@@ -12,6 +12,7 @@ import { FaTrash } from "react-icons/fa";
 import Table from "../components/Table";
 import ConfirmModal from "../components/ConfirmModal";
 import toast from "react-hot-toast";
+import { useUser } from "../hooks/use-user";
 
 const columns = [
   'Pago em',
@@ -28,9 +29,11 @@ function ServicePaymentsActions({
   id: string,
   refresh: () => void;
 }) {
+  const { signOut } = useUser();
+
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleDelete = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       path: `/service-payments/${id}`,
       method: 'delete',
     });
@@ -84,8 +87,10 @@ export default function ServicePayments() {
   const [page, setPage] = useState(0);
   const [totalPayments, setTotalPayments] = useState();
 
+  const { signOut } = useUser();
+
   const loadServicePayments = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'GET',
       path: `/service-payments`,
       params: {

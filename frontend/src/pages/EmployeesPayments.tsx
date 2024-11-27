@@ -11,6 +11,7 @@ import { formatCurrency, formatDate } from "../utils/formaters";
 import Table from "../components/Table";
 import ConfirmModal from "../components/ConfirmModal";
 import toast from "react-hot-toast";
+import { useUser } from "../hooks/use-user";
 
 const columns = [
   'Pago em',
@@ -27,13 +28,15 @@ function EmployeesPaymentsActions({
   refresh: () => void;
 }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const { signOut } = useUser();
 
+  
   const handleClickToDelete = () => {
     setOpenDeleteModal(true);
   }
 
   const handleDelete = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'delete',
       path: `/employees-payments/${id}`,
     });
@@ -82,9 +85,11 @@ export default function EmployeesPayments() {
   const [employeesPayments, setEmployeesPayments] = useState<string[][]>([]);
   const [page, setPage] = useState(0);
   const [totalPayments, setTotalPayments] = useState();
+  const { signOut } = useUser();
+
 
   const loadEmployeesPayments = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'GET',
       path: '/employees-payments',
       params: {

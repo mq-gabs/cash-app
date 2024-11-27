@@ -6,12 +6,15 @@ import ServiceCard from "../components/ServiceCard";
 import PageTitle from "../components/PageTitle";
 import LinkButton from "../components/LinkButton";
 import { IoMdAddCircle } from "react-icons/io";
+import { useUser } from "../hooks/use-user";
 
 export default function Services() {
   const [services, setServices] = useState<TService[]>([]);
+  const { signOut } = useUser();
+
 
   const loadServices = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'GET',
       path: '/services',
       params: {

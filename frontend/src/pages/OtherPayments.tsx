@@ -12,6 +12,7 @@ import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import toast from "react-hot-toast";
 import ConfirmModal from "../components/ConfirmModal";
+import { useUser } from "../hooks/use-user";
 
 const columns = [
   'Título',
@@ -29,13 +30,15 @@ function OtherPaymentsActions({
   refresh: () => void;
 }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const { signOut } = useUser();
+
 
   const handleClickToDeletePayment = () => {
     setOpenDeleteModal(true);
   };
 
   const handleDelete = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'delete',
       path: `/other-payments/${id}`,
     });
@@ -84,9 +87,11 @@ export default function OtherPayments() {
   const [payments, setPayments] = useState<string[][]>([]);
   const [totalPayments, setTotalPayments] = useState<number>();
   const [page, setPage] = useState(0);
+  const { signOut } = useUser();
+
 
   const loadPayments = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'GET',
       path: '/other-payments',
       params: {

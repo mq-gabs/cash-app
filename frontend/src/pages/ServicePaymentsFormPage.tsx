@@ -10,6 +10,7 @@ import Button from "../components/Button";
 import { callApi } from "../api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useUser } from "../hooks/use-user";
 
 const paymentTypeOptions = Object.entries(EPaymentTypeLabels).map(([key, val]) => ({
   id: key,
@@ -24,11 +25,13 @@ export default function ServicePaymentsFormPage() {
   const [paymentType, setPaymentType] = useState(EPaymentType.CASH);
   const [paidAt, setPaidAt] = useState("");
   const [services, setServices] = useState<TService[]>([]);
+  const { signOut } = useUser();
+
 
   const handleCreateServicePayment = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "POST",
       path: "/service-payments",
       data: {
@@ -49,7 +52,7 @@ export default function ServicePaymentsFormPage() {
   const handleUpdateServicePayment = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "PATCH",
       path: `/service-payments/${id}`,
       data: {
@@ -68,7 +71,7 @@ export default function ServicePaymentsFormPage() {
   };
 
   const loadServicePaymentData = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "GET",
       path: `/service-payments/${id}`,
     });

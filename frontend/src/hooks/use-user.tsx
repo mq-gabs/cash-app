@@ -18,29 +18,30 @@ interface IUserProvider {
   children: React.ReactNode;
 }
 
-function getFromStorage(tag: string) {
-  return JSON.parse(localStorage.getItem(tag) || '{}');
-}
-
-function saveOnStorage(tag: string, data: Object) {
-  localStorage.setItem(tag, JSON.stringify(data || {}));
-}
-
 const STORAGE_USER_KEY = "@cash-app:user-data"
+
+export function getFromStorage() {
+  return JSON.parse(localStorage.getItem(STORAGE_USER_KEY) || '{}');
+}
+
+function saveOnStorage(data: Object) {
+  localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(data || {}));
+}
+
 
 function UserProvider({
   children
 }: IUserProvider) {
-  const [data, setData] = useState<TUserData>(getFromStorage(STORAGE_USER_KEY))
+  const [data, setData] = useState<TUserData>(getFromStorage())
 
   const signIn = (data: TUserData) => {
     setData(data);
-    saveOnStorage(STORAGE_USER_KEY, data);
+    saveOnStorage(data);
   };
 
   const signOut = () => {
     setData({} as TUserData);
-    saveOnStorage(STORAGE_USER_KEY, {});
+    saveOnStorage({});
   }
 
   return (
@@ -54,10 +55,10 @@ function UserProvider({
   )
 }
 
-function userUser() {
+function useUser() {
   const user = useContext(UserContext);
 
   return user;
 }
 
-export { userUser, UserProvider };
+export { useUser, UserProvider };

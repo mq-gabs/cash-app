@@ -20,6 +20,7 @@ import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
 import { FaCashRegister } from "react-icons/fa";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { GiTwoCoins } from "react-icons/gi";
+import { useUser } from "../../hooks/use-user";
 
 export default function Dashboard() {
   const [servicesCount, setServicesCount] = useState<{
@@ -78,6 +79,9 @@ export default function Dashboard() {
     revenue: 0,
   });
 
+  const { signOut } = useUser();
+
+
   const currentDate = new Date();
 
   const [month, setMonth] = useState(String(currentDate.getMonth() + 1));
@@ -93,7 +97,7 @@ export default function Dashboard() {
 
     setIsLoading(true);
 
-    const response: TMonthReport = await callApi({
+    const response: TMonthReport = await callApi(signOut, {
       method: "GET",
       path: `/reports/month`,
       params: {

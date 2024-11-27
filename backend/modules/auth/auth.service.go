@@ -28,11 +28,11 @@ func SignIn(c *gin.Context) {
 	}
 
 	if err := utils.CheckPassword(b.Password, u.Password); err != nil {
-		utils.Resp(c, 401, "Senha incorreta", err)
+		utils.Resp(c, 400, "Senha incorreta", err)
 		return
 	}
 
-	token, err := utils.GenerateToken(u.ID.String())
+	token, err := utils.JwtGenerateToken(u.ID.String(), u.Role == users.ADMIN)
 
 	if err != nil {
 		utils.Resp(c, 500, "Não foi possível acessar", err)

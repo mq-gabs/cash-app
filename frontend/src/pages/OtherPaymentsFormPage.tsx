@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import InputDate from "../components/InputDate";
 import InputCurrency from "../components/InputCurrency";
+import { useUser } from "../hooks/use-user";
 
 export default function OtherPaymentsFormPage() {
   const { id } = useQuery();
@@ -19,10 +20,13 @@ export default function OtherPaymentsFormPage() {
   const [value, setValue] = useState<number>();
   const [paidAt, setPaidAt] = useState<string>('');
 
+  const { signOut } = useUser();
+
+
   const handleCreatePayment = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "POST",
       path: "/other-payments",
       data: {
@@ -43,7 +47,7 @@ export default function OtherPaymentsFormPage() {
   const handleUpdatePayment = async (e: any) => {
     e.preventDefault();
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "PATCH",
       path: `/other-payments/${id}`,
       data: {
@@ -62,7 +66,7 @@ export default function OtherPaymentsFormPage() {
   };
 
   const loadPaymentData = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "GET",
       path: `/other-payments/${id}`,
     });

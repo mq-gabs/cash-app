@@ -7,11 +7,14 @@ import Button from "../components/Button";
 import { callApi } from "../api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../hooks/use-user";
 
 export default function EmployeesFormPage() {
   const { id } = useQuery();
 
   const nav = useNavigate();
+
+  const { signOut } = useUser();
 
   const [name, setName] = useState("");
   const [wage, setWage] = useState<number>();
@@ -37,7 +40,7 @@ export default function EmployeesFormPage() {
       return;
     }
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "post",
       path: "/employees",
       data: {
@@ -60,7 +63,7 @@ export default function EmployeesFormPage() {
       return;
     }
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "PATCH",
       path: `/employees/${id}`,
       data: {
@@ -78,7 +81,7 @@ export default function EmployeesFormPage() {
   };
 
   const loadEmployeeData = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: "GET",
       path: `/employees/${id}`,
     });

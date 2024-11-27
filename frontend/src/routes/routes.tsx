@@ -1,10 +1,10 @@
 import PublicRoutes from "./PublicRoutes";
-import { userUser } from "../hooks/use-user";
+import { useUser } from "../hooks/use-user";
 import AdminRoutes from "./AdminRoutes";
 import DefaultRoutes from "./DefaultRoutes";
 
 export default function Router() {
-  const { data } = userUser();
+  const { data } = useUser();
 
   if (!data.token) return <PublicRoutes />;
 

@@ -1,9 +1,15 @@
 package employees
 
-import "github.com/gin-gonic/gin"
+import (
+	"cash/backend/utils"
+
+	"github.com/gin-gonic/gin"
+)
 
 func SetRoutes(r *gin.RouterGroup) {
 	g := r.Group("employees")
+
+	g.Use(utils.JwtAuthMiddleware())
 
 	g.GET("", ListEmployees)
 	g.GET("/:id", GetOneEmployee)

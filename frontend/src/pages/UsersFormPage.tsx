@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Select from "../components/Select";
 import { ERoles, ERolesLabels } from "../utils/types";
+import { useUser } from "../hooks/use-user";
 
 const roleOptions = [
   {
@@ -34,6 +35,8 @@ export default function UsersFormPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
+  const { signOut } = useUser();
+
 
   const redirect = () => {
     nav('/usuarios');
@@ -60,7 +63,7 @@ export default function UsersFormPage() {
 
     setIsLoading(true);
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'POST',
       path: '/users',
       data: {
@@ -87,7 +90,7 @@ export default function UsersFormPage() {
 
     setIsLoading(true);
 
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'PATCH',
       path: `/users/${id}`,
       data: {
@@ -108,7 +111,7 @@ export default function UsersFormPage() {
   };
 
   const loadUserData = async () => {
-    const response = await callApi({
+    const response = await callApi(signOut, {
       method: 'get',
       path: `/users/${id}`,
     });
