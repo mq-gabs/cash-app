@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Menu from "../components/Menu";
-import Dashboard from "../pages/dashboard/Dashbaord";
 import ServicePayments from "../pages/ServicePayments";
 import ServicePaymentsFormPage from "../pages/ServicePaymentsFormPage";
 import Services from "../pages/Services";
@@ -19,15 +18,14 @@ export default function DefaultRoutes() {
       </div>
       <div className="w-full h-full overflow-y-auto">
         <Routes>
-          <Route path="/" Component={Dashboard} />
-          <Route path="/service-payments" Component={ServicePayments} />
-          <Route path="/service-payment" Component={ServicePaymentsFormPage} />
-          <Route path="/services" Component={Services} />
-          <Route path="/service" Component={ServicesFormPage} />
-          <Route path="/other-payments" Component={OtherPayments} />
-          <Route path="/other-payment" Component={OtherPaymentsFormPage} />
-          <Route path="/dashboard" Component={Dashboard} />
-          <Route path="/profile" Component={Profile} />
+          <Route path="/" Component={ServicePayments} />
+          <Route path="/atendimentos" Component={ServicePayments} />
+          <Route path="/atendimento" Component={ServicePaymentsFormPage} />
+          <Route path="/servicos" Component={Services} />
+          <Route path="/servico" Component={ServicesFormPage} />
+          <Route path="/outros" Component={OtherPayments} />
+          <Route path="/outro" Component={OtherPaymentsFormPage} />
+          <Route path="/perfil" Component={Profile} />
           <Route path="/*" Component={NotFound} />
         </Routes>
       </div>

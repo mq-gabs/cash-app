@@ -43,18 +43,20 @@ export default function Login() {
             label="Email"
             placeholder="Email"
             onChange={value => setEmail(value)}
+            hideAsterisk
           />
           <Input
             label="Senha"
             placeholder="Senha"
             onChange={value => setPassword(value)}
             type="password"
+            hideAsterisk
           />
           <p>
             Não tem cadastro?
             {' '}
             <Link
-              to="/register"
+              to="/registrar"
               className="underline text-blue-500"
             >
               Crie agora!

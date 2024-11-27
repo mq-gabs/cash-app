@@ -32,7 +32,7 @@ export default function ServicesFormPage() {
 
     toast.success(response?.message || "Sucesso!");
 
-    nav("/services");
+    nav("/servicos");
   };
   const handleEditService = async (e: any) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ export default function ServicesFormPage() {
 
     toast.success(response?.message || "Sucesso!");
 
-    nav("/services");
+    nav("/servicos");
   };
 
   const loadServiceData = async () => {
@@ -78,7 +78,7 @@ export default function ServicesFormPage() {
 
   return (
     <main className="p-4">
-      <PageTitle text={id ? 'Editar serviço' : 'Criar serviço'} backRoute="/services" />
+      <PageTitle text={id ? 'Editar serviço' : 'Criar serviço'} backRoute="/servicos" />
       <div className="p-4 mx-auto max-w-[800px]">
         <form className="flex flex-col gap-4">
           <Input

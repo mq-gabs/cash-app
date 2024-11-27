@@ -43,7 +43,7 @@ export default function ServicePaymentsFormPage() {
 
     toast.success(response?.message || "Sucesso!");
 
-    nav("/service-payments");
+    nav("/atendimentos");
   };
 
   const handleUpdateServicePayment = async (e: any) => {
@@ -64,7 +64,7 @@ export default function ServicePaymentsFormPage() {
 
     toast.success(response?.message || "Sucesso!");
 
-    nav("/service-payments");
+    nav("/atendimentos");
   };
 
   const loadServicePaymentData = async () => {
@@ -91,7 +91,7 @@ export default function ServicePaymentsFormPage() {
       <PageTitle
         className="mb-4"
         text={id ? "Editar atendimento" : "Novo atendimento"}
-        backRoute="/service-payments"
+        backRoute="/atendimentos"
       />
       <div className="mx-auto max-w-[800px]">
         <form className="flex flex-col gap-2">

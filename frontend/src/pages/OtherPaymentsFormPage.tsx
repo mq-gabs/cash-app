@@ -36,7 +36,7 @@ export default function OtherPaymentsFormPage() {
 
     toast.success(response?.message || "Successo!");
 
-    nav("/other-payments");
+    nav("/outros");
   };
 
   const handleUpdatePayment = async (e: any) => {
@@ -57,7 +57,7 @@ export default function OtherPaymentsFormPage() {
 
     toast.success(response?.message || "Successo!");
 
-    nav("/other-payments");
+    nav("/outros");
   };
 
   const loadPaymentData = async () => {
@@ -84,7 +84,7 @@ export default function OtherPaymentsFormPage() {
     <Main>
       <PageTitle
         text={id ? "Editar gasto" : "Registrar gasto"}
-        backRoute="/other-payments"
+        backRoute="/outros"
         className="mb-4"
       />
       <div className="max-w-[800px] mx-auto">

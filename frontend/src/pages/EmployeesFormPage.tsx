@@ -18,7 +18,7 @@ export default function EmployeesFormPage() {
   const [role, setRole] = useState("");
 
   const onFinish = () => {
-    nav("/employees");
+    nav("/funcionarios");
   };
 
   const isValidData = () => {
@@ -98,7 +98,7 @@ export default function EmployeesFormPage() {
 
   return (
     <Main>
-      <PageTitle backRoute="/employees" text={id ? "Editar dados do funcionário" : "Cadastrar novo funcionário"} />
+      <PageTitle backRoute="/funcionarios" text={id ? "Editar dados do funcionário" : "Cadastrar novo funcionário"} />
       <div className="max-w-[800px] mx-auto">
         <form className="flex flex-col gap-4">
           <Input

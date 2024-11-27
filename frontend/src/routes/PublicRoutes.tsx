@@ -6,19 +6,10 @@ export default function PublicRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route
-          path="/login"
-          Component={Login}
-        />
-        <Route
-          path="/register"
-          Component={Register}
-        />
-      <Route
-          path="/*"
-          Component={Login}
-        />
+        <Route path="/login" Component={Login} />
+        <Route path="/registrar" Component={Register} />
+        <Route path="/*" Component={Login} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }

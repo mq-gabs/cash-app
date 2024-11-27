@@ -3,7 +3,6 @@ package servpayments
 import (
 	"cash/backend/modules/services"
 	"cash/backend/utils"
-	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -28,8 +27,6 @@ func CreateServicesPayment(c *gin.Context) {
 	sp := New()
 
 	sp.Update(b)
-
-	fmt.Println(b)
 
 	if err, err2 := sp.Validate(); err != nil {
 		utils.RespNotValid(c, err, err2)

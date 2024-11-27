@@ -64,7 +64,9 @@ func (u *User) Update(b *UserDto) {
 		u.Password, _ = utils.HashPassword(b.Password)
 	}
 
-	if u.Role == "" {
+	if b.Role != "" {
+		u.Role = b.Role
+	} else {
 		u.Role = DEFAULT
 	}
 }

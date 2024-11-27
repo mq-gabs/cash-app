@@ -51,7 +51,7 @@ function OtherPaymentsActions({
   return (
     <div className="flex gap-2">
       <LinkButton
-        to={`/other-payment?id=${id}`}
+        to={`/outro?id=${id}`}
         className="!bg-gray-500"
       >
         <div className="flex gap-2 items-center">
@@ -126,7 +126,7 @@ export default function OtherPayments() {
       <div className="flex justify-between items-center mb-4">
         <PageTitle text="Outros gastos" />
         <LinkButton
-          to="/other-payment"
+          to="/outro"
         >
           <div className="flex gap-2 items-center">
             <IoMdAddCircle />

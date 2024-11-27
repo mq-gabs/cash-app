@@ -55,7 +55,7 @@ export default function UsersFormPage() {
   const handleCreate = async (e: any) => {
     e.preventDefault();
 
-    if (!checkPassword) return;
+    if (!checkPassword()) return;
 
     const response = await callApi({
       method: 'POST',
@@ -78,10 +78,10 @@ export default function UsersFormPage() {
   const handleUpdate = async (e: any) => {
     e.preventDefault();
 
-    if (!checkPassword) return;
+    if (!checkPassword()) return;
 
     const response = await callApi({
-      method: 'POST',
+      method: 'PATCH',
       path: `/users/${id}`,
       data: {
         name,

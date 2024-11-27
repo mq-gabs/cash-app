@@ -40,7 +40,7 @@ const UserActions = ({ id, refresh }: { id: string; refresh: () => void }) => {
 
   return (
     <div className="flex gap-2">
-      <LinkButton to={`/user?id=${id}`} className="!bg-gray-500">
+      <LinkButton to={`/usuario?id=${id}`} className="!bg-gray-500">
         <div className="flex items-center gap-2">
           <MdEdit />
           Editar
@@ -112,7 +112,7 @@ export default function Users() {
         <PageTitle text="Usuários" />
         <div>
           <LinkButton
-            to="/user"
+            to="/usuario"
           >
             <div className="flex gap-2 items-center">
               <IoMdAddCircle />

@@ -11,13 +11,14 @@ type UserDto struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
+	Role     Role   `json:"role"`
 }
 
 func CreateUser(c *gin.Context) {
 	b := &UserDto{}
 
 	if err := c.BindJSON(b); err != nil {
-		utils.Resp(c, 500, "Erro do servidor!", err)
+		utils.RespErrorBind(c, err)
 		return
 	}
 
@@ -33,7 +34,7 @@ func CreateUser(c *gin.Context) {
 	err := DBSave(u)
 
 	if err != nil {
-		utils.Resp(c, 500, "Erro no banco de dados!", err)
+		utils.RespErrorDB(c, err)
 		return
 	}
 
@@ -76,7 +77,7 @@ func UpdateUser(c *gin.Context) {
 
 	u, err := DBFindOne(id)
 	if err != nil {
-		utils.RespNotFound(c, "Pagamento de serviço não encontrado!", err)
+		utils.RespNotFound(c, "Usuário não encontrado!", err)
 		return
 	}
 

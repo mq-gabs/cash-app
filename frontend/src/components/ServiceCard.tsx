@@ -60,7 +60,7 @@ export default function ServiceCard({
       </div>
       <div className="flex gap-2 mt-4">
         <LinkButton
-          to={`/service?id=${id}`}
+          to={`/servico?id=${id}`}
           className="!bg-gray-500"
         >
           <div className="flex gap-2 items-center">

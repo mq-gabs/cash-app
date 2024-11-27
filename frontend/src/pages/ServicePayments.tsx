@@ -50,7 +50,7 @@ function ServicePaymentsActions({
   return (
     <div className="flex gap-2">
       <LinkButton
-        to={`/service-payment?id=${id}`}
+        to={`/atendimento?id=${id}`}
         className="!bg-gray-500"
       >
         <div className="flex items-center gap-2">
@@ -125,7 +125,7 @@ export default function ServicePayments() {
       <div className="flex justify-between items-center mb-4">
         <PageTitle text="Atendimentos" />
         <LinkButton
-          to="/service-payment"
+          to="/atendimento"
         >
           <div className="flex gap-2 items-center">
 

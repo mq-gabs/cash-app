@@ -87,9 +87,7 @@ func DBGetUserByEmail(email string) (*User, error) {
 
 	u := &User{}
 
-	u.Email = email
-
-	if err := db.Find(u).Error; err != nil {
+	if err := db.Where("email = ?", email).First(u).Error; err != nil {
 		return nil, err
 	}
 

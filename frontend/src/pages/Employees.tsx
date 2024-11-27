@@ -52,7 +52,7 @@ function EmployeeActions({
   return (
     <div className="flex gap-2">
       <LinkButton
-        to={`/employee-payment?employeeId=${id}`}
+        to={`/pagamento?employeeId=${id}`}
         className="!bg-green-600"
       >
         <div className="flex items-center gap-2">
@@ -61,7 +61,7 @@ function EmployeeActions({
         </div>
       </LinkButton>
       <LinkButton
-        to={`/employee?id=${id}`}
+        to={`/funcionario?id=${id}`}
         className="!bg-gray-500"
       >
         <div className="flex items-center gap-2">
@@ -137,7 +137,7 @@ export default function Employees() {
         <PageTitle text="Funcionários" />
         <div>
           <LinkButton
-            to="/employee"
+            to="/funcionario"
           >
             <div className="flex gap-2 items-center">
               <IoMdAddCircle />

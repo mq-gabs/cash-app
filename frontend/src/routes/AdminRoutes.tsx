@@ -26,20 +26,20 @@ export default function AdminRoutes() {
         <div className="w-full h-full overflow-y-auto">
           <Routes>
             <Route path="/" Component={Dashboard} />
-            <Route path="/service-payments" Component={ServicePayments} />
-            <Route path="/service-payment" Component={ServicePaymentsFormPage} />
-            <Route path="/services" Component={Services} />
-            <Route path="/service" Component={ServicesFormPage} />
-            <Route path="/employees" Component={Employees} />
-            <Route path="/employee" Component={EmployeesFormPage} />
-            <Route path="/employees-payments" Component={EmployeesPayments} />
-            <Route path="/employee-payment" Component={EmployeesPaymentsFormPage} />
-            <Route path="/other-payments" Component={OtherPayments} />
-            <Route path="/other-payment" Component={OtherPaymentsFormPage} />
-            <Route path="/users" Component={Users} />
-            <Route path="/user" Component={UsersFormPage} />
+            <Route path="/atendimentos" Component={ServicePayments} />
+            <Route path="/atendimento" Component={ServicePaymentsFormPage} />
+            <Route path="/servicos" Component={Services} />
+            <Route path="/servico" Component={ServicesFormPage} />
+            <Route path="/funcionarios" Component={Employees} />
+            <Route path="/funcionario" Component={EmployeesFormPage} />
+            <Route path="/pagamentos" Component={EmployeesPayments} />
+            <Route path="/pagamento" Component={EmployeesPaymentsFormPage} />
+            <Route path="/outros" Component={OtherPayments} />
+            <Route path="/outro" Component={OtherPaymentsFormPage} />
+            <Route path="/usuarios" Component={Users} />
+            <Route path="/usuario" Component={UsersFormPage} />
             <Route path="/dashboard" Component={Dashboard} />
-            <Route path="/profile" Component={Profile} />
+            <Route path="/perfil" Component={Profile} />
             <Route path="/*" Component={NotFound} />
           </Routes>
         </div>

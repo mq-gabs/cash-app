@@ -23,43 +23,43 @@ const menuRoutesAdmin = [
     id: "1",
     label: "Atendimentos",
     Icon: FaPlus,
-    href: "/service-payments",
+    href: "/atendimentos",
   },
   {
     id: "2",
     label: "Pagamentos",
     Icon: GiPayMoney,
-    href: "/employees-payments",
+    href: "/pagamentos",
   },
   {
     id: "3",
     label: "Outros gastos",
     Icon: GiMoneyStack,
-    href: "/other-payments",
+    href: "/outros",
   },
   {
     id: "4",
     label: "Serviços",
     Icon: MdMiscellaneousServices,
-    href: "/services",
+    href: "/servicos",
   },
   {
     id: "5",
     label: "Funcionários",
     Icon: FaPeopleGroup,
-    href: "/employees",
+    href: "/funcionarios",
   },
   {
     id: "6",
     label: "Usuários",
     Icon: HiUsers,
-    href: "/users",
+    href: "/usuarios",
   },
   {
     id: "7",
     label: "Perfil",
     Icon: CgProfile,
-    href: "/profile",
+    href: "/perfil",
   },
 ];
 
@@ -68,33 +68,27 @@ const menuSeparatorIndexesAdmin = ["0", "1", "3", "5"];
 const menuRoutesDefault = [
   {
     id: "0",
-    label: "Dashboard",
-    Icon: MdDashboard,
-    href: "/dashboard",
+    label: "Atendimentos",
+    Icon: FaPlus,
+    href: "/atendimentos",
   },
   {
     id: "1",
-    label: "Atendimentos",
-    Icon: FaPlus,
-    href: "/service-payments",
+    label: "Outros gastos",
+    Icon: GiMoneyStack,
+    href: "/outros",
   },
   {
     id: "2",
-    label: "Outros gastos",
-    Icon: GiMoneyStack,
-    href: "/other-payments",
-  },
-  {
-    id: "3",
     label: "Serviços",
     Icon: MdMiscellaneousServices,
-    href: "/services",
+    href: "/servicos",
   },
   {
-    id: "4",
+    id: "3  ",
     label: "Perfil",
     Icon: CgProfile,
-    href: "/profile",
+    href: "/perfil",
   },
 ];
 

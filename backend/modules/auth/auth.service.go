@@ -27,8 +27,8 @@ func SignIn(c *gin.Context) {
 		return
 	}
 
-	if !utils.CheckPassword(b.Password, u.Password) {
-		utils.Resp(c, 401, "Senha incorreta")
+	if err := utils.CheckPassword(b.Password, u.Password); err != nil {
+		utils.Resp(c, 401, "Senha incorreta", err)
 		return
 	}
 

@@ -4,7 +4,6 @@ import (
 	"cash/backend/modules/base"
 	"cash/backend/modules/services"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -38,7 +37,6 @@ func New() *ServicesPayment {
 
 func (sp *ServicesPayment) Validate() (error, error) {
 
-	fmt.Println(sp)
 	if sp.PaymentType != CASH && sp.PaymentType != DEBIT && sp.PaymentType != CREDIT && sp.PaymentType != INSTALLMENTS {
 		return errors.New("tipo de pagamento inválido"), errors.New(string("got: " + sp.PaymentType + ". Valid: 'CASH', 'DEBIT', 'CREDIT', 'INSTALLMENTS'"))
 	}

@@ -41,17 +41,20 @@ export default function Register() {
             label="Nome"
             placeholder="Nome"
             onChange={value => setName(value)}
+            hideAsterisk
           />
           <Input
             label="Email"
             placeholder="Email"
             onChange={value => setEmail(value)}
+            hideAsterisk
           />
           <Input
             label="Senha"
             placeholder="Senha"
             onChange={value => setPassword(value)}
             type="password"
+            hideAsterisk
           />
           <p>
             Já tem cadastro?

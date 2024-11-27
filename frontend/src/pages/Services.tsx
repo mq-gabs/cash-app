@@ -36,7 +36,7 @@ export default function Services() {
       <div className="flex justify-between mb-4">
         <PageTitle text="Serviços" />
         <LinkButton
-          to="/service"
+          to="/servico"
         >
           <div className="flex items-center gap-2">
 
