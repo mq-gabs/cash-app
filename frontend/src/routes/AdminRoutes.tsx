@@ -15,6 +15,8 @@ import EmployeesPaymentsFormPage from "../pages/EmployeesPaymentsFormPage";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Profile from "../pages/Profile";
 import UsersFormPage from "../pages/UsersFormPage";
+import Customers from "../pages/Customers";
+import CustomersFormPage from "../pages/CustomersFormPage";
 
 export default function AdminRoutes() {
   return (
@@ -38,6 +40,8 @@ export default function AdminRoutes() {
             <Route path="/outro" Component={OtherPaymentsFormPage} />
             <Route path="/usuarios" Component={Users} />
             <Route path="/usuario" Component={UsersFormPage} />
+            <Route path="/clientes" Component={Customers} />
+            <Route path="/cliente" Component={CustomersFormPage} />
             <Route path="/dashboard" Component={Dashboard} />
             <Route path="/perfil" Component={Profile} />
             <Route path="/*" Component={NotFound} />

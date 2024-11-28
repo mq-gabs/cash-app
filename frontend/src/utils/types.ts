@@ -112,3 +112,11 @@ export type TFilterField = {
   placeholder: string;
   type?: string;
 };
+
+export type TCustomer = TBase & {
+  name: string;
+  address: string;
+  birth_date: string;
+  contact: string;
+  balance: number;
+};

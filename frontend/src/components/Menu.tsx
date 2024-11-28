@@ -11,6 +11,7 @@ import { rand } from "../utils";
 import { CiLogout } from "react-icons/ci";
 import { useUser } from "../hooks/use-user";
 import { HiUsers } from "react-icons/hi";
+import { BsFillPersonVcardFill } from "react-icons/bs";
 
 const menuRoutesAdmin = [
   {
@@ -51,19 +52,25 @@ const menuRoutesAdmin = [
   },
   {
     id: "6",
+    label: "Clientes",
+    Icon: BsFillPersonVcardFill,
+    href: "/clientes",
+  },
+  {
+    id: "7",
     label: "Usuários",
     Icon: HiUsers,
     href: "/usuarios",
   },
   {
-    id: "7",
+    id: "8",
     label: "Perfil",
     Icon: CgProfile,
     href: "/perfil",
   },
 ];
 
-const menuSeparatorIndexesAdmin = ["0", "1", "3", "5"];
+const menuSeparatorIndexesAdmin = ["0", "1", "3", "6"];
 
 const menuRoutesDefault = [
   {
@@ -83,6 +90,12 @@ const menuRoutesDefault = [
     label: "Serviços",
     Icon: MdMiscellaneousServices,
     href: "/servicos",
+  },
+  {
+    id: "4",
+    label: "Clientes",
+    Icon: BsFillPersonVcardFill,
+    href: "/clientes",
   },
   {
     id: "3  ",
@@ -127,7 +140,6 @@ export default function Menu() {
               {menuSeparatorIndexes.includes(id) && (
                 <MenuSeparator key={rand()} />
               )}
-              
             </>
           ))}
           <li onClick={signOut}>
