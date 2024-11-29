@@ -319,7 +319,7 @@ func DBServicesAnualAnalysis() {
 	// WHERE strftime('%Y', sp.paid_at) = '2024'
 }
 
-func DBGeneralAnalysis(month, year string) (*GeneralAnalysis, error) {
+func DBGeneralAnalysis(dateStart, dateEnd *time.Time) (*GeneralAnalysis, error) {
 	db, err := database.Conn()
 
 	if err != nil {
@@ -333,7 +333,8 @@ func DBGeneralAnalysis(month, year string) (*GeneralAnalysis, error) {
 			COALESCE(SUM(sp.value), 0) as "revenue"
 		FROM services_payments sp
 		WHERE sp.deleted_at IS NULL
-		AND strftime('%m-%Y', sp.paid_at) = '` + month + `-` + year + `'`
+		AND sp.paid_at > '` + dateStart.String() + `'
+		AND sp.paid_at < '` + dateEnd.String() + `'`
 
 	rows, err := db.Raw(query).Rows()
 
@@ -355,13 +356,15 @@ func DBGeneralAnalysis(month, year string) (*GeneralAnalysis, error) {
 				COALESCE(SUM(ep.value), 0) as "cost"
 			FROM employees_payments ep
 			WHERE ep.deleted_at IS NULL
-			AND strftime('%m-%Y', ep.paid_at) = '` + month + `-` + year + `')
+			AND ep.paid_at > '` + dateStart.String() + `'
+			AND ep.paid_at < '` + dateEnd.String() + `')
 			+
 			(SELECT
 				COALESCE(SUM(op.value), 0) as "cost"
 			FROM other_payments op
 			WHERE op.deleted_at IS NULL
-			AND strftime('%m-%Y', op.paid_at) = '` + month + `-` + year + `')
+			AND op.paid_at > '` + dateStart.String() + `'
+			AND op.paid_at < '` + dateEnd.String() + `')
 		) as "cost"
 
 	`

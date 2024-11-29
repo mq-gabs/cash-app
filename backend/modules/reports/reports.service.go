@@ -2,39 +2,10 @@ package reports
 
 import (
 	"cash/backend/utils"
-	"errors"
-	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
-
-type GenMonthReportDto struct {
-	Month int `form:"month"`
-	Year  int `form:"year"`
-}
-
-func (gmr *GenMonthReportDto) String() (string, string) {
-	m := strconv.Itoa(gmr.Month)
-
-	if gmr.Month < 10 {
-		m = "0" + m
-	}
-
-	return m, strconv.Itoa(gmr.Year)
-}
-
-func (b *GenMonthReportDto) Validate() error {
-	if b.Month < 1 || b.Month > 12 {
-		return errors.New("month must be 0 > month <= 11")
-	}
-
-	if b.Year == 0 {
-		return errors.New("year cannot be empty")
-	}
-
-	return nil
-}
 
 func GenMonthReport(c *gin.Context) {
 	b := &GenMonthReportDto{}
@@ -82,7 +53,7 @@ func GenMonthReport(c *gin.Context) {
 
 	sas.MonthView = ma
 
-	ga, err := DBGeneralAnalysis(b.String())
+	ga, err := DBGeneralAnalysis(&tStart, &tEnd)
 
 	if err != nil {
 		utils.RespErrorDB(c, err)
@@ -97,4 +68,58 @@ func GenMonthReport(c *gin.Context) {
 	}
 
 	c.JSON(200, r)
+}
+
+func GenDailyReport(c *gin.Context) {
+	b := &GenDailyReportDto{}
+
+	if err := c.BindQuery(b); err != nil {
+		utils.RespErrorBind(c, err)
+		return
+	}
+
+	if err := b.Validate(); err != nil {
+		utils.RespNotValid(c, err)
+		return
+	}
+
+	tStart := time.Date(b.Year, time.Month(b.Month), b.Day, 0, 0, 0, 0, time.UTC)
+	tEnd := tStart.AddDate(0, 0, 1)
+
+	sa, err := DBAnalyseServices(&tStart, &tEnd)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	ea, err := DBAnalyseEmployees(&tStart, &tEnd)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	opa, err := DBAnalyseOtherPayments(&tStart, &tEnd)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	ga, err := DBGeneralAnalysis(&tStart, &tEnd)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	rd := &ReportData{
+		ServicesAnalysis:      sa,
+		EmployeesAnalysis:     ea,
+		OtherPaymentsAnalysis: opa,
+		GeneralAnalysis:       ga,
+	}
+
+	c.JSON(200, rd)
 }

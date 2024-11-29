@@ -12,4 +12,5 @@ func SetRoutes(r *gin.RouterGroup) {
 	g.Use(utils.JwtAdminAuthMiddleware())
 
 	g.GET("/month", GenMonthReport)
+	g.GET("/day", GenDailyReport)
 }

@@ -1,6 +1,37 @@
 package reports
 
-import "cash/backend/modules/otherpayments"
+import (
+	"cash/backend/modules/otherpayments"
+	"errors"
+	"strconv"
+)
+
+type GenMonthReportDto struct {
+	Month int `form:"month"`
+	Year  int `form:"year"`
+}
+
+func (gmr *GenMonthReportDto) String() (string, string) {
+	m := strconv.Itoa(gmr.Month)
+
+	if gmr.Month < 10 {
+		m = "0" + m
+	}
+
+	return m, strconv.Itoa(gmr.Year)
+}
+
+func (b *GenMonthReportDto) Validate() error {
+	if b.Month < 1 || b.Month > 12 {
+		return errors.New("month must be 1 <= month <= 12")
+	}
+
+	if b.Year == 0 {
+		return errors.New("year cannot be empty")
+	}
+
+	return nil
+}
 
 type ServiceAnalysis struct {
 	Revenue   *[]*ServiceRevenueAnalysis `json:"revenue"`
@@ -83,4 +114,50 @@ type ReportData struct {
 	EmployeesAnalysis     *EmployeesAnalysis     `json:"employees_analysis"`
 	OtherPaymentsAnalysis *OtherPaymentsAnalysis `json:"other_payments_analysis"`
 	GeneralAnalysis       *GeneralAnalysis       `json:"general_analysis"`
+}
+
+type GenDailyReportDto struct {
+	Day   int `form:"day"`
+	Month int `form:"month"`
+	Year  int `form:"year"`
+}
+
+func (gdr *GenDailyReportDto) Validate() error {
+	if gdr.Day < 1 || gdr.Day > 31 {
+		return errors.New("day must be 1 <= day <= 31")
+	}
+
+	if gdr.Month < 1 || gdr.Month > 12 {
+		return errors.New("month must be 1 <= month <= 12")
+	}
+
+	if gdr.Year == 0 {
+		return errors.New("year cannot be empty")
+	}
+
+	if gdr.Month == 2 {
+		if (gdr.Year%4 == 0 && gdr.Day > 29) || gdr.Day > 28 {
+			return errors.New("invalid day")
+		}
+	}
+
+	return nil
+}
+
+func (gdr *GenDailyReportDto) String() (string, string, string) {
+	d := strconv.Itoa(gdr.Day)
+
+	if gdr.Day < 10 {
+		d = "0" + d
+	}
+
+	m := strconv.Itoa(gdr.Month)
+
+	if gdr.Month < 10 {
+		m = "0" + m
+	}
+
+	y := strconv.Itoa(gdr.Year)
+
+	return d, m, y
 }
