@@ -28,3 +28,5 @@ cp static/index.html static/usuario;
 cp static/index.html static/outros;
 cp static/index.html static/outro;
 cp static/index.html static/perfil;
+cp static/index.html static/clientes;
+cp static/index.html static/cliente;
