@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import { useApi } from "../hooks/use-api";
 import InputCurrency from "../components/InputCurrency";
 import ConfirmModal from "../components/ConfirmModal";
+import Textarea from "../components/Textarea";
 
 type TCustomerOption = {
   id: string;
@@ -44,8 +45,8 @@ export default function ServicePaymentsFormPage() {
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [customers, setCustomers] = useState<TCustomerOption[]>([]);
   const [valuePaid, setValuePaid] = useState(0);
-  const [messageWarning, setMessageWarning] = useState("");
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [observation, setObservation] = useState("");
 
   const handleCreateServicePayment = async () => {
     const data: any = {
@@ -54,6 +55,7 @@ export default function ServicePaymentsFormPage() {
       paid_at: paidAt,
       services,
       value: valuePaid,
+      observation,
     };
 
     if (selectedCustomer) {
@@ -82,9 +84,7 @@ export default function ServicePaymentsFormPage() {
       paid_at: paidAt,
       services,
       value: valuePaid,
-      customer: {
-        id: selectedCustomer,
-      },
+      observation,
     };
 
     if (selectedCustomer) {
@@ -121,6 +121,7 @@ export default function ServicePaymentsFormPage() {
     setTimeout(() => {
       setValuePaid(response.value);
     }, 1);
+    setObservation(response.observation);
   };
 
   const loadCustomers = async () => {
@@ -178,9 +179,6 @@ export default function ServicePaymentsFormPage() {
     const total = services.reduce((acc, curr) => acc + curr.price, 0);
 
     if (total !== valuePaid) {
-      setMessageWarning(
-        "O valor pago é diferente do total de serviços. Prosseguir mesmo assim?"
-      );
       setOpenConfirmModal(true);
       return;
     }
@@ -226,6 +224,12 @@ export default function ServicePaymentsFormPage() {
             setValue={(v) => setPaidAt(v)}
             value={paidAt}
           />
+          <Textarea
+            label="Observação"
+            placeholder="Observação"
+            onChange={(v) => setObservation(v)}
+            defaultValue={observation}
+          />
           <Button
             onClick={handleClickToSubmitServicePayment}
             isLoading={isLoading}
@@ -235,7 +239,7 @@ export default function ServicePaymentsFormPage() {
         </form>
         <ConfirmModal
           title="Aviso!"
-          text={messageWarning}
+          text="O valor pago é diferente do total de serviços. Prosseguir mesmo assim?"
           onClose={() => setOpenConfirmModal(false)}
           onConfirm={submit}
           open={openConfirmModal}

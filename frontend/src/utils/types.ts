@@ -64,6 +64,7 @@ export type TServicePayments = TBase & {
   services: TService[];
   customer: TCustomer;
   customer_id: string;
+  observation: string;
 };
 
 export type TEmployeePayment = TBase & {

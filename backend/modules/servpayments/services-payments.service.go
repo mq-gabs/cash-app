@@ -1,6 +1,7 @@
 package servpayments
 
 import (
+	"cash/backend/modules/customers"
 	"cash/backend/modules/services"
 	"cash/backend/utils"
 	"time"
@@ -16,6 +17,7 @@ type ServicesPaymentDto struct {
 	Services          []*services.Service `json:"services"`
 	Customer 					*customers.Customer `json:"customer"`
 	Value 				int `json:"value"`
+	Observation string `json:"observation"`
 }
 
 func CreateServicesPayment(c *gin.Context) {

@@ -28,6 +28,7 @@ type ServicesPayment struct {
 	Services          []*services.Service `json:"services" gorm:"many2many:services_payments_services"`
 	CustomerID uuid.UUID `json:"customer_id"`
 	Customer *customers.Customer `json:"customer" gorm:"foreignKey:CustomerID;references:ID"`
+	Observation string `json:"observation"`
 }
 
 func New() *ServicesPayment {
@@ -82,5 +83,9 @@ func (sp *ServicesPayment) Update(b *ServicesPaymentDto) {
 
 	if b.Customer != nil {
 		sp.Customer = b.Customer
+	}
+
+	if b.Observation != "" {
+		sp.Observation = b.Observation
 	}
 }
