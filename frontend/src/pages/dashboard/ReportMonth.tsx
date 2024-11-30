@@ -20,7 +20,7 @@ import { RiDiscountPercentFill } from "react-icons/ri";
 import { GiTwoCoins } from "react-icons/gi";
 import { useUser } from "../../hooks/use-user";
 
-export default function MonthReport() {
+export default function ReportMonth() {
   const [servicesCount, setServicesCount] = useState<{
     series: number[];
     labels: string[];
@@ -185,7 +185,7 @@ export default function MonthReport() {
 
   return (
     <div>
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex gap-2 justify-center">
         <Select
           options={monthsOptions}
           label="Mês"

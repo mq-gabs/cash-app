@@ -13,4 +13,5 @@ func SetRoutes(r *gin.RouterGroup) {
 
 	g.GET("/month", GenMonthReport)
 	g.GET("/day", GenDailyReport)
+	g.GET("/year", GenYearReport)
 }

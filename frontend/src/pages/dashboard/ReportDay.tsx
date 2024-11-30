@@ -22,7 +22,7 @@ const daysOptions = [...Array(31)].map((_, i) => ({
   name: atLeast2Digits(i + 1),
 }));
 
-export default function DayReport() {
+export default function ReportDay() {
   const [servicesCount, setServicesCount] = useState<{
     series: number[];
     labels: string[];
@@ -83,7 +83,7 @@ export default function DayReport() {
   const [isLoading, setIsLoading] = useState(false);
 
   const loadReport = async () => {
-    if (!month || !year) {
+    if (!day || !month || !year) {
       toast.error("Selecione um período!");
       return;
     }
@@ -161,7 +161,7 @@ export default function DayReport() {
 
   return (
     <div>
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex gap-2 justify-center">
         <Select
           options={daysOptions}
           label="Dia"

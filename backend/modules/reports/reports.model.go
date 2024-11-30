@@ -37,6 +37,7 @@ type ServiceAnalysis struct {
 	Revenue   *[]*ServiceRevenueAnalysis `json:"revenue"`
 	Count     *[]*ServiceCountAnalysis   `json:"count"`
 	MonthView *ServicesMonthAnalysis     `json:"month_view"`
+	YearView *ServicesYearAnalysis `json:"year_view"`
 }
 
 type ServicesMonthAnalysis struct {
@@ -71,6 +72,21 @@ type ServicesMonthAnalysis struct {
 	Day29 int `json:"day29"`
 	Day30 int `json:"day30"`
 	Day31 int `json:"day31"`
+}
+
+type ServicesYearAnalysis struct {
+	Jan int `json:"jan"`
+	Fev int `json:"fev"`
+	Mar int `json:"mar"`
+	Apr int `json:"apr"`
+	May int `json:"may"`
+	Jun int `json:"jun"`
+	Jul int `json:"jul"`
+	Aug int `json:"aug"`
+	Sep int `json:"sep"`
+	Oct int `json:"oct"`
+	Nov int `json:"nov"`
+	Dec int `json:"dec"`
 }
 
 type ServiceRevenueAnalysis struct {
@@ -160,4 +176,20 @@ func (gdr *GenDailyReportDto) String() (string, string, string) {
 	y := strconv.Itoa(gdr.Year)
 
 	return d, m, y
+}
+
+type GenYearReportDto struct {
+	Year int `form:"year"`
+}
+
+func (gyr *GenYearReportDto) Validate() error {
+	if gyr.Year == 0 {
+		return errors.New("year cannot be empty")
+	}
+
+	return nil
+}
+
+func (gyr *GenYearReportDto) String() string {
+	return strconv.Itoa(gyr.Year)
 }

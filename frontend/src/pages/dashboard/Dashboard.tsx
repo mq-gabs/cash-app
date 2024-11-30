@@ -2,12 +2,14 @@ import { useState } from "react";
 import Main from "../../components/Main";
 import PageTitle from "../../components/PageTitle";
 import clsx from "clsx";
-import DayReport from "./DayReport";
-import MonthReport from "./MonthReport";
+import ReportDay from "./ReportDay";
+import ReportMonth from "./ReportMonth";
+import ReportYear from "./ReportYear";
 
 enum EReportOptions {
   DAY = "DAY",
   MONTH = "MONTH",
+  YEAR = "YEAR",
 }
 
 const periodOptions = [
@@ -21,11 +23,17 @@ const periodOptions = [
     label: "Mês",
     name: EReportOptions.MONTH,
   },
+  {
+    id: "3",
+    label: "Ano",
+    name: EReportOptions.YEAR,
+  },
 ];
 
 const reportComponents = {
-  [EReportOptions.DAY]: DayReport,
-  [EReportOptions.MONTH]: MonthReport,
+  [EReportOptions.DAY]: ReportDay,
+  [EReportOptions.MONTH]: ReportMonth,
+  [EReportOptions.YEAR]: ReportYear,
 };
 
 export default function Dashboard() {
@@ -39,19 +47,20 @@ export default function Dashboard() {
     <Main>
       <PageTitle text="Dashboard" className="mb-4" />
       <div>
-        <div className="mb-2">
+        <div className="mb-2 flex justify-center">
           <ul className="flex gap-8 p-1 bg-gray-300 rounded-full w-fit">
             {periodOptions.map(({ id, label, name }) => (
               <li
                 key={id}
                 className={clsx({
-                  "px-3 py-1 rounded-full cursor-pointer": true,
-                  "bg-gray-700": periodSelected === name,
-                  "hover:bg-gray-500": periodSelected !== name,
+                  "px-5 py-1 rounded-full cursor-pointer": true,
+                  "bg-primary text-white": periodSelected === name,
+                  "hover:bg-secondary hover:text-white":
+                    periodSelected !== name,
                 })}
                 onClick={() => setPeriodSelected(name)}
               >
-                <p className="text-white text-2xl">{label}</p>
+                <p className="text-lg uppercase">{label}</p>
               </li>
             ))}
           </ul>

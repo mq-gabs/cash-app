@@ -1,4 +1,4 @@
-import { TMonthView } from "../pages/dashboard/types";
+import { TMonthView, TYearView } from "../pages/dashboard/types";
 
 export type TBase = {
   id: string;
@@ -68,7 +68,7 @@ export type TEmployeePayment = TBase & {
   value: number;
   paid_at: string;
   employee: TEmployee;
-}
+};
 
 export type TMonthReport = {
   services_analysis: {
@@ -83,6 +83,7 @@ export type TMonthReport = {
       count: number;
     }[];
     month_view: TMonthView;
+    year_view: TYearView;
   };
   employees_analysis: {
     count: number;
@@ -91,7 +92,7 @@ export type TMonthReport = {
       id: string;
       name: string;
       value: number;
-    }[]
+    }[];
   };
   other_payments_analysis: {
     count: number;
@@ -103,8 +104,8 @@ export type TMonthReport = {
     cost: number;
     profit: number;
     profit_margin: number;
-  }
-}
+  };
+};
 
 export type TFilterField = {
   name: string;

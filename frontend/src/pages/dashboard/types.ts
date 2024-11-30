@@ -36,3 +36,23 @@ export type TMonthDayView = {
   label: string;
   count: number;
 };
+
+export type TYearView = {
+  jan: number;
+  fev: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dev: number;
+};
+
+export type TYearMonthView = {
+  label: string;
+  count: number;
+};

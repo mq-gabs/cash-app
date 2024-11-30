@@ -300,23 +300,59 @@ func DBServicesMonthAnalysis(month, year string) (*ServicesMonthAnalysis, error)
 	return ma, nil
 }
 
-func DBServicesAnualAnalysis() {
-	//		SELECT
-	//		SUM(CASE WHEN strftime('%m', sp.paid_at) = '1' THEN 1 ELSE 0 END) as "january",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '2' THEN 1 ELSE 0 END) as "february",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '3' THEN 1 ELSE 0 END) as "march",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '4' THEN 1 ELSE 0 END) as "april",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '5' THEN 1 ELSE 0 END) as "may",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '6' THEN 1 ELSE 0 END) as "june",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '7' THEN 1 ELSE 0 END) as "july",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '8' THEN 1 ELSE 0 END) as "august",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '9' THEN 1 ELSE 0 END) as "september",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '10' THEN 1 ELSE 0 END) as "october",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '11' THEN 1 ELSE 0 END) as "november",
-	//	  SUM(CASE WHEN strftime('%m', sp.paid_at) = '12' THEN 1 ELSE 0 END) as "december"
-	//
-	// FROM services_payments sp
-	// WHERE strftime('%Y', sp.paid_at) = '2024'
+func DBServicesAnualAnalysis(year string) (*ServicesYearAnalysis, error) {
+	db, err := database.Conn()
+
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+		SELECT
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '01' THEN 1 ELSE 0 END) as "january",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '02' THEN 1 ELSE 0 END) as "february",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '03' THEN 1 ELSE 0 END) as "march",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '04' THEN 1 ELSE 0 END) as "april",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '05' THEN 1 ELSE 0 END) as "may",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '06' THEN 1 ELSE 0 END) as "june",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '07' THEN 1 ELSE 0 END) as "july",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '08' THEN 1 ELSE 0 END) as "august",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '09' THEN 1 ELSE 0 END) as "september",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '10' THEN 1 ELSE 0 END) as "october",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '11' THEN 1 ELSE 0 END) as "november",
+			SUM(CASE WHEN strftime('%m', sp.paid_at) = '12' THEN 1 ELSE 0 END) as "december"
+		FROM services_payments sp
+		WHERE strftime('%Y', sp.paid_at) = '` + year + `'
+	`
+
+	rows, err := db.Raw(query).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Next()
+
+	sya := &ServicesYearAnalysis{}
+
+	if rows.Next() {
+		rows.Scan(
+			&sya.Jan,
+			&sya.Fev,
+			&sya.Mar,
+			&sya.Apr,
+			&sya.May,
+			&sya.Jun,
+			&sya.Jul,
+			&sya.Aug,
+			&sya.Sep,
+			&sya.Oct,
+			&sya.Nov,
+			&sya.Dec,
+		)
+	}
+
+	return sya, nil
 }
 
 func DBGeneralAnalysis(dateStart, dateEnd *time.Time) (*GeneralAnalysis, error) {

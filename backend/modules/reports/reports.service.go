@@ -123,3 +123,61 @@ func GenDailyReport(c *gin.Context) {
 
 	c.JSON(200, rd)
 }
+
+func GenYearReport(c *gin.Context) {
+	b := &GenYearReportDto{}
+
+	if err := c.BindQuery(b); err != nil {
+		utils.RespErrorBind(c, err)
+		return
+	}
+
+	tStart := time.Date(b.Year, 1, 1, 0, 0, 0, 0, time.UTC)
+	tEnd := tStart.AddDate(1, 0, 0)
+
+	sa, err := DBAnalyseServices(&tStart, &tEnd)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	ea, err := DBAnalyseEmployees(&tStart, &tEnd)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	opa, err := DBAnalyseOtherPayments(&tStart, &tEnd)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	ga, err := DBGeneralAnalysis(&tStart, &tEnd)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	sya, err := DBServicesAnualAnalysis(b.String())
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	sa.YearView = sya
+
+	rd := &ReportData{
+		ServicesAnalysis:      sa,
+		EmployeesAnalysis:     ea,
+		OtherPaymentsAnalysis: opa,
+		GeneralAnalysis:       ga,
+	}
+
+	c.JSON(200, rd)
+}
