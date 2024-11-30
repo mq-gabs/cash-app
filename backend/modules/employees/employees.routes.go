@@ -9,7 +9,7 @@ import (
 func SetRoutes(r *gin.RouterGroup) {
 	g := r.Group("employees")
 
-	g.Use(utils.JwtAdminAuthMiddleware())
+	g.Use(utils.JwtAuthMiddleware(true))
 
 	g.GET("", ListEmployees)
 	g.GET("/:id", GetOneEmployee)

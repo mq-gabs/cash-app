@@ -9,7 +9,7 @@ import (
 func SetRoutes(r *gin.RouterGroup) {
 	g := r.Group("/reports")
 
-	g.Use(utils.JwtAdminAuthMiddleware())
+	g.Use(utils.JwtAuthMiddleware(true))
 
 	g.GET("/month", GenMonthReport)
 	g.GET("/day", GenDailyReport)

@@ -33,7 +33,7 @@ func (to TokenOptions) Expired() bool {
 	return time.Now().After(to.ExpiresAt)
 }
 
-func JwtIsInvalid(tokenString string, admin bool) bool {
+func JwtIsInvalid(tokenString string, isAdmin bool) (bool, error) {
 	to := &TokenOptions{}
 
 	_, err := jwt.ParseWithClaims(tokenString, to, func(t *jwt.Token) (interface{}, error) {
@@ -41,32 +41,41 @@ func JwtIsInvalid(tokenString string, admin bool) bool {
 	})
 
 	if err != nil {
-		return true
+		return true, err
 	}
 
-	if admin && !to.IsAdmin {
-		return true
+	if isAdmin && !to.IsAdmin {
+		return true, nil
 	}
 
-	return to.Expired()
+	return to.Expired(), nil
 }
 
 type HttpHeader struct {
 	Authorization string `json:"Authorization"`
 }
 
-func JwtAdminAuthMiddleware() gin.HandlerFunc {
+func JwtAuthMiddleware(isAdmin bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		h := &HttpHeader{}
 
 		if err := c.BindHeader(h); err != nil {
 			RespErrorBind(c, err)
+			c.Abort()
 			return
 		}
 
 		tokenString := strings.Split(h.Authorization, " ")[1]
 
-		if JwtIsInvalid(tokenString, true) {
+		isInvalid, err := JwtIsInvalid(tokenString, isAdmin)
+
+		if err != nil {
+			RespErrorBind(c, err)
+			c.Abort()
+			return
+		}
+
+		if isInvalid {
 			RespUnauthorized(c)
 			c.Abort()
 			return
