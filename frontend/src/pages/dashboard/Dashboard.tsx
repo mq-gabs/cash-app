@@ -5,11 +5,13 @@ import clsx from "clsx";
 import ReportDay from "./ReportDay";
 import ReportMonth from "./ReportMonth";
 import ReportYear from "./ReportYear";
+import ReportPeriod from "./ReportPeriod";
 
 enum EReportOptions {
   DAY = "DAY",
   MONTH = "MONTH",
   YEAR = "YEAR",
+  PERIOD = "PERIOD",
 }
 
 const periodOptions = [
@@ -28,12 +30,18 @@ const periodOptions = [
     label: "Ano",
     name: EReportOptions.YEAR,
   },
+  {
+    id: "4",
+    label: "Período",
+    name: EReportOptions.PERIOD,
+  },
 ];
 
 const reportComponents = {
   [EReportOptions.DAY]: ReportDay,
   [EReportOptions.MONTH]: ReportMonth,
   [EReportOptions.YEAR]: ReportYear,
+  [EReportOptions.PERIOD]: ReportPeriod,
 };
 
 export default function Dashboard() {

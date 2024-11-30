@@ -4,6 +4,7 @@ import (
 	"cash/backend/modules/otherpayments"
 	"errors"
 	"strconv"
+	"time"
 )
 
 type GenMonthReportDto struct {
@@ -192,4 +193,21 @@ func (gyr *GenYearReportDto) Validate() error {
 
 func (gyr *GenYearReportDto) String() string {
 	return strconv.Itoa(gyr.Year)
+}
+
+type GenPeriodReportDto struct {
+	StartAt *time.Time `form:"start_at"`
+	EndAt *time.Time `form:"end_at"`
+}
+
+func (gpr *GenPeriodReportDto) Validate() error {
+	if gpr.StartAt == nil {
+		return errors.New("start_at cannot be empty")
+	}
+
+	if gpr.EndAt == nil {
+		return errors.New("end_at cannot be empty")
+	}
+
+	return nil
 }

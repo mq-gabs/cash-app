@@ -181,3 +181,58 @@ func GenYearReport(c *gin.Context) {
 
 	c.JSON(200, rd)
 }
+
+func GenPeriodReport(c *gin.Context) {
+	b := &GenPeriodReportDto{}
+
+	if err := c.BindQuery(b); err != nil {
+		utils.RespErrorBind(c, err)
+		return
+	}
+
+	if err := b.Validate(); err != nil {
+		utils.RespNotValid(c, err)
+		return
+	}
+
+	tEnd := b.EndAt.AddDate(0, 0, 1)
+
+	b.EndAt = &tEnd
+
+	sa, err := DBAnalyseServices(b.StartAt, b.EndAt)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	ea, err := DBAnalyseEmployees(b.StartAt, b.EndAt)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	opa, err := DBAnalyseOtherPayments(b.StartAt, b.EndAt)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	ga, err := DBGeneralAnalysis(b.StartAt, b.EndAt)
+
+	if err != nil {
+		utils.RespErrorDB(c, err)
+		return
+	}
+
+	rd := &ReportData{
+		ServicesAnalysis:      sa,
+		EmployeesAnalysis:     ea,
+		OtherPaymentsAnalysis: opa,
+		GeneralAnalysis:       ga,
+	}
+
+	c.JSON(200, rd)
+}
