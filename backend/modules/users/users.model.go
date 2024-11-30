@@ -40,6 +40,10 @@ func (u *User) Validate() error {
 		return errors.New("email não pode estar vazio")
 	}
 
+	if u.Email == "admin" {
+		return errors.New("email é inválido")
+	}
+
 	if u.Password == "" || len(u.Password) < 6 {
 		return errors.New("a senha deve ter no mínimo 6 caracteres")
 	}

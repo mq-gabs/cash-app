@@ -60,7 +60,7 @@ export default function Dashboard() {
                 })}
                 onClick={() => setPeriodSelected(name)}
               >
-                <p className="text-lg uppercase">{label}</p>
+                <p className="text-lg uppercase font-bold">{label}</p>
               </li>
             ))}
           </ul>

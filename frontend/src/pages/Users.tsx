@@ -15,7 +15,15 @@ import { IoMdAddCircle } from "react-icons/io";
 
 const columns = ["Nome", "Email", "Permissão", "Criado em", "Ações"];
 
-const UserActions = ({ id, refresh }: { id: string; refresh: () => void }) => {
+const UserActions = ({
+  id,
+  email,
+  refresh,
+}: {
+  id: string;
+  email: string;
+  refresh: () => void;
+}) => {
   const { signOut } = useUser();
 
   const {
@@ -42,28 +50,32 @@ const UserActions = ({ id, refresh }: { id: string; refresh: () => void }) => {
 
   return (
     <div className="flex gap-2">
-      <LinkButton to={`/usuario?id=${id}`} className="!bg-gray-500">
-        <div className="flex items-center gap-2">
-          <MdEdit />
-          Editar
-        </div>
-      </LinkButton>
-      {userId !== id && (
-        <Button onClick={handleClickToDelete} className="bg-red-500">
-          <div className="flex items-center gap-2 justify-center">
-            <FaTrash />
-            Excluir
-          </div>
-        </Button>
+      {email !== "admin" && (
+        <>
+          <LinkButton to={`/usuario?id=${id}`} className="!bg-gray-500">
+            <div className="flex items-center gap-2">
+              <MdEdit />
+              Editar
+            </div>
+          </LinkButton>
+          {userId !== id && (
+            <Button onClick={handleClickToDelete} className="bg-red-500">
+              <div className="flex items-center gap-2 justify-center">
+                <FaTrash />
+                Excluir
+              </div>
+            </Button>
+          )}
+          <ConfirmModal
+            open={openDeleteModal}
+            onClose={() => setOpenDeleteModal(false)}
+            onConfirm={handleDelete}
+            title="Excluir?"
+            text="Deseja realmente excluir o usuário?"
+            type="warning"
+          />
+        </>
       )}
-      <ConfirmModal
-        open={openDeleteModal}
-        onClose={() => setOpenDeleteModal(false)}
-        onConfirm={handleDelete}
-        title="Excluir?"
-        text="Deseja realmente excluir o usuário?"
-        type="warning"
-      />
     </div>
   );
 };
@@ -73,7 +85,6 @@ export default function Users() {
   const [totalUsers, setTotalUsers] = useState<number>();
   const [page, setPage] = useState(0);
   const { signOut } = useUser();
-
 
   const getUsers = async () => {
     const response = await callApi(signOut, {
@@ -94,6 +105,7 @@ export default function Users() {
         formatDate(created_at),
         <UserActions
           id={id}
+          email={email}
           refresh={() => {
             setPage(0);
             getUsers();
@@ -115,9 +127,7 @@ export default function Users() {
       <div className="mb-4 flex gap-2 justify-between">
         <PageTitle text="Usuários" />
         <div>
-          <LinkButton
-            to="/usuario"
-          >
+          <LinkButton to="/usuario">
             <div className="flex gap-2 items-center">
               <IoMdAddCircle />
               Novo
