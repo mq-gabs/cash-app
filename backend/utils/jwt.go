@@ -13,7 +13,7 @@ var jwtHashKey = []byte("Fkaiocj0i102jck9qjc0")
 func JwtGenerateToken(userId string, isAdmin bool) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"UserID":    userId,
-		"ExpiresAt": time.Now().Add(time.Hour * 10),
+		"ExpiresAt": time.Now().Add(time.Hour * 6),
 		"IsAdmin":   isAdmin,
 	})
 
