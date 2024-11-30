@@ -14,6 +14,8 @@ type ServicesPaymentDto struct {
 	NumOfInstallments int                 `json:"num_of_installments"`
 	PaidAt            *time.Time          `json:"paid_at"`
 	Services          []*services.Service `json:"services"`
+	Customer 					*customers.Customer `json:"customer"`
+	Value 				int `json:"value"`
 }
 
 func CreateServicesPayment(c *gin.Context) {

@@ -14,7 +14,7 @@ import { FaCashRegister } from "react-icons/fa";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { GiTwoCoins } from "react-icons/gi";
 import { useUser } from "../../hooks/use-user";
-import { atLeast2Digits } from "../../utils";
+import { atLeast2Digits, validateDateDay } from "../../utils";
 
 const daysOptions = [...Array(31)].map((_, i) => ({
   id: String(i),
@@ -157,7 +157,29 @@ export default function ReportPeriod() {
     setGeneralAnalysis(response.general_analysis);
   };
 
+  const isValidDateDay = () => {
+    let isValid = true;
+
+    const tStartDay = validateDateDay(startYear, startMonth, startDay);
+
+    if (tStartDay !== startDay) {
+      setStartDay(tStartDay);
+      isValid = false;
+    }
+
+    const tEndDay = validateDateDay(endYear, endMonth, endDay);
+
+    if (tEndDay !== endDay) {
+      setEndDay(tEndDay);
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
   useEffect(() => {
+    if (!isValidDateDay()) return;
+
     loadReport();
   }, [startDay, startMonth, startYear, endDay, endMonth, endYear]);
 

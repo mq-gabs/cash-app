@@ -122,7 +122,9 @@ export default function Menu() {
   return (
     <div className="bg-secondary h-full flex flex-col justify-between">
       <div className="p-2 cursor-pointer overflow-auto">
+        <Link to="/" className="flex justify-center items-center p-2">
         <Logo />
+        </Link>
         <MenuSeparator />
         <ul className="flex flex-col gap-2 pt-2">
           {menuRoutes.map(({ id, href, label, Icon }) => (
@@ -152,7 +154,7 @@ export default function Menu() {
               className={clsx({
                 "p-2 text-xs rounded flex gap-2 items-center uppercase font-semibold":
                   true,
-                "text-white hover:bg-gray-500": true,
+                "text-white hover:bg-primary": true,
               })}
             >
               <CiLogout size={18} />

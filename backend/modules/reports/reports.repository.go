@@ -323,6 +323,7 @@ func DBServicesAnualAnalysis(year string) (*ServicesYearAnalysis, error) {
 			SUM(CASE WHEN strftime('%m', sp.paid_at) = '12' THEN 1 ELSE 0 END) as "december"
 		FROM services_payments sp
 		WHERE strftime('%Y', sp.paid_at) = '` + year + `'
+		AND sp.deleted_at IS NULL
 	`
 
 	rows, err := db.Raw(query).Rows()

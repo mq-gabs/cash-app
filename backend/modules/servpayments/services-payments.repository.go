@@ -31,12 +31,16 @@ func DBList(q *utils.Query) (*utils.List, error) {
 	sps := &[]*ServicesPayment{}
 
 	var c int64
+	if q.CustomerName != "" {
+		db = db.Joins("LEFT JOIN customers c ON c.id = services_payments.customer_id").Where("c.deleted_at IS NULL AND c.name LIKE '%" + q.CustomerName + "%'")
+	}
 
 	if err := db.Find(sps).Count(&c).Error; err != nil {
 		return nil, err
 	}
 
-	if err := db.Preload("Services").Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("paid_at DESC").Find(sps).Error; err != nil {
+
+	if err := db.Preload("Services").Preload("Customer").Limit(q.PageSize).Offset(q.Page * q.PageSize).Order("paid_at DESC").Find(sps).Error; err != nil {
 		return nil, err
 	}
 
@@ -57,7 +61,7 @@ func DBFindOne(id uuid.UUID) (*ServicesPayment, error) {
 
 	sp.ID = id
 
-	if err := db.Preload("Services").First(sp).Error; err != nil {
+	if err := db.Preload("Services").Preload("Customer").First(sp).Error; err != nil {
 		return nil, err
 	}
 

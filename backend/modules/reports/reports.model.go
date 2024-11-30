@@ -153,7 +153,7 @@ func (gdr *GenDailyReportDto) Validate() error {
 	}
 
 	if gdr.Month == 2 {
-		if (gdr.Year%4 == 0 && gdr.Day > 29) || gdr.Day > 28 {
+		if (gdr.Year%4 == 0 && gdr.Day > 29) || (gdr.Year%4 != 0 && gdr.Day > 28) {
 			return errors.New("invalid day")
 		}
 	}

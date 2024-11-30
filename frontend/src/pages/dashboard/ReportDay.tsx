@@ -14,7 +14,7 @@ import { FaCashRegister } from "react-icons/fa";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { GiTwoCoins } from "react-icons/gi";
 import { useUser } from "../../hooks/use-user";
-import { atLeast2Digits } from "../../utils";
+import { atLeast2Digits, validateDateDay } from "../../utils";
 
 const daysOptions = [...Array(31)].map((_, i) => ({
   id: String(i),
@@ -153,7 +153,20 @@ export default function ReportDay() {
     setGeneralAnalysis(response.general_analysis);
   };
 
+  const isValidDateDay = () => {
+    const tDay = validateDateDay(year, month, day);
+
+    if (tDay !== day) {
+      setDay(tDay);
+      return false;
+    }
+
+    return true;
+  };
+
   useEffect(() => {
+    if (!isValidDateDay()) return;
+
     loadReport();
   }, [day, month, year]);
 

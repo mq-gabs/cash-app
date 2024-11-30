@@ -53,10 +53,10 @@ export default function Dashboard() {
 
   return (
     <Main>
-      <PageTitle text="Dashboard" className="mb-4" />
+      <PageTitle text="Dashboard" className="mb-2" />
       <div>
         <div className="mb-2 flex justify-center">
-          <ul className="flex gap-8 p-1 bg-gray-100 rounded-full w-fit">
+          <ul className="flex gap-8 p-1 bg-gray-200 rounded-full w-fit">
             {periodOptions.map(({ id, label, name }) => (
               <li
                 key={id}

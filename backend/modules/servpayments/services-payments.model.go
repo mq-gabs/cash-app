@@ -2,6 +2,7 @@ package servpayments
 
 import (
 	"cash/backend/modules/base"
+	"cash/backend/modules/customers"
 	"cash/backend/modules/services"
 	"errors"
 	"time"
@@ -25,6 +26,8 @@ type ServicesPayment struct {
 	NumOfInstallments int                 `json:"num_of_installments"`
 	PaidAt            *time.Time          `json:"paid_at"`
 	Services          []*services.Service `json:"services" gorm:"many2many:services_payments_services"`
+	CustomerID uuid.UUID `json:"customer_id"`
+	Customer *customers.Customer `json:"customer" gorm:"foreignKey:CustomerID;references:ID"`
 }
 
 func New() *ServicesPayment {
@@ -65,14 +68,19 @@ func (sp *ServicesPayment) Update(b *ServicesPaymentDto) {
 		sp.PaymentType = b.PaymentType
 	}
 
+	if b.NumOfInstallments != 0 {
 	sp.NumOfInstallments = b.NumOfInstallments
+	}
+
+	if b.Value != 0 {
+		sp.Value = b.Value
+	}
 
 	if b.Services != nil {
-		var value int
-		for _, el := range b.Services {
-			value += el.Price
-		}
-		sp.Value = value
 		sp.Services = b.Services
+	}
+
+	if b.Customer != nil {
+		sp.Customer = b.Customer
 	}
 }

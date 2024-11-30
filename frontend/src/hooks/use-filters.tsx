@@ -3,7 +3,7 @@ import Filter from "../components/Filter";
 import { TFilterField } from "../utils/types";
 import { useDebouncedCallback } from "use-debounce";
 
-export function useFilters(fields: TFilterField[], callback: () => void) {
+export function useFilters(fields: TFilterField[], callback: (v: any) => void) {
   const [filters, setFilters] = useState<any>({});
   const [FilterEl, setFilterEl] = useState<React.ReactNode>(() => <></>);
 
@@ -17,7 +17,7 @@ export function useFilters(fields: TFilterField[], callback: () => void) {
     setFilters({});
     setFilterEl(() => <></>);
     setTimeout(handleRenderFields, 0);
-    callback();
+    callback(filters);
   };
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export function useFilters(fields: TFilterField[], callback: () => void) {
 
   useEffect(() => {
     if (Object.keys(filters).length === 0) return;
-    debouncedCallback();
+    debouncedCallback(filters);
   }, [filters]);
 
   return {

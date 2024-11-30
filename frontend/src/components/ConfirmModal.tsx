@@ -8,7 +8,7 @@ interface IConfirmModal {
   onConfirm: () => void;
   title: string;
   text: string;
-  type?: 'default' | 'warning';
+  type?: "default" | "warning";
 }
 
 export default function ConfirmModal({
@@ -17,29 +17,22 @@ export default function ConfirmModal({
   open,
   title,
   text,
-  type = 'default',
+  type = "default",
 }: IConfirmModal) {
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      title={title}
-    >
+    <Modal open={open} onClose={onClose} title={title}>
       <div>
         <div className="mb-4">
           <p>{text}</p>
         </div>
         <div className="flex gap-2 w-full justify-between">
-          <Button
-            onClick={onClose}
-            className="bg-gray-300 text-gray-950"
-          >
+          <Button onClick={onClose} className="!bg-gray-400 text-gray-950">
             Cancelar
           </Button>
           <Button
             onClick={onConfirm}
             className={clsx({
-              "bg-red-500": type === 'warning',
+              "bg-red-500": type === "warning",
             })}
           >
             Confirmar
@@ -47,5 +40,5 @@ export default function ConfirmModal({
         </div>
       </div>
     </Modal>
-  )
+  );
 }
