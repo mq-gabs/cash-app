@@ -17,27 +17,31 @@ export default function HorizontalBarChart({
 
   const options: ApexOptions = {
     chart: {
-      type: 'bar',
+      type: "bar",
       height: 300,
     },
-    series: [{
-      data: series,
-      name: 'Faturamento (R$)',
-      color: '#333'
-    }],
+    series: [
+      {
+        data: series,
+        name: "Faturamento (R$)",
+        color: "#99747B",
+      },
+    ],
     xaxis: {
       categories: labels,
     },
     plotOptions: {
       bar: {
         horizontal: true,
-        borderRadiusApplication: 'end',
+        borderRadiusApplication: "end",
         borderRadius: 2,
         colors: {
-          ranges: [{
-            color: '#333'
-          }]
-        }
+          ranges: [
+            {
+              color: "#99747B",
+            },
+          ],
+        },
       },
     },
     title: {
@@ -47,11 +51,7 @@ export default function HorizontalBarChart({
 
   return (
     <div className="border p-2 rounded">
-      {isEmpty ? (
-        <EmptyChart title={title} />
-      ) : (
-        <BaseChart options={options} />
-      )}
+      {isEmpty ? <EmptyChart title={title} /> : <BaseChart options={options} />}
     </div>
-  )
+  );
 }

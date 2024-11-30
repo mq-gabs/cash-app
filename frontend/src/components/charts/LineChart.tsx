@@ -8,20 +8,19 @@ interface ILineChart {
   series: number[];
 }
 
-export default function LineChart({
-  labels,
-  series,
-  title,
-}: ILineChart) {
+export default function LineChart({ labels, series, title }: ILineChart) {
   const isEmpty = labels.length === 0 || series.length === 0;
 
   const options: ApexOptions = {
-    series: [{
-      name: 'Atendimentos',
-      data: series,
-    }],
+    series: [
+      {
+        name: "Atendimentos",
+        data: series,
+        color: "#99747B",
+      },
+    ],
     chart: {
-      type: 'line',
+      type: "line",
       height: 300,
       toolbar: {
         show: false,
@@ -31,8 +30,8 @@ export default function LineChart({
       },
     },
     stroke: {
-      curve: 'straight',
-      colors: ['#333']
+      curve: "straight",
+      colors: ["#99747B"],
     },
     title: {
       text: title,
@@ -44,11 +43,7 @@ export default function LineChart({
 
   return (
     <div className="border rounded p-2">
-      {isEmpty ? (
-        <EmptyChart title={title} />
-      ) : (
-        <BaseChart options={options} />
-      )}
+      {isEmpty ? <EmptyChart title={title} /> : <BaseChart options={options} />}
     </div>
-  )
+  );
 }

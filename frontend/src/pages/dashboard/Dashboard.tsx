@@ -56,7 +56,7 @@ export default function Dashboard() {
       <PageTitle text="Dashboard" className="mb-4" />
       <div>
         <div className="mb-2 flex justify-center">
-          <ul className="flex gap-8 p-1 bg-gray-300 rounded-full w-fit">
+          <ul className="flex gap-8 p-1 bg-gray-100 rounded-full w-fit">
             {periodOptions.map(({ id, label, name }) => (
               <li
                 key={id}
@@ -68,7 +68,7 @@ export default function Dashboard() {
                 })}
                 onClick={() => setPeriodSelected(name)}
               >
-                <p className="text-lg uppercase font-bold">{label}</p>
+                <p className="uppercase font-bold">{label}</p>
               </li>
             ))}
           </ul>

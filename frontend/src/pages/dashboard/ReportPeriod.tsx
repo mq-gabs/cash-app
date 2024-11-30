@@ -221,7 +221,7 @@ export default function ReportPeriod() {
       </div>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-4">
         <Card
-          className="bg-amber-700 text-white"
+          className="bg-blue-400 text-white"
           Icon={FaCashRegister}
           label="Faturamento"
           value={formatCurrency(generalAnalysis.revenue)}

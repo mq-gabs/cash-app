@@ -67,7 +67,7 @@ export default function InputDate({ label, setValue, value }: IInputDate) {
               onClick={() => handleChangeSelected(id)}
               className={clsx({
                 "px-3 py-1 rounded-3xl cursor-pointer": true,
-                "hover:bg-gray-400 hover:text-white": id !== selected,
+                "hover:bg-secondary hover:text-white": id !== selected,
                 "bg-primary text-white": id === selected,
               })}
             >
@@ -84,7 +84,7 @@ export default function InputDate({ label, setValue, value }: IInputDate) {
           <input
             placeholder="dd/mm/aaaa"
             className="border rounded p-2 pl-8 w-full"
-            value={value ? formatDate(value) : ''}
+            value={value ? formatDate(value) : ""}
           />
           <input
             ref={ref}
