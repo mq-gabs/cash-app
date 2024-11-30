@@ -42,7 +42,7 @@ func CreateServicesPayment(c *gin.Context) {
 		return
 	}
 
-	utils.Resp(c, 201, "Pagamento registrado!")
+	utils.Resp(c, 201, "Atendimento registrado!")
 }
 
 func GetServicesPayment(c *gin.Context) {
@@ -69,7 +69,7 @@ func GetOneServicePayment(c *gin.Context) {
 	e, err := DBFindOne(id)
 
 	if err != nil {
-		utils.RespNotFound(c, "Pagamento de serviço não encontrado", err)
+		utils.RespNotFound(c, "Atendimento não encontrado", err)
 		return
 	}
 
@@ -82,7 +82,7 @@ func UpdateServicePayment(c *gin.Context) {
 	s, err := DBFindOne(id)
 
 	if err != nil {
-		utils.RespNotFound(c, "Pagamento de serviço não encontrado!", err)
+		utils.RespNotFound(c, "Atendimento não encontrado!", err)
 		return
 	}
 
@@ -112,7 +112,7 @@ func DeleteServicePayment(c *gin.Context) {
 	id := uuid.MustParse(c.Param("id"))
 
 	if _, err := DBFindOne(id); err != nil {
-		utils.RespNotFound(c, "Pagamento de serviço não encontrado", err)
+		utils.RespNotFound(c, "Atendimento não encontrado", err)
 		return
 	}
 
@@ -121,5 +121,5 @@ func DeleteServicePayment(c *gin.Context) {
 		return
 	}
 
-	utils.Resp(c, 200, "Pagamento de serviço excluído!")
+	utils.Resp(c, 200, "Atendimento excluído!")
 }

@@ -45,7 +45,7 @@ export default function Register() {
   return (
     <main className="flex justify-center items-center h-screen">
       <div className="p-4 w-[300px] rounded shadow-slate-700 shadow-2xl">
-        <div className="border py-2 bg-secondary rounded flex justify-center">
+        <div className="border pb-2 pt-4 mb-2 bg-secondary rounded flex justify-center">
           <Logo />
         </div>
         <h1 className="text-2xl text-center font-bold">Cadastrar</h1>

@@ -13,12 +13,7 @@ import ConfirmModal from "../components/ConfirmModal";
 import toast from "react-hot-toast";
 import { useUser } from "../hooks/use-user";
 
-const columns = [
-  'Pago em',
-  'Funcionário',
-  'Valor',
-  'Ações',
-];
+const columns = ["Pago em", "Funcionário", "Valor", "Ações"];
 
 function EmployeesPaymentsActions({
   id,
@@ -30,20 +25,19 @@ function EmployeesPaymentsActions({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { signOut } = useUser();
 
-  
   const handleClickToDelete = () => {
     setOpenDeleteModal(true);
-  }
+  };
 
   const handleDelete = async () => {
     const response = await callApi(signOut, {
-      method: 'delete',
+      method: "delete",
       path: `/employees-payments/${id}`,
     });
 
     if (!response) return;
 
-    toast.success(response?.message || 'Sucesso!');
+    toast.success(response?.message || "Sucesso!");
 
     setOpenDeleteModal(false);
     refresh();
@@ -51,34 +45,28 @@ function EmployeesPaymentsActions({
 
   return (
     <div className="flex gap-2">
-    <LinkButton
-      to={`/pagamento?id=${id}`}
-      className="!bg-gray-500"
-    >
-      <div className="flex items-center gap-2">
-        <MdEdit />
-        Editar
-      </div>
-    </LinkButton>
-    <Button
-      onClick={handleClickToDelete}
-      className="bg-red-500"
-    >
-      <div className="flex items-center gap-2 justify-center">
-        <FaTrash />
-        Excluir
-      </div>
-    </Button>
-    <ConfirmModal
-      open={openDeleteModal}
-      onClose={() => setOpenDeleteModal(false)}
-      onConfirm={handleDelete}
-      title="Excluir?"
-      text="Deseja realmente excluir o pagamento?"
-      type="warning"
-    />
-  </div>
-  )
+      <LinkButton to={`/pagamento?id=${id}`} className="!bg-gray-500">
+        <div className="flex items-center gap-2">
+          <MdEdit />
+          Editar
+        </div>
+      </LinkButton>
+      <Button onClick={handleClickToDelete} className="bg-red-500">
+        <div className="flex items-center gap-2 justify-center">
+          <FaTrash />
+          Excluir
+        </div>
+      </Button>
+      <ConfirmModal
+        open={openDeleteModal}
+        onClose={() => setOpenDeleteModal(false)}
+        onConfirm={handleDelete}
+        title="Excluir?"
+        text="Deseja realmente excluir o pagamento?"
+        type="warning"
+      />
+    </div>
+  );
 }
 
 export default function EmployeesPayments() {
@@ -87,11 +75,10 @@ export default function EmployeesPayments() {
   const [totalPayments, setTotalPayments] = useState();
   const { signOut } = useUser();
 
-
   const loadEmployeesPayments = async () => {
     const response = await callApi(signOut, {
-      method: 'GET',
-      path: '/employees-payments',
+      method: "GET",
+      path: "/employees-payments",
       params: {
         page,
       },
@@ -99,22 +86,22 @@ export default function EmployeesPayments() {
 
     if (!response) return;
 
-    const formattedPayments = response.data.map(({
-      id,
-      paid_at,
-      value,
-      employee,
-    }: TEmployeePayment) => [
-      formatDate(paid_at),
-      employee.name,
-      formatCurrency(value),
-      <EmployeesPaymentsActions id={id} refresh={() => {
-        loadEmployeesPayments();
-        setPage(0);
-      }} />,
-    ]);
+    const formattedPayments = response.data.map(
+      ({ id, paid_at, value, employee }: TEmployeePayment) => [
+        formatDate(paid_at),
+        employee?.name || "Não encontrado",
+        formatCurrency(value),
+        <EmployeesPaymentsActions
+          id={id}
+          refresh={() => {
+            loadEmployeesPayments();
+            setPage(0);
+          }}
+        />,
+      ]
+    );
 
-    setTotalPayments(response.count)
+    setTotalPayments(response.count);
     setEmployeesPayments(formattedPayments);
   };
 
@@ -125,7 +112,7 @@ export default function EmployeesPayments() {
   return (
     <Main>
       <div className="mb-4">
-      <PageTitle text="Pagamentos" />
+        <PageTitle text="Pagamentos" />
       </div>
       <div>
         <Table
@@ -137,5 +124,5 @@ export default function EmployeesPayments() {
         />
       </div>
     </Main>
-  )
+  );
 }

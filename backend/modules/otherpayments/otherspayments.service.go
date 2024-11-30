@@ -37,7 +37,7 @@ func CreateOtherPayment(c *gin.Context) {
 		return
 	}
 
-	utils.Resp(c, 201, "Pagamento cadastrado!")
+	utils.Resp(c, 201, "Gasto cadastrado!")
 }
 
 func ListOtherPayments(c *gin.Context) {
@@ -64,7 +64,7 @@ func GetOneOtherPayment(c *gin.Context) {
 	op, err := DBFindOne(id)
 
 	if err != nil {
-		utils.RespNotFound(c, "Pagamento não encontrado", err)
+		utils.RespNotFound(c, "Gasto não encontrado", err)
 		return
 	}
 
@@ -77,7 +77,7 @@ func UpdateOtherPayment(c *gin.Context) {
 	op, err := DBFindOne(id)
 
 	if err != nil {
-		utils.RespNotFound(c, "Pagamento não encontrado!", err)
+		utils.RespNotFound(c, "Gasto não encontrado!", err)
 		return
 	}
 
@@ -107,7 +107,7 @@ func DeleteOtherPayment(c *gin.Context) {
 	id := uuid.MustParse(c.Param("id"))
 
 	if _, err := DBFindOne(id); err != nil {
-		utils.RespNotFound(c, "Pagamento não encontrado", err)
+		utils.RespNotFound(c, "Gasto não encontrado", err)
 		return
 	}
 
@@ -116,5 +116,5 @@ func DeleteOtherPayment(c *gin.Context) {
 		return
 	}
 
-	utils.Resp(c, 200, "Pagamento excluído!")
+	utils.Resp(c, 200, "Gasto excluído!")
 }
