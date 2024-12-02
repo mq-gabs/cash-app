@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { callApi } from "../api";
 import { formatCurrency } from "../utils/formaters";
 import { TService } from "../utils/types";
-import { useUser } from "../hooks/use-user";
+import { useApi } from "../hooks/use-api";
 
 interface IServiceSelector {
   selectedServices: TService[];
@@ -13,14 +12,14 @@ export default function ServiceSelector({
   selectedServices = [],
   setSelectedServices,
 }: IServiceSelector) {
-  const { signOut } = useUser();
+  const { callApi } = useApi();
 
   const [services, setServices] = useState<TService[]>([]);
 
   const value = selectedServices.reduce((acc, curr) => acc + curr.price, 0);
 
   const loadServices = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "GET",
       path: "/services",
       params: {

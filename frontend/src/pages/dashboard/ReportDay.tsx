@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { callApi } from "../../api";
 import { TMonthReport } from "../../utils/types";
 import PieChart from "../../components/charts/PieChart";
 import HorizontalBarChart from "../../components/charts/HorizontalBarChart";
@@ -13,8 +12,8 @@ import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
 import { FaCashRegister } from "react-icons/fa";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { GiTwoCoins } from "react-icons/gi";
-import { useUser } from "../../hooks/use-user";
 import { atLeast2Digits, validateDateDay } from "../../utils";
+import { useApi } from "../../hooks/use-api";
 
 const daysOptions = [...Array(31)].map((_, i) => ({
   id: String(i),
@@ -23,6 +22,8 @@ const daysOptions = [...Array(31)].map((_, i) => ({
 }));
 
 export default function ReportDay() {
+  const { callApi, isLoading } = useApi();
+
   const [servicesCount, setServicesCount] = useState<{
     series: number[];
     labels: string[];
@@ -72,15 +73,11 @@ export default function ReportDay() {
     revenue: 0,
   });
 
-  const { signOut } = useUser();
-
   const currentDate = new Date();
 
   const [day, setDay] = useState(String(currentDate.getDate()));
   const [month, setMonth] = useState(String(currentDate.getMonth() + 1));
   const [year, setYear] = useState(String(currentDate.getFullYear()));
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const loadReport = async () => {
     if (!day || !month || !year) {
@@ -88,9 +85,7 @@ export default function ReportDay() {
       return;
     }
 
-    setIsLoading(true);
-
-    const response: TMonthReport = await callApi(signOut, {
+    const response: TMonthReport = await callApi({
       method: "GET",
       path: `/reports/day`,
       params: {
@@ -99,8 +94,6 @@ export default function ReportDay() {
         day: Number(day),
       },
     });
-
-    setIsLoading(false);
 
     if (!response) return;
 

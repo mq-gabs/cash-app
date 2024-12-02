@@ -4,24 +4,19 @@ import Main from "../components/Main";
 import PageTitle from "../components/PageTitle";
 import { useQuery } from "../hooks/use-query";
 import Button from "../components/Button";
-import { callApi } from "../api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../hooks/use-user";
 import InputCurrency from "../components/InputCurrency";
+import { useApi } from "../hooks/use-api";
 
 export default function EmployeesFormPage() {
   const { id } = useQuery();
-
+  const { callApi, isLoading } = useApi();
   const nav = useNavigate();
-
-  const { signOut } = useUser();
 
   const [name, setName] = useState("");
   const [wage, setWage] = useState<number>();
   const [role, setRole] = useState("");
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = () => {
     nav("/funcionarios");
@@ -43,19 +38,15 @@ export default function EmployeesFormPage() {
       return;
     }
 
-    setIsLoading(true);
-
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "post",
       path: "/employees",
       data: {
         name,
-        wage: (wage || 0),
+        wage: wage || 0,
         role,
       },
     });
-
-    setIsLoading(false);
 
     if (!response) return;
 
@@ -70,19 +61,15 @@ export default function EmployeesFormPage() {
       return;
     }
 
-    setIsLoading(true);
-
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "PATCH",
       path: `/employees/${id}`,
       data: {
         name,
         role,
-        wage: (wage || 0),
+        wage: wage || 0,
       },
     });
-
-    setIsLoading(false);
 
     if (!response) return;
 
@@ -92,7 +79,7 @@ export default function EmployeesFormPage() {
   };
 
   const loadEmployeeData = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "GET",
       path: `/employees/${id}`,
     });
@@ -112,7 +99,10 @@ export default function EmployeesFormPage() {
 
   return (
     <Main>
-      <PageTitle backRoute="/funcionarios" text={id ? "Editar dados do funcionário" : "Cadastrar novo funcionário"} />
+      <PageTitle
+        backRoute="/funcionarios"
+        text={id ? "Editar dados do funcionário" : "Cadastrar novo funcionário"}
+      />
       <div className="max-w-[800px] mx-auto">
         <form className="flex flex-col gap-4">
           <Input
@@ -136,7 +126,10 @@ export default function EmployeesFormPage() {
             value={wage || 0}
             required
           />
-          <Button isLoading={isLoading} onClick={id ? handleEditEmployee : handleCreateEmployee}>
+          <Button
+            isLoading={isLoading}
+            onClick={id ? handleEditEmployee : handleCreateEmployee}
+          >
             {id ? "Salvar edição" : "Salvar"}
           </Button>
         </form>

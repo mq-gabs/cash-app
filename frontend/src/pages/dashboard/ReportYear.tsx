@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { callApi } from "../../api";
 import { TMonthReport } from "../../utils/types";
 import PieChart from "../../components/charts/PieChart";
 import HorizontalBarChart from "../../components/charts/HorizontalBarChart";
@@ -17,10 +16,12 @@ import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
 import { FaCashRegister } from "react-icons/fa";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { GiTwoCoins } from "react-icons/gi";
-import { useUser } from "../../hooks/use-user";
 import LineChart from "../../components/charts/LineChart";
+import { useApi } from "../../hooks/use-api";
 
 export default function ReportYear() {
+  const { callApi, isLoading } = useApi();
+
   const [servicesCount, setServicesCount] = useState<{
     series: number[];
     labels: string[];
@@ -77,13 +78,9 @@ export default function ReportYear() {
     series: [],
   });
 
-  const { signOut } = useUser();
-
   const currentDate = new Date();
 
   const [year, setYear] = useState(String(currentDate.getFullYear()));
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const loadReport = async () => {
     if (!year) {
@@ -91,17 +88,13 @@ export default function ReportYear() {
       return;
     }
 
-    setIsLoading(true);
-
-    const response: TMonthReport = await callApi(signOut, {
+    const response: TMonthReport = await callApi({
       method: "GET",
       path: `/reports/year`,
       params: {
         year: Number(year),
       },
     });
-
-    setIsLoading(false);
 
     if (!response) return;
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Main from "../components/Main";
 import PageTitle from "../components/PageTitle";
-import { callApi } from "../api";
 import { TEmployee } from "../utils/types";
 import { formatCurrency, formatDate } from "../utils/formaters";
 import Table from "../components/Table";
@@ -13,12 +12,12 @@ import { FaTrash } from "react-icons/fa";
 import { BsCash } from "react-icons/bs";
 import toast from "react-hot-toast";
 import ConfirmModal from "../components/ConfirmModal";
-import { useUser } from "../hooks/use-user";
+import { useApi } from "../hooks/use-api";
 
 const columns = ["Nome", "Cargo", "Salário", "Criado em", "Ações"];
 
 function EmployeeActions({ id, refresh }: { id: string; refresh: () => void }) {
-  const { signOut } = useUser();
+  const { callApi } = useApi();
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -27,7 +26,7 @@ function EmployeeActions({ id, refresh }: { id: string; refresh: () => void }) {
   };
 
   const handleDelete = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "delete",
       path: `/employees/${id}`,
     });
@@ -73,13 +72,14 @@ function EmployeeActions({ id, refresh }: { id: string; refresh: () => void }) {
 }
 
 export default function Employees() {
+  const { callApi } = useApi();
+
   const [employeesList, setEmployeesList] = useState<string[][]>([]);
   const [page, setPage] = useState(0);
   const [totalEmployees, setTotalEmployees] = useState(1);
-  const { signOut } = useUser();
 
   const loadEmployees = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "get",
       path: "/employees",
       params: {

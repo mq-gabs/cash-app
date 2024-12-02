@@ -3,7 +3,6 @@ import LinkButton from "../components/LinkButton";
 import Main from "../components/Main";
 import PageTitle from "../components/PageTitle";
 import { useEffect, useState } from "react";
-import { callApi } from "../api";
 import { TOtherPayment } from "../utils/types";
 import { formatCurrency, formatDate } from "../utils/formaters";
 import Table from "../components/Table";
@@ -12,40 +11,34 @@ import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import toast from "react-hot-toast";
 import ConfirmModal from "../components/ConfirmModal";
-import { useUser } from "../hooks/use-user";
+import { useApi } from "../hooks/use-api";
 
-const columns = [
-  'Título',
-  'Descrição',
-  'Pago em',
-  'Valor',
-  'Ações',
-];
+const columns = ["Título", "Descrição", "Pago em", "Valor", "Ações"];
 
 function OtherPaymentsActions({
   id,
   refresh,
 }: {
-  id: string
+  id: string;
   refresh: () => void;
 }) {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const { signOut } = useUser();
+  const { callApi } = useApi();
 
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const handleClickToDeletePayment = () => {
     setOpenDeleteModal(true);
   };
 
   const handleDelete = async () => {
-    const response = await callApi(signOut, {
-      method: 'delete',
+    const response = await callApi({
+      method: "delete",
       path: `/other-payments/${id}`,
     });
 
     if (!response) return;
 
-    toast.success(response?.message || 'Sucesso!');
+    toast.success(response?.message || "Sucesso!");
 
     setOpenDeleteModal(false);
     refresh();
@@ -53,19 +46,13 @@ function OtherPaymentsActions({
 
   return (
     <div className="flex gap-2">
-      <LinkButton
-        to={`/outro?id=${id}`}
-        className="!bg-gray-500"
-      >
+      <LinkButton to={`/outro?id=${id}`} className="!bg-gray-500">
         <div className="flex gap-2 items-center">
           <MdEdit />
           Editar
         </div>
       </LinkButton>
-      <Button
-        className="bg-red-500"
-        onClick={handleClickToDeletePayment}
-      >
+      <Button className="bg-red-500" onClick={handleClickToDeletePayment}>
         <div className="flex gap-2 items-center">
           <FaTrash />
           Excluir
@@ -80,20 +67,20 @@ function OtherPaymentsActions({
         type="warning"
       />
     </div>
-  )
+  );
 }
 
 export default function OtherPayments() {
+  const { callApi } = useApi();
+
   const [payments, setPayments] = useState<string[][]>([]);
   const [totalPayments, setTotalPayments] = useState<number>();
   const [page, setPage] = useState(0);
-  const { signOut } = useUser();
-
 
   const loadPayments = async () => {
-    const response = await callApi(signOut, {
-      method: 'GET',
-      path: '/other-payments',
+    const response = await callApi({
+      method: "GET",
+      path: "/other-payments",
       params: {
         page,
       },
@@ -101,22 +88,21 @@ export default function OtherPayments() {
 
     if (!response) return;
 
-    const formattedPayments = response.data.map(({
-      id,
-      title,
-      description,
-      paid_at,
-      value,
-    }: TOtherPayment) => [
+    const formattedPayments = response.data.map(
+      ({ id, title, description, paid_at, value }: TOtherPayment) => [
         title,
         description,
         formatDate(paid_at),
         formatCurrency(value),
-        <OtherPaymentsActions id={id} refresh={() => {
-          setPage(0);
-          loadPayments();
-        }} />,
-      ]);
+        <OtherPaymentsActions
+          id={id}
+          refresh={() => {
+            setPage(0);
+            loadPayments();
+          }}
+        />,
+      ]
+    );
 
     setPayments(formattedPayments);
     setTotalPayments(response.count);
@@ -130,9 +116,7 @@ export default function OtherPayments() {
     <Main>
       <div className="flex justify-between items-center mb-4">
         <PageTitle text="Outros gastos" />
-        <LinkButton
-          to="/outro"
-        >
+        <LinkButton to="/outro">
           <div className="flex gap-2 items-center">
             <IoMdAddCircle />
             Novo
@@ -149,5 +133,5 @@ export default function OtherPayments() {
         />
       </div>
     </Main>
-  )
+  );
 }

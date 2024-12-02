@@ -2,28 +2,22 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useState } from "react";
 import Input from "../components/Input";
-import { callApi } from "../api";
 import toast from "react-hot-toast";
-import { useUser } from "../hooks/use-user";
 import Logo from "../components/Logo";
+import { useApi } from "../hooks/use-api";
 
 export default function Register() {
   const nav = useNavigate();
+  const { callApi, isLoading } = useApi();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { signOut } = useUser();
-
   const handleRegister = async (e: any) => {
     e.preventDefault();
 
-    setIsLoading(true);
-
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "post",
       path: "/users",
       data: {
@@ -32,8 +26,6 @@ export default function Register() {
         email,
       },
     });
-
-    setIsLoading(false);
 
     if (!response) return;
 

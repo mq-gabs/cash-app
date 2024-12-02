@@ -2,26 +2,23 @@ import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
-import { callApi } from "../api";
 import toast from "react-hot-toast";
-import { useUser } from "../hooks/use-user";
 import Logo from "../components/Logo";
+import { useApi } from "../hooks/use-api";
+import { useUser } from "../hooks/use-user";
 
 export default function Login() {
-  const { signIn } = useUser();
   const nav = useNavigate();
+  const { callApi, isLoading } = useApi();
+  const { signIn } = useUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const { signOut } = useUser();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
 
-    setIsLoading(true);
-
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "POST",
       path: "/auth",
       data: {
@@ -29,8 +26,6 @@ export default function Login() {
         password,
       },
     });
-
-    setIsLoading(false);
 
     if (!response) return;
 

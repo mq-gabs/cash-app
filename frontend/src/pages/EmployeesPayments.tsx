@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Main from "../components/Main";
 import PageTitle from "../components/PageTitle";
-import { callApi } from "../api";
 import { TEmployeePayment } from "../utils/types";
 import LinkButton from "../components/LinkButton";
 import { MdEdit } from "react-icons/md";
@@ -11,7 +10,7 @@ import { formatCurrency, formatDate } from "../utils/formaters";
 import Table from "../components/Table";
 import ConfirmModal from "../components/ConfirmModal";
 import toast from "react-hot-toast";
-import { useUser } from "../hooks/use-user";
+import { useApi } from "../hooks/use-api";
 
 const columns = ["Pago em", "Funcionário", "Valor", "Ações"];
 
@@ -22,15 +21,15 @@ function EmployeesPaymentsActions({
   id: string;
   refresh: () => void;
 }) {
+  const { callApi } = useApi();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const { signOut } = useUser();
 
   const handleClickToDelete = () => {
     setOpenDeleteModal(true);
   };
 
   const handleDelete = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "delete",
       path: `/employees-payments/${id}`,
     });
@@ -70,13 +69,14 @@ function EmployeesPaymentsActions({
 }
 
 export default function EmployeesPayments() {
+  const { callApi } = useApi();
+
   const [employeesPayments, setEmployeesPayments] = useState<string[][]>([]);
   const [page, setPage] = useState(0);
   const [totalPayments, setTotalPayments] = useState();
-  const { signOut } = useUser();
 
   const loadEmployeesPayments = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "GET",
       path: "/employees-payments",
       params: {

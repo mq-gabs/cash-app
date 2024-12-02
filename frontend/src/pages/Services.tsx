@@ -1,22 +1,21 @@
 import toast from "react-hot-toast";
-import { callApi } from "../api"
 import { useEffect, useState } from "react";
 import { TService } from "../utils/types";
 import ServiceCard from "../components/ServiceCard";
 import PageTitle from "../components/PageTitle";
 import LinkButton from "../components/LinkButton";
 import { IoMdAddCircle } from "react-icons/io";
-import { useUser } from "../hooks/use-user";
+import { useApi } from "../hooks/use-api";
 
 export default function Services() {
-  const [services, setServices] = useState<TService[]>([]);
-  const { signOut } = useUser();
+  const { callApi } = useApi();
 
+  const [services, setServices] = useState<TService[]>([]);
 
   const loadServices = async () => {
-    const response = await callApi(signOut, {
-      method: 'GET',
-      path: '/services',
+    const response = await callApi({
+      method: "GET",
+      path: "/services",
       params: {
         pageSize: 999,
       },
@@ -28,7 +27,7 @@ export default function Services() {
     }
 
     setServices(response.data);
-  }
+  };
 
   useEffect(() => {
     loadServices();
@@ -38,25 +37,18 @@ export default function Services() {
     <main className="p-4">
       <div className="flex justify-between mb-4">
         <PageTitle text="Serviços" />
-        <LinkButton
-          to="/servico"
-        >
+        <LinkButton to="/servico">
           <div className="flex items-center gap-2">
-
             <IoMdAddCircle />
             Novo serviço
           </div>
         </LinkButton>
       </div>
       {services.length !== 0 && (
-
         <ul className="gap-2 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {services.map((service) => (
             <li className="">
-              <ServiceCard
-                data={service}
-                refresh={loadServices}
-              />
+              <ServiceCard data={service} refresh={loadServices} />
             </li>
           ))}
         </ul>
@@ -67,5 +59,5 @@ export default function Services() {
         </div>
       )}
     </main>
-  )
+  );
 }

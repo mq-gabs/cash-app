@@ -3,42 +3,38 @@ import Input from "../components/Input";
 import Main from "../components/Main";
 import PageTitle from "../components/PageTitle";
 import Button from "../components/Button";
-import { callApi } from "../api";
 import { useUser } from "../hooks/use-user";
 import toast from "react-hot-toast";
+import { useApi } from "../hooks/use-api";
 
 export default function Profile() {
-  const { data: { id } } = useUser();
+  const {
+    data: { id },
+  } = useUser();
+  const { callApi, isLoading } = useApi();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { signOut } = useUser();
-
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const loadUserData = async () => {
-    const response = await callApi(signOut, {
-      method: 'get',
+    const response = await callApi({
+      method: "get",
       path: `/users/${id}`,
     });
-  
+
     if (!response) return;
 
     setName(response.name);
     setEmail(response.email);
-  }
+  };
 
   const handleSave = async (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    setIsLoading(true);
-
-    const response = await callApi(signOut, {
-      method: 'patch',
+    const response = await callApi({
+      method: "patch",
       path: `/users/${id}`,
       data: {
         name,
@@ -47,11 +43,9 @@ export default function Profile() {
       },
     });
 
-    setIsLoading(false);
-
     if (!response) return;
 
-    toast.success(response?.message || 'Sucesso!');
+    toast.success(response?.message || "Sucesso!");
   };
 
   useEffect(() => {
@@ -66,21 +60,21 @@ export default function Profile() {
           <Input
             label="Nome"
             placeholder="Nome"
-            onChange={v => setName(v)}
+            onChange={(v) => setName(v)}
             defaultValue={name}
             required
           />
           <Input
             label="Email"
             placeholder="Email"
-            onChange={v => setEmail(v)}
+            onChange={(v) => setEmail(v)}
             defaultValue={email}
             required
           />
           <Input
             label="Senha"
             placeholder="Senha"
-            onChange={v => setPassword(v)}
+            onChange={(v) => setPassword(v)}
             defaultValue={password}
             required
             type="password"
@@ -88,19 +82,16 @@ export default function Profile() {
           <Input
             label="Repetir senha"
             placeholder="Repetir senha"
-            onChange={v => setConfirmPassword(v)}
+            onChange={(v) => setConfirmPassword(v)}
             defaultValue={confirmPassword}
             required
             type="password"
           />
-          <Button
-            onClick={handleSave}  
-            isLoading={isLoading}
-          >
+          <Button onClick={handleSave} isLoading={isLoading}>
             Salvar
           </Button>
         </form>
       </div>
     </Main>
-  )
+  );
 }

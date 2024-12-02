@@ -1,31 +1,26 @@
 import { useEffect, useState } from "react";
 import Input from "../components/Input";
-import { callApi } from "../api";
 import Button from "../components/Button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import { useQuery } from "../hooks/use-query";
 import InputCurrency from "../components/InputCurrency";
-import { useUser } from "../hooks/use-user";
+import { useApi } from "../hooks/use-api";
 
 export default function ServicesFormPage() {
   const nav = useNavigate();
   const { id } = useQuery();
+  const { callApi, isLoading } = useApi();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number>();
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { signOut } = useUser();
-
   const handleCreateService = async (e: any) => {
     e.preventDefault();
 
-    setIsLoading(true);
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "post",
       path: "/services",
       data: {
@@ -35,7 +30,6 @@ export default function ServicesFormPage() {
       },
     });
 
-    setIsLoading(false);
     if (!response) return;
 
     toast.success(response?.message || "Sucesso!");
@@ -44,8 +38,7 @@ export default function ServicesFormPage() {
   };
   const handleEditService = async (e: any) => {
     e.preventDefault();
-    setIsLoading(true);
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "PATCH",
       path: `/services/${id}`,
       data: {
@@ -54,7 +47,6 @@ export default function ServicesFormPage() {
         price: Number(price || 0),
       },
     });
-    setIsLoading(false);
 
     if (!response) return;
 
@@ -64,15 +56,15 @@ export default function ServicesFormPage() {
   };
 
   const loadServiceData = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "GET",
       path: `/services/${id}`,
     });
 
     if (!response) {
-      toast.error('Funcionário não encontrado!');
-      nav('/services');
-    };
+      toast.error("Funcionário não encontrado!");
+      nav("/services");
+    }
 
     setName(response.name);
     setDescription(response.description);
@@ -87,7 +79,10 @@ export default function ServicesFormPage() {
 
   return (
     <main className="p-4">
-      <PageTitle text={id ? 'Editar serviço' : 'Criar serviço'} backRoute="/servicos" />
+      <PageTitle
+        text={id ? "Editar serviço" : "Criar serviço"}
+        backRoute="/servicos"
+      />
       <div className="p-4 mx-auto max-w-[800px]">
         <form className="flex flex-col gap-4">
           <Input
@@ -110,8 +105,11 @@ export default function ServicesFormPage() {
             value={price || 0}
             required
           />
-          <Button isLoading={isLoading} onClick={id ? handleEditService : handleCreateService}>
-            {id ? 'Salvar edição' : 'Salvar'}
+          <Button
+            isLoading={isLoading}
+            onClick={id ? handleEditService : handleCreateService}
+          >
+            {id ? "Salvar edição" : "Salvar"}
           </Button>
         </form>
       </div>

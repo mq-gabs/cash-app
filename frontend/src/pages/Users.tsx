@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PageTitle from "../components/PageTitle";
 import Table from "../components/Table";
-import { callApi } from "../api";
 import { ERolesLabels, TUser } from "../utils/types";
 import { formatDate } from "../utils/formaters";
 import LinkButton from "../components/LinkButton";
@@ -12,6 +11,7 @@ import ConfirmModal from "../components/ConfirmModal";
 import toast from "react-hot-toast";
 import { useUser } from "../hooks/use-user";
 import { IoMdAddCircle } from "react-icons/io";
+import { useApi } from "../hooks/use-api";
 
 const columns = ["Nome", "Email", "Permissão", "Criado em", "Ações"];
 
@@ -24,8 +24,7 @@ const UserActions = ({
   email: string;
   refresh: () => void;
 }) => {
-  const { signOut } = useUser();
-
+  const { callApi } = useApi();
   const {
     data: { id: userId },
   } = useUser();
@@ -36,7 +35,7 @@ const UserActions = ({
   };
 
   const handleDelete = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "delete",
       path: `/users/${id}`,
     });
@@ -81,13 +80,14 @@ const UserActions = ({
 };
 
 export default function Users() {
+  const { callApi } = useApi();
+
   const [users, setUsers] = useState<string[][]>([]);
   const [totalUsers, setTotalUsers] = useState<number>();
   const [page, setPage] = useState(0);
-  const { signOut } = useUser();
 
   const getUsers = async () => {
-    const response = await callApi(signOut, {
+    const response = await callApi({
       method: "GET",
       path: "/users",
       params: {
