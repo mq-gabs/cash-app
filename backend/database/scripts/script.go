@@ -7,6 +7,12 @@ import (
 )
 
 func SetAdminUser() {
+	userToDelete, err := users.DBGetUserByEmail("admin")
+
+	if err == nil {
+		users.DBDelete(userToDelete.ID)
+	}
+
 	u := &users.User{
 		Name:     "Administrador",
 		Email:    "admin",
