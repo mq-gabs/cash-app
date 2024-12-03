@@ -17,7 +17,7 @@ import { useApi } from "../../hooks/use-api";
 import ReportLoading from "../../components/loading/ReportLoading";
 
 const daysOptions = [...Array(31)].map((_, i) => ({
-  id: String(i),
+  id: String(i + 1),
   label: atLeast2Digits(i + 1),
   name: atLeast2Digits(i + 1),
 }));
@@ -76,8 +76,10 @@ export default function ReportDay() {
 
   const currentDate = new Date();
 
-  const [day, setDay] = useState(String(currentDate.getDate()));
-  const [month, setMonth] = useState(String(currentDate.getMonth() + 1));
+  const [day, setDay] = useState(atLeast2Digits(currentDate.getDate()));
+  const [month, setMonth] = useState(
+    atLeast2Digits(currentDate.getMonth() + 1)
+  );
   const [year, setYear] = useState(String(currentDate.getFullYear()));
 
   const loadReport = async () => {

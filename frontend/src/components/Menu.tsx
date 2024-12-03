@@ -123,7 +123,7 @@ export default function Menu() {
     <div className="bg-secondary h-full flex flex-col justify-between">
       <div className="p-2 cursor-pointer overflow-auto">
         <Link to="/" className="flex justify-center items-center p-2">
-        <Logo />
+          <Logo />
         </Link>
         <MenuSeparator />
         <ul className="flex flex-col gap-2 pt-2">
@@ -149,7 +149,7 @@ export default function Menu() {
               )}
             </>
           ))}
-          <li onClick={signOut}>
+          <li key={rand()} onClick={signOut}>
             <p
               className={clsx({
                 "p-2 text-xs rounded flex gap-2 items-center uppercase font-semibold":

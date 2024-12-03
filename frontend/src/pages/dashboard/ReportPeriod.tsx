@@ -76,13 +76,17 @@ export default function ReportPeriod() {
 
   const currentDate = new Date();
 
-  const [startDay, setStartDay] = useState(String(currentDate.getDate()));
+  const [startDay, setStartDay] = useState(
+    atLeast2Digits(currentDate.getDate())
+  );
   const [startMonth, setStartMonth] = useState(
-    String(currentDate.getMonth() + 1)
+    atLeast2Digits(currentDate.getMonth() + 1)
   );
   const [startYear, setStartYear] = useState(String(currentDate.getFullYear()));
-  const [endDay, setEndDay] = useState(String(currentDate.getDate()));
-  const [endMonth, setEndMonth] = useState(String(currentDate.getMonth() + 1));
+  const [endDay, setEndDay] = useState(atLeast2Digits(currentDate.getDate()));
+  const [endMonth, setEndMonth] = useState(
+    atLeast2Digits(currentDate.getMonth() + 1)
+  );
   const [endYear, setEndYear] = useState(String(currentDate.getFullYear()));
 
   const loadReport = async () => {

@@ -1,5 +1,5 @@
 export function rand() {
-  return Math.random();
+  return Math.random() * 1e6;
 }
 
 export function genYearsOptions() {

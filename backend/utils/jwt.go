@@ -65,6 +65,12 @@ func JwtAuthMiddleware(isAdmin bool) gin.HandlerFunc {
 			return
 		}
 
+		if h.Authorization == "" {
+			Resp(c, 401, "Token not found")
+			c.Abort()
+			return
+		}
+
 		tokenString := strings.Split(h.Authorization, " ")[1]
 
 		isInvalid, err := JwtIsInvalid(tokenString, isAdmin)
