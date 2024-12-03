@@ -14,6 +14,7 @@ import { RiDiscountPercentFill } from "react-icons/ri";
 import { GiTwoCoins } from "react-icons/gi";
 import { atLeast2Digits, validateDateDay } from "../../utils";
 import { useApi } from "../../hooks/use-api";
+import ReportLoading from "../../components/loading/ReportLoading";
 
 const daysOptions = [...Array(31)].map((_, i) => ({
   id: String(i),
@@ -163,7 +164,7 @@ export default function ReportDay() {
     loadReport();
   }, [day, month, year]);
 
-  if (isLoading) return <></>;
+  if (isLoading) return <ReportLoading />;
 
   return (
     <div>

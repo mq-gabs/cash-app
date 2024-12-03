@@ -18,6 +18,7 @@ import { FaCashRegister } from "react-icons/fa";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { GiTwoCoins } from "react-icons/gi";
 import { useApi } from "../../hooks/use-api";
+import ReportLoading from "../../components/loading/ReportLoading";
 
 export default function ReportMonth() {
   const { callApi, isLoading } = useApi();
@@ -174,7 +175,7 @@ export default function ReportMonth() {
     loadReport();
   }, [month, year]);
 
-  if (isLoading) return <></>;
+  if (isLoading) return <ReportLoading />;
 
   return (
     <div>
