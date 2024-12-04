@@ -66,7 +66,7 @@ func JwtAuthMiddleware(isAdmin bool) gin.HandlerFunc {
 		}
 
 		if h.Authorization == "" {
-			Resp(c, 401, "Token not found")
+			Resp(c, 401, "Falta de autenticação")
 			c.Abort()
 			return
 		}

@@ -17,9 +17,9 @@ import { useFilters } from "../hooks/use-filters";
 const columns = [
   "Cliente",
   "Serviços",
-  "Valor total",
   "Valor pago",
-  "Saldo",
+  "Valor total",
+  "Diferença",
   "Tipo de pagamento",
   "Pago em",
   "Ações",
@@ -112,8 +112,8 @@ export default function ServicePayments() {
         return [
           customer?.name || "Não selecionado",
           services.map(({ name }) => name).join(", "),
-          formatCurrency(total),
           formatCurrency(value),
+          formatCurrency(total),
           formatCurrency(value - total),
           EPaymentTypeLabels[payment_type],
           formatDate(paid_at),

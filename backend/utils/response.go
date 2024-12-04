@@ -41,5 +41,5 @@ func RespNotValid(c *gin.Context, mainError error, args ...error) {
 }
 
 func RespUnauthorized(c *gin.Context) {
-	Resp(c, 401, "Autorização expirou.")
+	Resp(c, 401, "Autenticação inválida. Faça o login novamente.")
 }

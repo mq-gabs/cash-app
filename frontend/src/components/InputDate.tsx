@@ -89,7 +89,9 @@ export default function InputDate({ label, setValue, value }: IInputDate) {
           <input
             ref={ref}
             className="w-[20px] absolute left-2 top-2 hover:bg-gray-300 rounded"
-            onChange={(e) => setValue(new Date(e.target.value).toJSON())}
+            onChange={(e) =>
+              setValue(new Date(e.target.value).toJSON().replace("Z", "-03:00"))
+            }
             type="date"
           />
         </div>
