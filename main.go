@@ -5,6 +5,9 @@ import (
 	"cash/backend/database/scripts"
 	"cash/server"
 	staticserver "cash/static-server"
+	"cash/utils"
+	"fmt"
+	"log"
 	"os"
 
 	"github.com/pkg/browser"
@@ -48,6 +51,18 @@ func main() {
 
 		if params[0] == "set-admin" {
 			scripts.SetAdminUser()
+			return
+		}
+
+		if params[0] == "version" {
+			v, err := utils.GetVersion()
+
+			if err != nil {
+				log.Fatal(err)
+				return
+			}
+
+			fmt.Println(v)
 			return
 		}
 	}

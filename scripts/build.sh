@@ -9,4 +9,5 @@ fi
 rm -r build/*;
 mkdir build/static;
 cp -r static/* build/static;
+cp version.md build/version.md
 go build -o build;
