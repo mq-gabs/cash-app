@@ -37,6 +37,10 @@ export default function ReportMonth() {
     series: [],
     labels: [],
   });
+  const totalRevenue = servicesRevenue.series.reduce(
+    (acc, curr) => acc + curr,
+    0
+  );
   const [employeesPaymentsSummary, setEmployeesPaymentsSummary] = useState<{
     count: number;
     cost: number;
@@ -236,7 +240,9 @@ export default function ReportMonth() {
             <HorizontalBarChart
               labels={servicesRevenue.labels}
               series={servicesRevenue.series}
-              title="Faturamento por serviço (R$)"
+              title={`Faturamento por serviço - ${formatCurrency(
+                totalRevenue * 100
+              )}`}
             />
           </div>
           <div className="flex-1">

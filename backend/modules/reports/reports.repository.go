@@ -24,7 +24,6 @@ func DBAnalyseServices(dateStart, dateEnd *time.Time) (*ServiceAnalysis, error) 
 			AND sp.deleted_at IS NULL
 		LEFT JOIN services s
 			ON s.id = sps.service_id
-			AND s.deleted_at IS NULL
 		WHERE sp.paid_at > '` + dateStart.String() + `'
 		AND sp.paid_at < '` + dateEnd.String() + `'
 		GROUP BY s.price
@@ -60,7 +59,6 @@ func DBAnalyseServices(dateStart, dateEnd *time.Time) (*ServiceAnalysis, error) 
 			AND sp.deleted_at IS NULL
 		LEFT JOIN services s
 			ON s.id = sps.service_id
-			AND s.deleted_at IS NULL
 		WHERE sp.paid_at > '` + dateStart.String() + `'
 		AND sp.paid_at < '` + dateEnd.String() + `'
 		GROUP BY s.id
@@ -108,7 +106,6 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 		FROM employees_payments ep
 		LEFT JOIN employees e
 			ON e.id = ep.employee_id
-			AND e.deleted_at IS NULL
 		WHERE ep.paid_at > '` + dateStart.String() + `'
 		AND ep.paid_at < '` + dateEnd.String() + `'
 		AND ep.deleted_at IS NULL
@@ -129,12 +126,11 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 	query2 := `
 		SELECT
 			ep.id,
-			e.name,
-			ep.value
+			ep.value,
+			e.name
 		FROM employees_payments ep
 		LEFT JOIN employees e
 			ON e.id = ep.employee_id
-			AND e.deleted_at IS NULL
 		WHERE ep.paid_at > '` + dateStart.String() + `'
 		AND ep.paid_at < '` + dateEnd.String() + `'
 		AND ep.deleted_at IS NULL
@@ -154,7 +150,7 @@ func DBAnalyseEmployees(dateStart, dateEnd *time.Time) (*EmployeesAnalysis, erro
 	for rows2.Next() {
 		ep := &EmployeesPaymentsSum{}
 
-		rows2.Scan(&ep.ID, &ep.Name, &ep.Value)
+		rows2.Scan(&ep.ID, &ep.Value, &ep.Name)
 
 		eps = append(eps, ep)
 	}
