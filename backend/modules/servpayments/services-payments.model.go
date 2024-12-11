@@ -17,6 +17,7 @@ const (
 	DEBIT        PaymentType = "DEBIT"
 	CREDIT       PaymentType = "CREDIT"
 	INSTALLMENTS PaymentType = "INSTALLMENTS"
+	PIX 				 PaymentType = "PIX"
 )
 
 type ServicesPayment struct {
@@ -41,8 +42,8 @@ func New() *ServicesPayment {
 
 func (sp *ServicesPayment) Validate() (error, error) {
 
-	if sp.PaymentType != CASH && sp.PaymentType != DEBIT && sp.PaymentType != CREDIT && sp.PaymentType != INSTALLMENTS {
-		return errors.New("tipo de pagamento inválido"), errors.New(string("got: " + sp.PaymentType + ". Valid: 'CASH', 'DEBIT', 'CREDIT', 'INSTALLMENTS'"))
+	if sp.PaymentType != CASH && sp.PaymentType != DEBIT && sp.PaymentType != CREDIT && sp.PaymentType != INSTALLMENTS && sp.PaymentType != PIX {
+		return errors.New("tipo de pagamento inválido"), errors.New(string("got: " + sp.PaymentType + ". Valid: 'CASH', 'DEBIT', 'CREDIT', 'INSTALLMENTS', 'PIX'"))
 	}
 
 	if sp.PaidAt == nil {

@@ -48,6 +48,7 @@ export enum EPaymentType {
   DEBIT = "DEBIT",
   CREDIT = "CREDIT",
   INSTALLMENTS = "INSTALLMENTS",
+  PIX = "PIX",
 }
 
 export enum EPaymentTypeLabels {
@@ -55,6 +56,7 @@ export enum EPaymentTypeLabels {
   DEBIT = "Débito",
   CREDIT = "Crédito",
   INSTALLMENTS = "Parcelado",
+  PIX = "Pix",
 }
 
 export type TServicePayments = TBase & {
