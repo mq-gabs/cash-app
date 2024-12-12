@@ -108,7 +108,7 @@ export default function Customers() {
 
   useEffect(() => {
     loadCustomers();
-  }, []);
+  }, [page]);
 
   return (
     <Main>

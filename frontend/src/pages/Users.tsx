@@ -120,7 +120,7 @@ export default function Users() {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [page]);
 
   return (
     <main className="p-4">
