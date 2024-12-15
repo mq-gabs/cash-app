@@ -10,6 +10,7 @@ import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import Customers from "../pages/Customers";
 import CustomersFormPage from "../pages/CustomersFormPage";
+import Cashier from "../pages/Cashier";
 
 export default function DefaultRoutes() {
   return (
@@ -21,8 +22,9 @@ export default function DefaultRoutes() {
         <div className="w-full h-full overflow-y-auto">
           <Routes>
             <Route path="/" Component={ServicePayments} />
-            <Route path="/atendimentos" Component={ServicePayments} />
+            <Route path="/historico" Component={ServicePayments} />
             <Route path="/atendimento" Component={ServicePaymentsFormPage} />
+            <Route path="/caixa" Component={Cashier} />
             <Route path="/servicos" Component={Services} />
             <Route path="/servico" Component={ServicesFormPage} />
             <Route path="/outros" Component={OtherPayments} />

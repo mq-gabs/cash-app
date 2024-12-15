@@ -7,6 +7,7 @@ import ServiceSelector from "../components/ServiceSelector";
 import {
   EPaymentType,
   EPaymentTypeLabels,
+  TCashier,
   TCustomer,
   TService,
   TServicePayments,
@@ -47,6 +48,11 @@ export default function ServicePaymentsFormPage() {
   const [valuePaid, setValuePaid] = useState(0);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [observation, setObservation] = useState("");
+  const [cashier, setCashier] = useState<TCashier | null>(null);
+
+  const redirect = () => {
+    nav("/caixa");
+  };
 
   const handleCreateServicePayment = async () => {
     const data: any = {
@@ -56,6 +62,7 @@ export default function ServicePaymentsFormPage() {
       services,
       value: valuePaid,
       observation,
+      cashier,
     };
 
     if (selectedCustomer) {
@@ -74,7 +81,7 @@ export default function ServicePaymentsFormPage() {
 
     toast.success(response?.message || "Sucesso!");
 
-    nav("/atendimentos");
+    redirect();
   };
 
   const handleUpdateServicePayment = async () => {
@@ -103,7 +110,7 @@ export default function ServicePaymentsFormPage() {
 
     toast.success(response?.message || "Sucesso!");
 
-    nav("/atendimentos");
+    redirect();
   };
 
   const loadServicePaymentData = async () => {
@@ -186,12 +193,33 @@ export default function ServicePaymentsFormPage() {
     submit();
   };
 
+  const getCashier = async () => {
+    const response = await callApi({
+      method: "GET",
+      path: "/cashier",
+    });
+
+    if (!response) return;
+
+    if (!response?.cashier) {
+      toast.error("O caixa está fechado!");
+      nav("/caixa");
+      return;
+    }
+
+    setCashier(response?.cashier);
+  };
+
+  useEffect(() => {
+    getCashier();
+  }, []);
+
   return (
     <Main>
       <PageTitle
         className="mb-4"
         text={id ? "Editar atendimento" : "Novo atendimento"}
-        backRoute="/atendimentos"
+        backRoute="/caixa"
       />
       <div className="mx-auto max-w-[800px]">
         <form className="flex flex-col gap-2">

@@ -44,3 +44,13 @@ export function validateDateDay(year: string, month: string, day: string) {
 
   return day;
 }
+
+export function newDateAtMidnight() {
+  const date = new Date();
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+
+  return date.toJSON();
+}

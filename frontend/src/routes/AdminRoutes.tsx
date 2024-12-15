@@ -17,6 +17,7 @@ import Profile from "../pages/Profile";
 import UsersFormPage from "../pages/UsersFormPage";
 import Customers from "../pages/Customers";
 import CustomersFormPage from "../pages/CustomersFormPage";
+import Cashier from "../pages/Cashier";
 
 export default function AdminRoutes() {
   return (
@@ -28,8 +29,9 @@ export default function AdminRoutes() {
         <div className="w-full h-full overflow-y-auto">
           <Routes>
             <Route path="/" Component={Dashboard} />
-            <Route path="/atendimentos" Component={ServicePayments} />
+            <Route path="/historico" Component={ServicePayments} />
             <Route path="/atendimento" Component={ServicePaymentsFormPage} />
+            <Route path="/caixa" Component={Cashier} />
             <Route path="/servicos" Component={Services} />
             <Route path="/servico" Component={ServicesFormPage} />
             <Route path="/funcionarios" Component={Employees} />

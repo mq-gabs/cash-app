@@ -6,7 +6,7 @@ import { MdDashboard, MdMiscellaneousServices } from "react-icons/md";
 import { GiMoneyStack, GiPayMoney } from "react-icons/gi";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import { FaPlus } from "react-icons/fa";
+import { FaCashRegister, FaListUl } from "react-icons/fa";
 import { rand } from "../utils";
 import { CiLogout } from "react-icons/ci";
 import { useUser } from "../hooks/use-user";
@@ -22,9 +22,15 @@ const menuRoutesAdmin = [
   },
   {
     id: "1",
-    label: "Atendimentos",
-    Icon: FaPlus,
-    href: "/atendimentos",
+    label: "Caixa",
+    Icon: FaCashRegister,
+    href: "/caixa",
+  },
+  {
+    id: "22",
+    label: "Histórico",
+    Icon: FaListUl,
+    href: "/historico",
   },
   {
     id: "2",
@@ -70,14 +76,14 @@ const menuRoutesAdmin = [
   },
 ];
 
-const menuSeparatorIndexesAdmin = ["0", "1", "3", "6"];
+const menuSeparatorIndexesAdmin = ["0", "22", "3", "6"];
 
 const menuRoutesDefault = [
   {
     id: "0",
-    label: "Atendimentos",
-    Icon: FaPlus,
-    href: "/atendimentos",
+    label: "Caixa",
+    Icon: FaCashRegister,
+    href: "/caixa",
   },
   {
     id: "1",

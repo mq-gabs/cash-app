@@ -2,6 +2,7 @@ package routes
 
 import (
 	"cash/backend/modules/auth"
+	"cash/backend/modules/cashier"
 	"cash/backend/modules/customers"
 	"cash/backend/modules/employees"
 	"cash/backend/modules/employeespayments"
@@ -24,4 +25,5 @@ func SetRoutes(g *gin.RouterGroup) {
 	reports.SetRoutes(g)
 	auth.SetRoutes(g)
 	customers.SetRoutes(g)
+	cashier.SetRoutes(g)
 }

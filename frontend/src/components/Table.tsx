@@ -2,6 +2,7 @@ import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import Button from "./Button";
 import { PiEmptyBold } from "react-icons/pi";
 import { rand } from "../utils";
+import Loading from "./loading/Loading";
 
 interface ITable {
   columns: string[];
@@ -9,6 +10,7 @@ interface ITable {
   setPage: (arg: number) => void;
   totalItems?: number;
   currentPage: number;
+  isLoading?: boolean;
 }
 
 const PAGE_SIZE = 10;
@@ -19,6 +21,7 @@ export default function Table({
   currentPage = 0,
   setPage,
   totalItems = 1,
+  isLoading = false,
 }: ITable) {
   const totalPages = Math.ceil(totalItems / PAGE_SIZE);
 
@@ -33,6 +36,14 @@ export default function Table({
       setPage(currentPage - 1);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div>
+        <Loading className="w-full h-[500px]" />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -51,12 +62,12 @@ export default function Table({
               className="[&:nth-child(odd)]:bg-gray-200 [&:nth-child(even)]:bg-white"
             >
               {row?.map((cel) => (
-              <td key={rand()} className="p-2">
-                {cel}
-              </td>
-            ))}
-          </tr>
-        ))}
+                <td key={rand()} className="p-2">
+                  {cel}
+                </td>
+              ))}
+            </tr>
+          ))}
         {data.length === 0 && (
           <tr>
             <td colSpan={columns.length}>
@@ -71,23 +82,23 @@ export default function Table({
         )}
       </table>
       {data.length !== 0 && (
-          <div className="flex justify-between mt-2">
-            <Button onClick={handlePrevious} className="gap-1 bg-secondary">
-              <div className="flex gap-2 items-center">
-                <IoIosArrowRoundBack />
-                Anterior
-              </div>
-            </Button>
-            <div className="flex items-center">
-            Pág. {currentPage + 1} / {totalPages} - {totalItems} registros
+        <div className="flex justify-between mt-2">
+          <Button onClick={handlePrevious} className="gap-1 bg-secondary">
+            <div className="flex gap-2 items-center">
+              <IoIosArrowRoundBack />
+              Anterior
             </div>
-            <Button onClick={handleNext} className="gap-1 bg-secondary">
-              <div className="flex gap-2 items-center">
-                Proximo
-                <IoIosArrowRoundForward />
-              </div>
-            </Button>
+          </Button>
+          <div className="flex items-center">
+            Pág. {currentPage + 1} / {totalPages} - {totalItems} registros
           </div>
+          <Button onClick={handleNext} className="gap-1 bg-secondary">
+            <div className="flex gap-2 items-center">
+              Proximo
+              <IoIosArrowRoundForward />
+            </div>
+          </Button>
+        </div>
       )}
     </div>
   );

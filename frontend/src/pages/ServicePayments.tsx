@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import LinkButton from "../components/LinkButton";
 import Main from "../components/Main";
 import PageTitle from "../components/PageTitle";
-import { IoMdAddCircle } from "react-icons/io";
 import { EPaymentTypeLabels, TServicePayments } from "../utils/types";
 import { formatCurrency, formatDate } from "../utils/formaters";
 import Button from "../components/Button";
@@ -80,7 +79,7 @@ function ServicePaymentsActions({
 }
 
 export default function ServicePayments() {
-  const { callApi } = useApi();
+  const { callApi, isLoading } = useApi();
 
   const [servicePayments, setServicePayments] = useState<string[][]>([]);
   const [page, setPage] = useState(0);
@@ -149,14 +148,8 @@ export default function ServicePayments() {
 
   return (
     <Main>
-      <div className="flex justify-between items-center mb-4">
-        <PageTitle text="Atendimentos" />
-        <LinkButton to="/atendimento">
-          <div className="flex gap-2 items-center">
-            <IoMdAddCircle />
-            Novo atendimento
-          </div>
-        </LinkButton>
+      <div>
+        <PageTitle text="Histórico de Atendimentos" />
       </div>
       <div className="mb-2">{FilterEl}</div>
       <div>
@@ -166,6 +159,7 @@ export default function ServicePayments() {
           currentPage={page}
           setPage={setPage}
           totalItems={totalPayments}
+          isLoading={isLoading}
         />
       </div>
     </Main>

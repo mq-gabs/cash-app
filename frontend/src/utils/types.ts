@@ -126,3 +126,13 @@ export type TCustomer = TBase & {
   contact: string;
   balance: number;
 };
+
+export type TCashier = {
+  id: string;
+  open_by: TUser;
+  open_at: string;
+  start_value: number;
+  closed_by: TUser;
+  closed_at: string;
+  end_value: number;
+};

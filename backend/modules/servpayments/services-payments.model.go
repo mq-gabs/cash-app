@@ -2,6 +2,7 @@ package servpayments
 
 import (
 	"cash/backend/modules/base"
+	"cash/backend/modules/cashier"
 	"cash/backend/modules/customers"
 	"cash/backend/modules/services"
 	"errors"
@@ -30,6 +31,8 @@ type ServicesPayment struct {
 	CustomerID uuid.UUID `json:"customer_id"`
 	Customer *customers.Customer `json:"customer" gorm:"foreignKey:CustomerID;references:ID"`
 	Observation string `json:"observation"`
+	CashierID uuid.UUID `json:"cashier_id"`
+	Cashier *cashier.Cashier `json:"cashier" gorm:"foreignKey:CashierID;references:ID"`
 }
 
 func New() *ServicesPayment {
@@ -56,6 +59,10 @@ func (sp *ServicesPayment) Validate() (error, error) {
 
 	if sp.Value == 0 {
 		return errors.New("valor não pode estar vazio"), nil
+	}
+
+	if sp.Cashier == nil {
+		return errors.New("nenhum caixa vinculado"), nil
 	}
 
 	return nil, nil
@@ -88,5 +95,9 @@ func (sp *ServicesPayment) Update(b *ServicesPaymentDto) {
 
 	if b.Observation != "" {
 		sp.Observation = b.Observation
+	}
+
+	if b.Cashier != nil {
+		sp.Cashier = b.Cashier
 	}
 }

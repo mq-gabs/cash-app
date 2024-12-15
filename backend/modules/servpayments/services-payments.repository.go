@@ -34,6 +34,18 @@ func DBList(q *utils.Query) (*utils.List, error) {
 	if q.CustomerName != "" {
 		db = db.Joins("LEFT JOIN customers c ON c.id = services_payments.customer_id").Where("c.deleted_at IS NULL AND c.name LIKE '%" + q.CustomerName + "%'")
 	}
+	
+	if q.StartAt != nil {
+		db = db.Where("created_at > ?", q.StartAt)
+	}
+
+	if q.EndAt != nil {
+		db = db.Where("created_at < ?", q.EndAt)
+	}
+
+	if q.CashierID != "" {
+		db = db.Where("cashier_id = ?", q.CashierID)
+	}
 
 	if err := db.Find(sps).Count(&c).Error; err != nil {
 		return nil, err

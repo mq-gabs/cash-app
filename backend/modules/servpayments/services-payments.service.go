@@ -1,9 +1,11 @@
 package servpayments
 
 import (
+	"cash/backend/modules/cashier"
 	"cash/backend/modules/customers"
 	"cash/backend/modules/services"
 	"cash/backend/utils"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -18,6 +20,7 @@ type ServicesPaymentDto struct {
 	Customer 					*customers.Customer `json:"customer"`
 	Value 				int `json:"value"`
 	Observation string `json:"observation"`
+	Cashier *cashier.Cashier `json:"cashier"`
 }
 
 func CreateServicesPayment(c *gin.Context) {
@@ -52,6 +55,8 @@ func GetServicesPayment(c *gin.Context) {
 		utils.RespErrorBind(c, err)
 		return
 	}
+
+	fmt.Println(q)
 
 	sp, err := DBList(q)
 
